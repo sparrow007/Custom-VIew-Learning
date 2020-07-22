@@ -2,22 +2,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
       <androidx.cardview.widget.CardView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_margin="10dp"
-          app:cardElevation="15sp">
+          app:cardCornerRadius="10dp"
+          >
 
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="This is cool"
-              android:textSize="18sp"
-              android:textColor="#000"
-              android:id="@+id/text"/>
+     <ImageView
+         android:layout_width="130dp"
+         android:layout_height="180dp"
+         android:src="@drawable/image_fifth"
+         android:scaleType="fitXY"
+         android:id="@+id/image"/>
 
       </androidx.cardview.widget.CardView>
 

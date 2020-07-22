@@ -3,6 +3,7 @@ package com.example.customviewimple.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.customviewimple.R
@@ -11,9 +12,9 @@ import com.example.customviewimple.model.DataModel
 class DataAdapter (private val list : List<DataModel>): RecyclerView.Adapter<DataAdapter.ViewHolder>() {
 
      class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-         val textView :  TextView
+         val image : ImageView
          init {
-             textView =  itemView.findViewById(R.id.text)
+             image =  itemView.findViewById(R.id.image)
          }
     }
 
@@ -27,6 +28,6 @@ class DataAdapter (private val list : List<DataModel>): RecyclerView.Adapter<Dat
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = list.get(position).text
+        holder.image.setImageResource(list.get(position).img)
     }
 }
