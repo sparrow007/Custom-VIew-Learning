@@ -10,7 +10,7 @@ class LayoutManager : RecyclerView.LayoutManager() {
 
     private var mItemHight = 0
 
-    private var mChildScale = 0.5f
+    private var mChildScale = 0.6f
 
     private var mFirstPositiion = 0
 
@@ -58,6 +58,21 @@ class LayoutManager : RecyclerView.LayoutManager() {
     }
 
 
+    @Override
+    override fun canScrollHorizontally(): Boolean {
+        return true
+    }
+
+    override fun scrollHorizontallyBy(
+        dx: Int,
+        recycler: RecyclerView.Recycler?,
+        state: RecyclerView.State?
+    ): Int {
+
+        Log.e("MY TAG", "SCROLL BY DX " + dx)
+
+        return super.scrollHorizontallyBy(dx, recycler, state)
+    }
 
     private fun fill( lastPosition : Int, recycler: RecyclerView.Recycler?, offset : Int) {
           var leftOffset = offset + paddingLeft
@@ -119,6 +134,7 @@ class LayoutManager : RecyclerView.LayoutManager() {
     * */
     fun getVisibleCount() : Int {
         val space = width - mItemWidth
+
         return Math.ceil((space / (mChildScale * mItemWidth) + 1).toDouble()).toInt()
     }
 
@@ -129,11 +145,11 @@ class LayoutManager : RecyclerView.LayoutManager() {
 
     fun getViewHorizontalSpace(childView : View) : Int {
         val layoutParams = childView.layoutParams as RecyclerView.LayoutParams
-        return getDecoratedMeasuredWidth(childView) + layoutParams.leftMargin + layoutParams.rightMargin
+        return getDecoratedMeasuredWidth(childView)
     }
 
     fun getViewVerticalSpace(childView : View) : Int {
         val layoutParams =childView.layoutParams as RecyclerView.LayoutParams
-        return getDecoratedMeasuredHeight(childView) + layoutParams.topMargin + layoutParams.bottomMargin
+        return getDecoratedMeasuredHeight(childView)
     }
 }
