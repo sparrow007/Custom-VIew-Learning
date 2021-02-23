@@ -1,14 +1,12 @@
 package com.example.customviewimple
 
 import android.os.Bundle
-import android.view.Window
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.example.customviewimple.adapter.DataAdapter
 import com.example.customviewimple.kotlinLearn.LearnClass
-import com.example.customviewimple.layoutManager.CustomLayout
-import com.example.customviewimple.layoutManager.LayoutManager
+import com.example.customviewimple.layoutManager.StackLayout
+import com.example.customviewimple.layoutManager.StackLayoutManager
 import com.example.customviewimple.model.DataModel
 import kotlinx.android.synthetic.main.test_main.*
 
@@ -35,11 +33,27 @@ class MainActivity : AppCompatActivity() {
         list.add(DataModel(R.drawable.image_second, "Thi is cool"))
         list.add(DataModel(R.drawable.image_six, "Thi is cool"))
         list.add(DataModel(R.drawable.image_third, "Thi is cool"))
-        list.add(DataModel(R.drawable.image_fifth, "Thi is cool"))
+        list.add(DataModel(R.drawable.image_second, "Thi is cool"))
 
-       val adapter = DataAdapter(list)
-        recycler.layoutManager = LayoutManager()
+        val adapter = DataAdapter(list)
+        recycler.layoutManager = StackLayout(this, 30)
+        val snapHelper = LinearSnapHelper()
         recycler.adapter = adapter
+        snapHelper.attachToRecyclerView(recycler)
+
+//        Handler().postDelayed( {
+//
+//            val list = ArrayList<DataModel>()
+//            list.add(DataModel(R.drawable.image_third, "Thi is cool"))
+//            list.add(DataModel(R.drawable.image_second, "Thi is cool"))
+//            list.add(DataModel(R.drawable.image_six, "Thi is cool"))
+//            list.add(DataModel(R.drawable.image_fifth, "Thi is cool"))
+//            list.add(DataModel(R.drawable.image_third, "Thi is cool"))
+//            list.add(DataModel(R.drawable.image_fifth, "Thi is cool"))
+//            adapter.updateData(list)
+//
+//
+//        }, 10000)
 
     }
 }

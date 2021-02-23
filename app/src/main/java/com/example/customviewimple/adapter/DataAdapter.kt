@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.customviewimple.R
 import com.example.customviewimple.model.DataModel
 
-class DataAdapter (private val list : List<DataModel>): RecyclerView.Adapter<DataAdapter.ViewHolder>() {
+class DataAdapter (private var list : List<DataModel>): RecyclerView.Adapter<DataAdapter.ViewHolder>() {
 
      class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
          val image : ImageView
@@ -29,5 +29,10 @@ class DataAdapter (private val list : List<DataModel>): RecyclerView.Adapter<Dat
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.image.setImageResource(list.get(position).img)
+    }
+
+    fun updateData(list: List<DataModel>) {
+        this.list = list
+        notifyDataSetChanged()
     }
 }

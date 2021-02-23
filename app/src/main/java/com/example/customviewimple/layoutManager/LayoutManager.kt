@@ -3,6 +3,7 @@ package com.example.customviewimple.layoutManager
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.ceil
 
 class LayoutManager : RecyclerView.LayoutManager() {
 
@@ -11,16 +12,21 @@ class LayoutManager : RecyclerView.LayoutManager() {
     private var mItemHight = 0
 
     private var mChildScale = 0.6f
+    private var mCoverScale = 0.8f
 
-    private var mFirstPositiion = 0
+    private var mFirstPosition = 0
 
     private var mLeftResult = 0
 
     private var mSpace = 60
+    private var sumDX = 0
 
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
-       return RecyclerView.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT)
+       return RecyclerView.LayoutParams(
+           RecyclerView.LayoutParams.WRAP_CONTENT,
+           RecyclerView.LayoutParams.WRAP_CONTENT
+       )
     }
 
     @Override
@@ -36,25 +42,48 @@ class LayoutManager : RecyclerView.LayoutManager() {
         detachAndScrapAttachedViews(recycler!!)
 
         val view = recycler.getViewForPosition(0)
-        addView(view)
-        measureChildWithMargins(view, 0 , 0)
-        mItemWidth = getViewHorizontalSpace(view)
-        mItemHight = getViewVerticalSpace(view)
+        measureChildWithMargins(view, 0, 0)
+        mItemWidth = getDecoratedMeasuredWidth(view)
+        mItemHight = getDecoratedMeasuredHeight(view)
 
         removeAndRecycleView(view, recycler)
 
-        val offset = mLeftResult
-        var visibleCount = getVisibleCount()
+        var offset = mLeftResult + paddingLeft
+        var visibleCount = getVisibleCount(offset)
         if(state.itemCount < visibleCount) {
             visibleCount = state.itemCount
         }
 
-        var lastPosition = mFirstPositiion + visibleCount - 1
-        if(lastPosition > state.itemCount- 1)
-            lastPosition = state.itemCount - 1
+        var lastPosition = mFirstPosition + visibleCount
+        if(lastPosition > state.itemCount)
+            lastPosition = state.itemCount
 
-       fill(lastPosition, recycler, offset)
+        for (i in 0 until lastPosition + 1) {
+            insertView(i, recycler, offset)
+            offset += mItemWidth
+        }
+    }
 
+    private fun insertView(position: Int, recycler: RecyclerView.Recycler, left: Int) {
+        Log.e("MY TAG", "LEFT = " + left)
+        val childView = recycler.getViewForPosition(position)
+        measureChildWithMargins(childView, 0, 0)
+        addView(childView)
+        val childWidth = getDecoratedMeasuredWidth(childView)
+        val childHeight = getDecoratedMeasuredHeight(childView)
+        layoutDecorated(childView, left, paddingTop, left + childWidth, paddingTop + childHeight)
+        //handleChild(childView, left)
+    }
+
+    /**
+     * Handle child scaling and its translation
+     */
+    private fun handleChild(childView: View, left: Int) {
+        val scale = computeScale(left)
+        childView.scaleX = scale
+        childView.scaleY = scale
+        childView.translationY = translateY(left)
+        childView.translationX = -translateX(scale, left)
     }
 
 
@@ -69,73 +98,92 @@ class LayoutManager : RecyclerView.LayoutManager() {
         state: RecyclerView.State?
     ): Int {
 
+        if (recycler == null || itemCount == 0) return 0
+
         Log.e("MY TAG", "SCROLL BY DX " + dx)
+        var travel  = dx
+        if (travel + sumDX < 0) {
+            travel = -sumDX
+        }else if (travel + sumDX > getMaxOffset()) {
+            travel = getMaxOffset() - sumDX
+        }
+        sumDX += travel
 
-        return super.scrollHorizontallyBy(dx, recycler, state)
-    }
+       val left = mLeftResult
+       var leftResult =  ((left - travel) % mItemWidth - mItemWidth) % mItemWidth + getPaddingLeft()
+        mLeftResult = leftResult - paddingLeft
 
-    private fun fill( lastPosition : Int, recycler: RecyclerView.Recycler?, offset : Int) {
-          var leftOffset = offset + paddingLeft
-        for(i in mFirstPositiion until  lastPosition + 1) {
-            val childView = recycler!!.getViewForPosition(i)
-            addView(childView)
-            measureChildWithMargins(childView, 0, 0)
-            val childWidth = getViewHorizontalSpace(childView)
-            val childHeight = getViewVerticalSpace(childView)
-            layoutDecorated(childView, leftOffset,paddingTop, leftOffset + childWidth, paddingTop + childHeight)
-            handleChildView(childView, leftOffset)
-            leftOffset += childWidth
+
+        var firstPos = mFirstPosition
+
+        firstPos += -(left - travel)/mItemWidth
+
+        removeView(travel, recycler, leftResult)
+
+        detachAndScrapAttachedViews(recycler)
+
+        mFirstPosition = firstPos
+        for (i in firstPos until itemCount) {
+            insertView(i, recycler, leftResult)
+            leftResult += mItemWidth
         }
 
+      //  offsetChildrenHorizontal(-resultOffset)
+
+        return travel
     }
 
-    private fun handleChildView(childView: View, left: Int) {
-        val childScale = computeScale(left)
 
-        Log.e("MY TAG", "CHILD SCALE " + childView.height)
-        childView.scaleX = childScale
-        childView.scaleY = childScale
-        Log.e("MY TAG", " af CHILD SCALE " + translateY(scale = childScale))
-        Log.e("MY TAG", " scale CHILD SCALE " + translateX(childScale, left))
-        if(left > mItemWidth)
-        childView.translationX = translateX(childScale, left)
-        childView.translationY = translateY(childScale)
-    }
-
-    private fun computeScale(left : Int) : Float {
-        if(left > mItemWidth.shr(1)) {
-          return mChildScale
-        }else {
-            return 1f
+    private fun computeScale(left: Int) : Float {
+        return if (left < -mItemWidth shr  1) {
+            mCoverScale
         }
+        else if (left < 0) {
+            1 - (1 - mCoverScale) * (left + (mItemWidth shr  1))/ (mItemWidth shr 1)
+        }
+        else if (left < mItemWidth shr 1) {
+            1f
+        }
+        else if (left < mItemWidth)
+            1 - (1 - mChildScale) * (left - (mItemWidth shr  1))/ (mItemWidth shr 1)
+        else
+            mChildScale
     }
 
     private fun translateX(scale: Float, left: Int) : Float{
-        if(left > mItemWidth) {
-
-            Log.e("MY TAG", "LEFT START X = $left itemWisth = $mItemWidth")
-
-            val a = left / mItemWidth
-            Log.e("MY TAG", " what is left value =  " +a)
-
-            return - (a *((1-scale) * mItemWidth/2 - mSpace) + (a-1) * ((1-scale) * mItemWidth/2))
-        }else {
-            return 0f
+       return if (left < 0) {
+           left + (1-scale) * (mItemWidth)/2
+       }
+       else if (left < mItemWidth shr 1)
+           0f
+        else if (left < mItemWidth) {
+           (1-scale)*mItemWidth / 2 - (left / (mItemWidth shr 1) - 1) * mSpace
+       }
+        else {
+           val a = left/mItemWidth
+           a*(((1-scale) * mItemWidth) / 2 - mSpace) + (a - 1) *(((1-scale) * mItemWidth) / 2)
         }
     }
 
-    private fun translateY(scale : Float) : Float {
-        return -(1-scale) * mItemHight/2
+    private fun translateY(left: Int) : Float {
+        return if (left > mItemWidth shr 1)
+                  - ((1-mChildScale) * mItemHight) / 2
+               else
+                  0f
     }
 
 
     /*
     * Find the visible number of child view that will show on the layout
     * */
-    fun getVisibleCount() : Int {
-        val space = width - mItemWidth
+    private fun getVisibleCount(left: Int) : Int {
+        if (left < 0) {
+            val s = computeScale(left - paddingLeft + mItemWidth)
+            val f = getHorizontalSpace() - (mSpace + mItemWidth) - (left - paddingLeft + mItemWidth)
 
-        return Math.ceil((space / (mChildScale * mItemWidth) + 1).toDouble()).toInt()
+        }
+        val space = getHorizontalSpace() - mItemWidth
+        return ceil((space / (mChildScale * mItemWidth)).toDouble()).toInt()
     }
 
     @Override
@@ -143,13 +191,42 @@ class LayoutManager : RecyclerView.LayoutManager() {
         return true
     }
 
-    fun getViewHorizontalSpace(childView : View) : Int {
+    private fun getViewHorizontalSpace(childView: View) : Int {
         val layoutParams = childView.layoutParams as RecyclerView.LayoutParams
         return getDecoratedMeasuredWidth(childView)
     }
 
-    fun getViewVerticalSpace(childView : View) : Int {
+    private fun getViewVerticalSpace(childView: View) : Int {
         val layoutParams =childView.layoutParams as RecyclerView.LayoutParams
         return getDecoratedMeasuredHeight(childView)
+    }
+
+    private fun getHorizontalSpace() : Int {
+        return width - paddingLeft - paddingRight
+    }
+
+    private fun removeView(dx: Int, recycler: RecyclerView.Recycler, left: Int) {
+        if (dx > 0) {
+            while (childCount > 0) {
+                val child = getChildAt(0)
+                val p = getDecoratedRight(child!!) - dx
+                if (p <= 0)
+                    removeAndRecycleView(child,recycler)
+                else
+                    break
+            }
+        }else {
+            while (childCount > 0) {
+
+            }
+        }
+    }
+
+    /**
+     * Maximum horizontal offset
+     * @return maxOffset
+     */
+    private fun getMaxOffset(): Int {
+        return (itemCount - 1) * mItemWidth
     }
 }

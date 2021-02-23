@@ -17,8 +17,7 @@ public class CustomLayout extends RecyclerView.LayoutManager {
     private int mItemWidth;
     private int mItemHeight;
 
-    private float mChildScale = 0.5f;
-    private int mSpace = 0;
+    private final float mChildScale = 0.5f;
 
     @Override
     public RecyclerView.LayoutParams generateDefaultLayoutParams() {
@@ -116,7 +115,8 @@ public class CustomLayout extends RecyclerView.LayoutManager {
     }
 
     private int getVisibleCount() {
-         float f = getHorizontalSpace() - mItemWidth - mSpace;
+        int mSpace = 0;
+        float f = getHorizontalSpace() - mItemWidth - mSpace;
          return (int) Math.ceil((f < 0 ? 0 : f) / (mChildScale * mItemWidth + mSpace) + 1);
     }
 
