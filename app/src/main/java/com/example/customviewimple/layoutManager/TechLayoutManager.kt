@@ -60,37 +60,118 @@ class TechLayoutManager: RecyclerView.LayoutManager() {
         Log.e("MY TAG", "Horizontal offset " + mHorizontalScroll)
 
         val firstVisiblePosition = (floor(mHorizontalScroll.toDouble() / viewWidth.toDouble())).toInt() - 1
-        Log.e("MY TAG", "FIRST " + firstVisiblePosition)
-        val lastPosition = (mHorizontalScroll + getHorizontalSpace()) / viewWidth
-        Log.e("MY TAG", "LAST " + lastPosition)
+
+        //Middle center view position only one value
+        val middlePosition = (floor(mHorizontalScroll - getMinOffset().toDouble() / viewWidth.toDouble())).toInt() - 1
+        Log.e("MY TAG", "MiddlePos " + middlePosition)
+
+        var startX = (width/2 - viewWidth/2)
+
+        //First layout middle position element
+
+        var  recyclerIndex = middlePosition % itemCount
+        if (recyclerIndex < 0) recyclerIndex += itemCount
+
+        Log.e("MY TAG", "reIndex " + recyclerIndex)
+
+        val childView = recycler.getViewForPosition(recyclerIndex)
+        addView(childView)
+        measureChildWithMargins(childView, 0, 0)
+        val l = getMinOffset() - mHorizontalScroll
+        val r = l + viewWidth
+        val t = 0
+        val b = viewHeight
+        layoutDecorated(childView, l, t, r, b)
 
 
-        var valueIndex = 0
-        for (index in firstVisiblePosition..lastPosition) {
+        //Layout the firstPosition to middle position
+        var index = middlePosition - 1
+        while (true){
 
-            var recyclerIndex = index % itemCount
+            var  recyclerIndex = index % itemCount
             if (recyclerIndex < 0) recyclerIndex += itemCount
 
-            Log.e("MY TAG", "I AM INDEX " + recyclerIndex)
+            Log.e("MY TAG", "recylerview " + recyclerIndex)
 
-            val view = recycler.getViewForPosition(recyclerIndex)
-            addView(view)
-            measureChildWithMargins(view, 0, 0)
+            val childView = recycler.getViewForPosition(recyclerIndex)
+            addView(childView)
+            measureChildWithMargins(childView, 0,0)
 
-            val l = (index+1)*viewWidth - mHorizontalScroll
+            val r = startX
+            val l = r - viewWidth
+            val t = 0
+            val b = viewHeight
+            layoutDecorated(childView, l, t, r, b)
+            startX -= viewWidth
+
+            if (startX < -(viewWidth/2)) break
+
+            index--
+
+        }
+
+        //Layout all the views after middle one
+        //val lastPosition = (mHorizontalScroll + getHorizontalSpace()) / viewWidth + 1
+        startX = (width/2 + viewWidth/2)
+        index = middlePosition+1
+        while (true){
+
+            var  recyclerIndex = index % itemCount
+            if (recyclerIndex < 0) recyclerIndex += itemCount
+
+            Log.e("MY TAG", "recylerview " + recyclerIndex)
+
+            val childView = recycler.getViewForPosition(recyclerIndex)
+            addView(childView)
+            measureChildWithMargins(childView, 0,0)
+
+            val l = startX
             val r = l + viewWidth
             val t = 0
-            val b = t + viewHeight
-            layoutDecorated(view, l, t, r, b)
+            val b = viewHeight
+            layoutDecorated(childView, l, t, r, b)
+            startX += viewWidth
 
-            valueIndex++
+            if (startX > getHorizontalSpace()+(viewWidth/2)) break
+
+            index++
         }
+
+        //
+        Log.e("MY TAG", "FIRST " + firstVisiblePosition)
+       // Log.e("MY TAG", "LAST " + lastPosition)
+
+//
+//        var valueIndex = 0
+//        for (index in firstVisiblePosition..lastPosition) {
+//
+//            var recyclerIndex = index % itemCount
+//            if (recyclerIndex < 0) recyclerIndex += itemCount
+//
+//            Log.e("MY TAG", "I AM INDEX " + recyclerIndex)
+//
+//            val view = recycler.getViewForPosition(recyclerIndex)
+//            addView(view)
+//            measureChildWithMargins(view, 0, 0)
+//
+//            val l = (index+1)*viewWidth - mHorizontalScroll
+//            val r = l + viewWidth
+//            val t = 0
+//            val b = t + viewHeight
+//            layoutDecorated(view, l, t, r, b)
+//
+//            valueIndex++
+//        }
 
         val scrapListCopy = recycler.scrapList.toList()
         scrapListCopy.forEach {
             recycler.recycleView(it.itemView)
         }
 
+    }
+
+    private fun getMinOffset(): Int {
+        return (getHorizontalSpace() - viewWidth)/2
     }
 
     private fun getHorizontalSpace(): Int {

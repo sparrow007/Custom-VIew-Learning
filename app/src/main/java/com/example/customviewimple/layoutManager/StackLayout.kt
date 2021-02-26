@@ -80,8 +80,9 @@ class StackLayout() : RecyclerView.LayoutManager() {
 //        }
 
         mHorizontalScrollOffset += dx
+        fill(recycler!!, dx.toLong())
 
-        return fill(recycler!!, dx.toLong())
+        return dx
     }
 
     private fun fill(recycler: RecyclerView.Recycler, dx: Long) : Int{
@@ -125,7 +126,7 @@ class StackLayout() : RecyclerView.LayoutManager() {
             childWidth = getDecoratedMeasurementHorizontal(tempView)
         }
 
-        firstCompleteScrollLength = 0f
+        firstCompleteScrollLength = width/2f + childWidth/2f
 
         if (mHorizontalScrollOffset >= firstCompleteScrollLength) {
             startX = normalViewGap.toFloat()
@@ -135,18 +136,25 @@ class StackLayout() : RecyclerView.LayoutManager() {
             Log.e("MY TAG", "CHILD FRACTION " + fraction)
 
         }else {
-            startX = normalViewGap.toFloat()
+            startX = -(childWidth+normalViewGap+normalViewGap).toFloat()
             onceCompleteScrollLength = (normalViewGap + childWidth).toFloat()
-            firstVisiblePosition = 0
-            fraction = 0.5f
+            firstVisiblePosition = ((mHorizontalScrollOffset)/onceCompleteScrollLength).toInt() - 2
 
+            Log.e("MY TAG", "Horizontal offset = "+ mHorizontalScrollOffset + " oncee " + onceCompleteScrollLength)
+
+           fraction =  ((((mHorizontalScrollOffset) % onceCompleteScrollLength))) / onceCompleteScrollLength*1.0f
+
+            Log.e("MY TAG", "FRACTION " + ((firstCompleteScrollLength) % onceCompleteScrollLength)/onceCompleteScrollLength)
+            Log.e("MY TAG", "ANOTHER FRACTION " + fraction)
         }
 
-        Log.e("MY TAG", "horizontal Pos "+ mHorizontalScrollOffset)
 
         lastVisiblePosition = ((abs(mHorizontalScrollOffset) + getHorizontalSpace()) / (childWidth + normalViewGap)).toInt()
-        Log.e("MY TAG", "lastVisible Pos "+ lastVisiblePosition)
         val normalViewOffset = onceCompleteScrollLength * fraction
+
+        Log.e("MY TAG", "nomal view offset = "+ normalViewOffset)
+
+
         var isNormalViewOffsetSet = false
 
         var i = firstVisiblePosition
@@ -164,7 +172,7 @@ class StackLayout() : RecyclerView.LayoutManager() {
                 recycler.getViewForPosition(recyclerIndex)
             }
 
-            if (i <= (abs(mHorizontalScrollOffset) / (childWidth + normalViewGap))) {
+            if (i <= ((mHorizontalScrollOffset) / (childWidth + normalViewGap))) {
                 addView(item)
             }else addView(item, 0)
 

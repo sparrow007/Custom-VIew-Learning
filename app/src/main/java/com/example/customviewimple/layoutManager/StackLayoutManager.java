@@ -194,11 +194,17 @@ public class StackLayoutManager extends RecyclerView.LayoutManager {
             fraction = (Math.abs(mHorizontalOffset - firstChildCompleteScrollLength) % onceCompleteScrollLength) / (onceCompleteScrollLength * 1.0f)
                     + normalViewGap;
 
+            Log.e("MY TAG", "FIRST POS "+ mFirstVisiPos);
+
         } else {
             mFirstVisiPos = 0;
             startX = getMinOffset();
             onceCompleteScrollLength = firstChildCompleteScrollLength;
+            Log.e("MY TAG", "startx "+ startX);
             fraction = (Math.abs(mHorizontalOffset) % onceCompleteScrollLength) / (onceCompleteScrollLength * 1.0f);
+            Log.e("MY TAG", "ANOTHER FRACTION " + fraction);
+
+
         }
 
         // 临时将mLastVisiPos赋值为getItemCount() - 1，放心，下面遍历时会判断view是否已溢出屏幕，并及时修正该值并结束布局

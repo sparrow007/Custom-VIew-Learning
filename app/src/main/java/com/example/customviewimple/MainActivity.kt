@@ -21,26 +21,27 @@ class MainActivity : AppCompatActivity() {
 //            WindowManager.LayoutParams.FLAG_FULLSCREEN
 //        )
         setContentView(R.layout.test_main)
-    }
-
-    override fun onResume() {
-        super.onResume()
 
         LearnClass("Ankit")
 
         val list = ArrayList<DataModel>()
         list.add(DataModel(R.drawable.image_fifth, "Thi is cool"))
-        list.add(DataModel(R.drawable.image_third, "Thi is cool"))
+        list.add(DataModel(R.drawable.image_six, "Thi is cool"))
         list.add(DataModel(R.drawable.image_second, "Thi is cool"))
         list.add(DataModel(R.drawable.image_six, "Thi is cool"))
         list.add(DataModel(R.drawable.image_third, "Thi is cool"))
         list.add(DataModel(R.drawable.image_second, "Thi is cool"))
 
         val adapter = DataAdapter(list)
-        recycler.layoutManager = TechLayoutManager()
+        recycler.layoutManager = StackLayout(this, 10)
         val snapHelper = LinearSnapHelper()
         recycler.adapter = adapter
         snapHelper.attachToRecyclerView(recycler)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
 
 //        Handler().postDelayed( {
 //
