@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         list.add(DataModel(R.drawable.image_second, "Thi is cool"))
 
         val adapter = DataAdapter(list)
-        recycler.layoutManager = StackLayout(this, 10)
+        recycler.layoutManager = StackLayout(this, -20)
         val snapHelper = LinearSnapHelper()
         recycler.adapter = adapter
         snapHelper.attachToRecyclerView(recycler)

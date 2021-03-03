@@ -136,9 +136,9 @@ class StackLayout() : RecyclerView.LayoutManager() {
             Log.e("MY TAG", "CHILD FRACTION " + fraction)
 
         }else {
-            startX = -(childWidth+normalViewGap+normalViewGap).toFloat()
-            onceCompleteScrollLength = (normalViewGap + childWidth).toFloat()
-            firstVisiblePosition = ((mHorizontalScrollOffset)/onceCompleteScrollLength).toInt() - 2
+            startX = getMinOffset()
+            onceCompleteScrollLength = firstCompleteScrollLength
+            firstVisiblePosition = 0
 
             Log.e("MY TAG", "Horizontal offset = "+ mHorizontalScrollOffset + " oncee " + onceCompleteScrollLength)
 
