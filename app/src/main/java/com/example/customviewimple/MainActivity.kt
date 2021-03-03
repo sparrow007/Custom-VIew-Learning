@@ -8,6 +8,7 @@ import com.example.customviewimple.kotlinLearn.LearnClass
 import com.example.customviewimple.layoutManager.StackLayout
 import com.example.customviewimple.layoutManager.StackLayoutManager
 import com.example.customviewimple.layoutManager.TechLayoutManager
+import com.example.customviewimple.layoutManager.source.CoverLayout
 import com.example.customviewimple.model.DataModel
 import kotlinx.android.synthetic.main.test_main.*
 
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         list.add(DataModel(R.drawable.image_second, "Thi is cool"))
 
         val adapter = DataAdapter(list)
-        recycler.layoutManager = StackLayout(this, -20)
+        recycler.layoutManager = CoverLayout()
         val snapHelper = LinearSnapHelper()
         recycler.adapter = adapter
         snapHelper.attachToRecyclerView(recycler)
