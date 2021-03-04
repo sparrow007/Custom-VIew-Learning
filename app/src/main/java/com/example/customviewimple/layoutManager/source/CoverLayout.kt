@@ -11,10 +11,9 @@ import kotlin.math.roundToInt
 /**
  * Initial layout manager for just showing the view in the manner
  * 1. NO Infinite loop of items
- * 2. NO support for the scrolling
+ * 2. NO support for drawing order in overlapping of child view
  * 3. No Implementation of the layout manager
  * 4. No implementation of the animation in the layout manager
- *
  */
 
 class CoverLayout: RecyclerView.LayoutManager() {
@@ -47,7 +46,6 @@ class CoverLayout: RecyclerView.LayoutManager() {
     }
 
     override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
-        super.onLayoutChildren(recycler, state)
 
         if (state == null || recycler == null)
             return
@@ -86,6 +84,31 @@ class CoverLayout: RecyclerView.LayoutManager() {
         layoutItems(recycler, state, SCROLL_TO_LEFT)
     }
 
+    override fun canScrollHorizontally(): Boolean {
+        return true
+    }
+
+    override fun scrollHorizontallyBy(
+        dx: Int,
+        recycler: RecyclerView.Recycler?,
+        state: RecyclerView.State?
+    ): Int {
+
+        if (recycler == null || state == null) return 0
+
+        var travel = dx
+
+        if (travel + mOffsetAll < 0) {
+            travel = -mOffsetAll
+        }else if (travel + mOffsetAll > maxOffset()) {
+            travel = (maxOffset() - mOffsetAll)
+        }
+
+        mOffsetAll += travel
+        layoutItems(recycler, state, if (dx > 0) SCROLL_TO_LEFT else SCROLL_TO_RIGHT)
+        return travel
+    }
+
     /**
      * Layout out items
      * 1. First recycle those items views which are no longer visible to the screens
@@ -105,7 +128,7 @@ class CoverLayout: RecyclerView.LayoutManager() {
             getVerticalSpace()
         )
         var position = 0
-        for (index in 0..childCount) {
+        for (index in 0 until childCount) {
 
             val child = getChildAt(index) ?: break
             if (child.tag != null) {
@@ -123,19 +146,21 @@ class CoverLayout: RecyclerView.LayoutManager() {
             }else {
                 //Shift the item which has still in the screen
                 layoutItem(child, rect)
-                mHasAttachedItems.put(index, true)
+                mHasAttachedItems.put(position, true)
             }
         }
 
-       for (index in 0..itemCount) {
+       for (index in 0 until itemCount) {
            if (Rect.intersects(displayFrames, mAllItemsFrames.get(index)) && !mHasAttachedItems.get(
                    index
                )) {
                val scrap = recycler.getViewForPosition(index)
                measureChildWithMargins(scrap, 0, 0)
-               if (scrollToDirection == SCROLL_TO_LEFT) {
+
+               if (scrollToDirection == SCROLL_TO_RIGHT) {
                    addView(scrap, 0)
                } else addView(scrap)
+
                layoutItem(scrap, mAllItemsFrames.get(index))
                mHasAttachedItems.put(index, true)
            }
@@ -143,8 +168,6 @@ class CoverLayout: RecyclerView.LayoutManager() {
 
 
     }
-
-
 
     private fun layoutItem(child: View, rect: Rect) {
         layoutDecorated(
@@ -189,6 +212,10 @@ class CoverLayout: RecyclerView.LayoutManager() {
 
     private fun getVerticalSpace(): Int {
         return height - paddingBottom - paddingTop
+    }
+
+    private fun maxOffset(): Int{
+        return ((itemCount - 1) * getIntervalDistance())
     }
 
     override fun isAutoMeasureEnabled(): Boolean {

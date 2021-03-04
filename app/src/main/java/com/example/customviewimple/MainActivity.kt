@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 //        )
         setContentView(R.layout.test_main)
 
-        LearnClass("Ankit")
+       // LearnClass("Ankit")
 
         val list = ArrayList<DataModel>()
         list.add(DataModel(R.drawable.image_fifth, "Thi is cool"))
