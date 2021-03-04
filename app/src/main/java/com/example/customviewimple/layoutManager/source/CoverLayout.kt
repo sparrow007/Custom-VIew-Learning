@@ -1,9 +1,12 @@
 package com.example.customviewimple.layoutManager.source
 
+import android.animation.ValueAnimator
+import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.graphics.Rect
 import android.util.SparseArray
 import android.util.SparseBooleanArray
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -12,7 +15,7 @@ import kotlin.math.roundToInt
  * Initial layout manager for just showing the view in the manner
  * 1. NO Infinite loop of items
  * 2. NO support for drawing order in overlapping of child view
- * 3. No Implementation of the layout manager
+ * 3. No implementation of fix position when scroll
  * 4. No implementation of the animation in the layout manager
  */
 
@@ -36,6 +39,10 @@ class CoverLayout: RecyclerView.LayoutManager() {
     private val mAllItemsFrames = SparseArray<Rect>()
 
     private val mHasAttachedItems = SparseBooleanArray()
+
+    private var valueAnimator:ValueAnimator?= null
+    private lateinit var recycler: RecyclerView.Recycler
+    private lateinit var state: RecyclerView.State
 
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
@@ -82,6 +89,8 @@ class CoverLayout: RecyclerView.LayoutManager() {
         detachAndScrapAttachedViews(recycler)
 
         layoutItems(recycler, state, SCROLL_TO_LEFT)
+        this.recycler = recycler
+        this.state = state
     }
 
     override fun canScrollHorizontally(): Boolean {
@@ -182,6 +191,45 @@ class CoverLayout: RecyclerView.LayoutManager() {
 
         child.scaleY = computeScale(rect.left - mOffsetAll)
 
+    }
+
+    override fun onScrollStateChanged(state: Int) {
+        super.onScrollStateChanged(state)
+        if (state == RecyclerView.SCROLL_STATE_IDLE) {
+            //Fix the position of item when scroll state stops
+            fixOffsetWhenFinishOffset()
+        }
+    }
+
+    private fun fixOffsetWhenFinishOffset() {
+        if (getIntervalDistance() != 0) {
+            var scrollPosition = (mOffsetAll / getIntervalDistance())
+            val moreDx = (mOffsetAll % getIntervalDistance()).toFloat()
+            if (Math.abs(moreDx) > (getIntervalDistance()* 0.5f)) {
+                if (moreDx > 0) scrollPosition++
+                else scrollPosition--
+            }
+            val finalOffset = scrollPosition * getIntervalDistance()
+            startScroll(mOffsetAll, finalOffset)
+        }
+    }
+
+    private fun startScroll(from: Int, to: Int) {
+        //Start animation
+        if (valueAnimator != null && valueAnimator!!.isRunning) {
+            valueAnimator?.cancel()
+        }
+        val direction = if (from < to) SCROLL_TO_LEFT else SCROLL_TO_RIGHT
+
+        valueAnimator = ValueAnimator.ofFloat(from.toFloat(), to.toFloat())
+        valueAnimator?.let {
+            it.duration = 500
+            it.interpolator = DecelerateInterpolator()
+        }
+        valueAnimator?.addUpdateListener(AnimatorUpdateListener { animation ->
+            mOffsetAll = Math.round(animation.animatedValue as Float)
+            layoutItems(recycler, state, direction)
+        })
     }
 
     private fun getFrame(position: Int): Rect {
