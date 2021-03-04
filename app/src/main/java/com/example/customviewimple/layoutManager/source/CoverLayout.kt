@@ -5,6 +5,7 @@ import android.util.SparseArray
 import android.util.SparseBooleanArray
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 /**
@@ -154,10 +155,9 @@ class CoverLayout: RecyclerView.LayoutManager() {
             rect.bottom
         )
 
-        //不是平面普通滚动的情况下才进行缩放
-        child.scaleX = computeScale(rect.left - mOffsetAll) //缩放 Zoom
+        child.scaleX = computeScale(rect.left - mOffsetAll)
 
-        child.scaleY = computeScale(rect.left - mOffsetAll) //缩放
+        child.scaleY = computeScale(rect.left - mOffsetAll)
 
     }
 
@@ -173,7 +173,7 @@ class CoverLayout: RecyclerView.LayoutManager() {
     }
     private fun computeScale(x: Int): Float {
         var scale: Float =
-            1 - Math.abs(x - mStartX) * 1.0f / Math.abs(mStartX + mItemWidth / intervalRation)
+            1 - abs(x - mStartX) * 1.0f / abs(mStartX + mItemWidth / intervalRation)
         if (scale < 0) scale = 0f
         if (scale > 1) scale = 1f
         return scale
