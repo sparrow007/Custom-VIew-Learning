@@ -15,8 +15,8 @@ import kotlin.math.roundToInt
  * Initial layout manager for just showing the view in the manner
  * 1. NO Infinite loop of items
  * 2. NO support for drawing order in overlapping of child view
- * 3. No implementation of fix position when scroll
- * 4. No implementation of the animation in the layout manager
+ * 3. No implementation of fix position when scroll (done)
+ * 4. No implementation of the animation in the layout manager (done)
  */
 
 class CoverLayout: RecyclerView.LayoutManager() {
