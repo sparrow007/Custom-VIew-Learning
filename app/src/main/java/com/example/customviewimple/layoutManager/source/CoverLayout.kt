@@ -102,6 +102,9 @@ class CoverLayout: RecyclerView.LayoutManager() {
         recycler: RecyclerView.Recycler?,
         state: RecyclerView.State?
     ): Int {
+        if (valueAnimator != null && valueAnimator!!.isRunning) {
+            valueAnimator?.cancel()
+        }
 
         if (recycler == null || state == null) return 0
 
@@ -159,7 +162,11 @@ class CoverLayout: RecyclerView.LayoutManager() {
             }
         }
 
-       for (index in 0 until itemCount) {
+        /**
+         * 
+         */
+
+        for (index in 0 until itemCount) {
            if (Rect.intersects(displayFrames, mAllItemsFrames.get(index)) && !mHasAttachedItems.get(
                    index
                )) {
@@ -230,6 +237,7 @@ class CoverLayout: RecyclerView.LayoutManager() {
             mOffsetAll = Math.round(animation.animatedValue as Float)
             layoutItems(recycler, state, direction)
         })
+        valueAnimator?.start()
     }
 
     private fun getFrame(position: Int): Rect {
@@ -268,6 +276,22 @@ class CoverLayout: RecyclerView.LayoutManager() {
 
     override fun isAutoMeasureEnabled(): Boolean {
         return true
+    }
+
+    fun centerPosition(): Int {
+        var pos = mOffsetAll / getIntervalDistance()
+        val more = mOffsetAll % getIntervalDistance()
+        if (abs(more) >= getIntervalDistance() * 0.5f) {
+            if (more >= 0) pos++
+            else pos--
+        }
+
+        return pos
+    }
+
+    fun getChildActualPos(index: Int): Int {
+        val child = getChildAt(index)
+        return getPosition(child!!)
     }
 
 }
