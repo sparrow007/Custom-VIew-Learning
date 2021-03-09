@@ -22,6 +22,8 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
     init {
         setLayoutManager(layoutManager)
         isChildrenDrawingOrderEnabled = true
+        overScrollMode = OVER_SCROLL_NEVER
+
     }
 
     override fun getChildDrawingOrder(childCount: Int, i: Int): Int {

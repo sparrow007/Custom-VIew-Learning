@@ -3,11 +3,13 @@ package com.example.customviewimple.layoutManager.source
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.graphics.Rect
+import android.util.Log
 import android.util.SparseArray
 import android.util.SparseBooleanArray
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.IllegalArgumentException
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -43,6 +45,8 @@ class CoverLayout: RecyclerView.LayoutManager() {
     private var valueAnimator:ValueAnimator?= null
     private lateinit var recycler: RecyclerView.Recycler
     private lateinit var state: RecyclerView.State
+
+    private var mInfinite = true
 
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
@@ -110,12 +114,13 @@ class CoverLayout: RecyclerView.LayoutManager() {
 
         var travel = dx
 
-        if (travel + mOffsetAll < 0) {
-            travel = -mOffsetAll
-        }else if (travel + mOffsetAll > maxOffset()) {
-            travel = (maxOffset() - mOffsetAll)
-        }
-
+      if (!mInfinite) {
+          if (travel + mOffsetAll < 0) {
+              travel = -mOffsetAll
+          }else if (travel + mOffsetAll > maxOffset()) {
+              travel = (maxOffset() - mOffsetAll)
+          }
+      }
         mOffsetAll += travel
         layoutItems(recycler, state, if (dx > 0) SCROLL_TO_LEFT else SCROLL_TO_RIGHT)
         return travel
@@ -145,6 +150,8 @@ class CoverLayout: RecyclerView.LayoutManager() {
             val child = getChildAt(index) ?: break
             if (child.tag != null) {
                 //get position from tag class define later
+                val tag = checkTAG(child.tag)
+                position = tag!!.pos
             }else {
                 position = getPosition(child)
             }
@@ -162,22 +169,39 @@ class CoverLayout: RecyclerView.LayoutManager() {
             }
         }
 
+        if (position == 0) position = centerPosition()
         /**
-         * 
+         * For making infinite loop for the layout manager
          */
+        var min = position - 20
+        var max = position + 20
 
-        for (index in 0 until itemCount) {
-           if (Rect.intersects(displayFrames, mAllItemsFrames.get(index)) && !mHasAttachedItems.get(
+        Log.e("MY TAG", "MIN " +min)
+        Log.e("MY TAG", "POS " +position)
+        Log.e("MY TAG", "MAX " +max)
+
+        if (!mInfinite) {
+            if (min < 0) min = 0
+            if (max > itemCount ) max = itemCount
+        }
+
+        for (index in min until max) {
+            val rect = getFrame(index)
+           if (Rect.intersects(displayFrames, rect) && !mHasAttachedItems.get(
                    index
                )) {
-               val scrap = recycler.getViewForPosition(index)
+               var actualPos = index % itemCount
+               if (actualPos < 0) actualPos += itemCount
+
+               val scrap = recycler.getViewForPosition(actualPos)
+               scrap.tag = TAG(index)
                measureChildWithMargins(scrap, 0, 0)
 
                if (scrollToDirection == SCROLL_TO_RIGHT) {
                    addView(scrap, 0)
                } else addView(scrap)
 
-               layoutItem(scrap, mAllItemsFrames.get(index))
+               layoutItem(scrap, rect)
                mHasAttachedItems.put(index, true)
            }
        }
@@ -291,7 +315,28 @@ class CoverLayout: RecyclerView.LayoutManager() {
 
     fun getChildActualPos(index: Int): Int {
         val child = getChildAt(index)
-        return getPosition(child!!)
+        if (child!!.tag != null) {
+            val tag = checkTAG(child.tag)
+            if (tag != null)
+            return tag.pos
+        }
+        return getPosition(child)
     }
+
+    private fun checkTAG(tag: Any?): TAG? {
+        if (tag != null) {
+            if (tag is TAG) {
+                return tag as TAG
+            }else {
+               throw IllegalArgumentException("You should use the set tag with the position")
+
+            }
+        }else {
+            return null
+        }
+
+    }
+
+    data class TAG(var pos:Int = 0)
 
 }
