@@ -1,7 +1,6 @@
 package com.example.customviewimple.layoutManager.source
 
 import android.animation.ValueAnimator
-import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.graphics.Rect
 import android.util.Log
 import android.util.SparseArray
@@ -9,7 +8,6 @@ import android.util.SparseBooleanArray
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
-import java.lang.IllegalArgumentException
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -58,13 +56,17 @@ class CoverLayout: RecyclerView.LayoutManager() {
 
     override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
 
+        Log.e("MY TAG", "I AM LAYOUT CALLED BY SOMEONE")
         if (state == null || recycler == null)
             return
 
-        if (state.itemCount == 0 || state.isPreLayout || !state.didStructureChange()) {
+        if (state.itemCount <= 0 || state.isPreLayout || state.didStructureChange()) {
             mOffsetAll = 0
             return
         }
+
+        mAllItemsFrames.clear()
+        mHasAttachedItems.clear()
 
         val scrap = recycler.getViewForPosition(0)
         addView(scrap)
@@ -78,8 +80,8 @@ class CoverLayout: RecyclerView.LayoutManager() {
 
         //Start from the center of the recyclerview
         //Save only specific item position
-        (0..itemCount).takeWhile { it < MAX_RECT_COUNT }.forEach { i ->
-
+        var i = 0
+        while (i < itemCount && i < MAX_RECT_COUNT) {
             var frame = mAllItemsFrames[i]
             if (frame == null) {
                 frame = Rect()
@@ -88,6 +90,7 @@ class CoverLayout: RecyclerView.LayoutManager() {
             mAllItemsFrames.put(i, frame)
             mHasAttachedItems.put(i, false)
             offset += getIntervalDistance()
+            i++
         }
 
         detachAndScrapAttachedViews(recycler)
@@ -115,12 +118,13 @@ class CoverLayout: RecyclerView.LayoutManager() {
         var travel = dx
 
       if (!mInfinite) {
-          if (travel + mOffsetAll < 0) {
-              travel = -mOffsetAll
-          }else if (travel + mOffsetAll > maxOffset()) {
+          if (dx + mOffsetAll < 0) {
+              travel = - mOffsetAll
+          }else if (dx + mOffsetAll > maxOffset()) {
               travel = (maxOffset() - mOffsetAll)
           }
       }
+        Log.e("MY TAG", "OFFSET IN SCROLLHORI AND TRAVEL $mOffsetAll and $travel")
         mOffsetAll += travel
         layoutItems(recycler, state, if (dx > 0) SCROLL_TO_LEFT else SCROLL_TO_RIGHT)
         return travel
@@ -138,6 +142,7 @@ class CoverLayout: RecyclerView.LayoutManager() {
         scrollToDirection: Int
     ) {
 
+        if (state.isPreLayout) return
         val displayFrames = Rect(
             mOffsetAll,
             0,
@@ -176,9 +181,9 @@ class CoverLayout: RecyclerView.LayoutManager() {
         var min = position - 20
         var max = position + 20
 
-        Log.e("MY TAG", "MIN " +min)
-        Log.e("MY TAG", "POS " +position)
-        Log.e("MY TAG", "MAX " +max)
+//        Log.e("MY TAG", "MIN " +min)
+//        Log.e("MY TAG", "POS " +position)
+//        Log.e("MY TAG", "MAX " +max)
 
         if (!mInfinite) {
             if (min < 0) min = 0
@@ -194,6 +199,7 @@ class CoverLayout: RecyclerView.LayoutManager() {
                if (actualPos < 0) actualPos += itemCount
 
                val scrap = recycler.getViewForPosition(actualPos)
+               checkTAG(scrap.tag)
                scrap.tag = TAG(index)
                measureChildWithMargins(scrap, 0, 0)
 
@@ -205,7 +211,6 @@ class CoverLayout: RecyclerView.LayoutManager() {
                mHasAttachedItems.put(index, true)
            }
        }
-
 
     }
 
@@ -226,20 +231,26 @@ class CoverLayout: RecyclerView.LayoutManager() {
 
     override fun onScrollStateChanged(state: Int) {
         super.onScrollStateChanged(state)
-        if (state == RecyclerView.SCROLL_STATE_IDLE) {
-            //Fix the position of item when scroll state stops
-            fixOffsetWhenFinishOffset()
+        when (state) {
+            RecyclerView.SCROLL_STATE_IDLE ->
+                //When scrolling stops
+                fixOffsetWhenFinishOffset()
+            RecyclerView.SCROLL_STATE_DRAGGING -> {
+            }
+            RecyclerView.SCROLL_STATE_SETTLING -> {
+            }
         }
     }
 
     private fun fixOffsetWhenFinishOffset() {
         if (getIntervalDistance() != 0) {
-            var scrollPosition = (mOffsetAll / getIntervalDistance())
-            val moreDx = (mOffsetAll % getIntervalDistance()).toFloat()
-            if (Math.abs(moreDx) > (getIntervalDistance()* 0.5f)) {
+            var scrollPosition = (mOffsetAll * 1.0f / getIntervalDistance()).toInt()
+            val moreDx: Float = (mOffsetAll % getIntervalDistance()).toFloat()
+            if (abs(moreDx) > getIntervalDistance() * 0.5f) {
                 if (moreDx > 0) scrollPosition++
                 else scrollPosition--
             }
+            Log.e("MY TAG", "SCROLL POSITION " + scrollPosition)
             val finalOffset = scrollPosition * getIntervalDistance()
             startScroll(mOffsetAll, finalOffset)
         }
@@ -252,15 +263,16 @@ class CoverLayout: RecyclerView.LayoutManager() {
         }
         val direction = if (from < to) SCROLL_TO_LEFT else SCROLL_TO_RIGHT
 
-        valueAnimator = ValueAnimator.ofFloat(from.toFloat(), to.toFloat())
-        valueAnimator?.let {
-            it.duration = 500
-            it.interpolator = DecelerateInterpolator()
-        }
-        valueAnimator?.addUpdateListener(AnimatorUpdateListener { animation ->
-            mOffsetAll = Math.round(animation.animatedValue as Float)
+        Log.e("MY TAG", "FROM $from to offset $to")
+
+        valueAnimator = ValueAnimator.ofFloat(from * 1.0f, to * 1.0f)
+        valueAnimator?.duration= 500
+        valueAnimator?.interpolator = DecelerateInterpolator()
+
+        valueAnimator?.addUpdateListener { animation ->
+            mOffsetAll = (animation.animatedValue as Float).roundToInt()
             layoutItems(recycler, state, direction)
-        })
+        }
         valueAnimator?.start()
     }
 
@@ -269,7 +281,7 @@ class CoverLayout: RecyclerView.LayoutManager() {
         if (frame == null) {
             frame = Rect()
             val offset = mStartX + getIntervalDistance() * position
-            frame.set(offset, 0, (offset + mItemWidth), mItemHeight)
+            frame.set((offset), 0, (offset + mItemWidth), mItemHeight)
             return frame
         }
         return frame
@@ -303,13 +315,25 @@ class CoverLayout: RecyclerView.LayoutManager() {
     }
 
     fun centerPosition(): Int {
+       // Log.e("MY TAG", "OFFSET $mOffsetAll")
         var pos = mOffsetAll / getIntervalDistance()
         val more = mOffsetAll % getIntervalDistance()
         if (abs(more) >= getIntervalDistance() * 0.5f) {
             if (more >= 0) pos++
             else pos--
         }
+        return pos
+    }
 
+    fun gcenterPosition(): Int {
+        val intervalDistance = getIntervalDistance().toFloat()
+        var pos = (mOffsetAll / intervalDistance).toInt()
+        val v = pos * intervalDistance * 1.0f
+        val v1 = mOffsetAll - v
+        if (v1 > intervalDistance * 0.5f) {
+           if (v1 > 0)  pos++
+            else pos--
+        }
         return pos
     }
 
@@ -337,6 +361,30 @@ class CoverLayout: RecyclerView.LayoutManager() {
 
     }
 
-    data class TAG(var pos:Int = 0)
+    override fun onAdapterChanged(
+        oldAdapter: RecyclerView.Adapter<*>?,
+        newAdapter: RecyclerView.Adapter<*>?
+    ) {
+        removeAllViews()
+        mOffsetAll = 0
+        mHasAttachedItems.clear()
+        mAllItemsFrames.clear()
+    }
+
+    data class TAG(var pos: Int = 0)
+
+    fun getFirstVisiblePosition(): Int {
+        val displayFrame =
+            Rect(mOffsetAll, 0, mOffsetAll + getHorizontalSpace(), getVerticalSpace())
+        val cur: Int = centerPosition()
+        var i = cur - 1
+        while (true) {
+            val rect = getFrame(i)
+            if (rect.left <= displayFrame.left) {
+                return abs(i) % itemCount
+            }
+            i--
+        }
+    }
 
 }
