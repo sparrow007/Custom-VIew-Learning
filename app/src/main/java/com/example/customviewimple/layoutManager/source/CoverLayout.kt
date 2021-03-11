@@ -331,17 +331,6 @@ class CoverLayout: RecyclerView.LayoutManager() {
         return pos
     }
 
-    fun gcenterPosition(): Int {
-        val intervalDistance = getIntervalDistance().toFloat()
-        var pos = (mOffsetAll / intervalDistance).toInt()
-        val v = pos * intervalDistance * 1.0f
-        val v1 = mOffsetAll - v
-        if (v1 > intervalDistance * 0.5f) {
-           if (v1 > 0)  pos++
-            else pos--
-        }
-        return pos
-    }
 
     fun getChildActualPos(index: Int): Int {
         val child = getChildAt(index)
@@ -354,15 +343,15 @@ class CoverLayout: RecyclerView.LayoutManager() {
     }
 
     private fun checkTAG(tag: Any?): TAG? {
-        if (tag != null) {
+        return if (tag != null) {
             if (tag is TAG) {
-                return tag as TAG
+                tag as TAG
             }else {
-               throw IllegalArgumentException("You should use the set tag with the position")
+                throw IllegalArgumentException("You should use the set tag with the position")
 
             }
         }else {
-            return null
+            null
         }
 
     }
