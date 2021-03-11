@@ -303,8 +303,13 @@ class CoverLayout: RecyclerView.LayoutManager() {
     }
 
     override fun scrollToPosition(position: Int) {
-        super.scrollToPosition(position)
-        
+        if (position < 0 || position > itemCount - 1) return
+        mOffsetAll = calculateOffset(position)
+        layoutItems(recycler,
+            state,
+            if (position > selectedPosition) SCROLL_TO_LEFT
+            else SCROLL_TO_RIGHT)
+
     }
 
     private fun getFrame(position: Int): Rect {
@@ -324,6 +329,10 @@ class CoverLayout: RecyclerView.LayoutManager() {
         if (scale < 0) scale = 0f
         if (scale > 1) scale = 1f
         return scale
+    }
+
+    private fun calculateOffset(position: Int): Int {
+        return ((getIntervalDistance() * position).toFloat()).roundToInt()
     }
 
     private fun getIntervalDistance(): Int {
