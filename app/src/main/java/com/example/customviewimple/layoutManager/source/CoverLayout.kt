@@ -180,10 +180,6 @@ class CoverLayout: RecyclerView.LayoutManager() {
         var min = position - 20
         var max = position + 20
 
-//        Log.e("MY TAG", "MIN " +min)
-//        Log.e("MY TAG", "POS " +position)
-//        Log.e("MY TAG", "MAX " +max)
-
         if (!mInfinite) {
             if (min < 0) min = 0
             if (max > itemCount ) max = itemCount
@@ -244,7 +240,7 @@ class CoverLayout: RecyclerView.LayoutManager() {
         when (state) {
             RecyclerView.SCROLL_STATE_IDLE -> {
                 //When scrolling stops
-                //fixOffsetWhenFinishOffset()
+                fixOffsetWhenFinishOffset()
             }
 
             RecyclerView.SCROLL_STATE_DRAGGING -> {
