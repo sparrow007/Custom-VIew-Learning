@@ -35,9 +35,8 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = DataAdapter(list)
        // recycler.layoutManager = CoverLayout()
-        val snapHelper = LinearSnapHelper()
+       // val snapHelper = LinearSnapHelper()
         recycler.adapter = adapter
-      //  snapHelper.attachToRecyclerView(recycler)
     }
 
     override fun onResume() {

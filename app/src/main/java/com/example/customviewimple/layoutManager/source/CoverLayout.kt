@@ -10,6 +10,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 /**
  * Initial layout manager for just showing the view in the manner
@@ -225,15 +226,28 @@ class CoverLayout: RecyclerView.LayoutManager() {
         child.scaleX = computeScale(rect.left - mOffsetAll)
 
         child.scaleY = computeScale(rect.left - mOffsetAll)
+        itemRotate(child, rect)
+
+    }
+
+    private fun itemRotate(child: View, frame: Rect) {
+        val itemCenter = (frame.left + frame.right - 2*mOffsetAll) / 2f
+        var value = (itemCenter - (mStartX + mItemWidth / 2f)) * 1f / (itemCount*getIntervalDistance())
+        value = sqrt(abs(value).toDouble()).toFloat()
+        val symbol =
+            if (itemCenter > mStartX + mItemWidth / 2f) (-1).toFloat() else 1.toFloat()
+        child.rotationY = symbol * 50* abs(value)
 
     }
 
     override fun onScrollStateChanged(state: Int) {
         super.onScrollStateChanged(state)
         when (state) {
-            RecyclerView.SCROLL_STATE_IDLE ->
+            RecyclerView.SCROLL_STATE_IDLE -> {
                 //When scrolling stops
-                fixOffsetWhenFinishOffset()
+                //fixOffsetWhenFinishOffset()
+            }
+
             RecyclerView.SCROLL_STATE_DRAGGING -> {
             }
             RecyclerView.SCROLL_STATE_SETTLING -> {
@@ -285,7 +299,7 @@ class CoverLayout: RecyclerView.LayoutManager() {
     private fun computeScale(x: Int): Float {
         var scale: Float =
             1 - abs(x - mStartX) * 1.0f / abs(mStartX + mItemWidth / intervalRation)
-        
+
         if (scale < 0) scale = 0f
         if (scale > 1) scale = 1f
         return scale
