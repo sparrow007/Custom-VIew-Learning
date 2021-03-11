@@ -302,6 +302,11 @@ class CoverLayout: RecyclerView.LayoutManager() {
         valueAnimator?.start()
     }
 
+    override fun scrollToPosition(position: Int) {
+        super.scrollToPosition(position)
+        
+    }
+
     private fun getFrame(position: Int): Rect {
         var frame = mAllItemsFrames[position]
         if (frame == null) {
