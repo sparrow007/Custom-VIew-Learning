@@ -36,9 +36,6 @@ class ReflectionView(context: Context, attrs: AttributeSet): AppCompatImageView(
         getReflection(BitmapFactory.decodeResource(resources, resId))
     }
 
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
-    }
 
     private fun getReflection(image: Bitmap?) {
 
@@ -70,7 +67,12 @@ class ReflectionView(context: Context, attrs: AttributeSet): AppCompatImageView(
         canvas.drawBitmap(reflectionImage, 0f, originalImageHeight + reflectionGap, null)
 
         val paint = Paint()
+        //Apply porterduff in the rect shape
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
 
+        //draw rect with paint 
+        canvas.drawRect(0f, originalImageWidth.toFloat(), originalImageWidth.toFloat()
+            , reflectionGap + bitmapWithReflection.height, paint)
 
         super.setImageDrawable(BitmapDrawable(resources, bitmapWithReflection))
 
