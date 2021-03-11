@@ -14,26 +14,30 @@ class ReflectionView(context: Context, attrs: AttributeSet): AppCompatImageView(
         if (drawable is BitmapDrawable) {
             val bitmapDrawable = drawable as BitmapDrawable
             if (bitmapDrawable.bitmap != null) {
-                getReflection(bitmapDrawable.bitmap)
+                doReflection(bitmapDrawable.bitmap)
             }
         }
 
         var bitmap:Bitmap? = null
         bitmap = if (drawable.intrinsicWidth <= 0|| drawable.intrinsicHeight <= 0) {
-            Bitmap.createBitmap(1,1,Bitmap.Config.ARGB_8888)
+            Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
         }else {
-            Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            Bitmap.createBitmap(
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
         }
 
         val canvas = Canvas(bitmap)
-        drawable.setBounds(0,0,canvas.width, canvas.height)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
         drawable.draw(canvas)
-        getReflection(bitmap)
+        doReflection(bitmap)
 
     }
 
     override fun setImageResource(resId: Int) {
-        getReflection(BitmapFactory.decodeResource(resources, resId))
+        doReflection(BitmapFactory.decodeResource(resources, resId))
     }
 
 
@@ -74,18 +78,69 @@ class ReflectionView(context: Context, attrs: AttributeSet): AppCompatImageView(
             0f,
             bitmapWithReflection.height + reflectionGap,
             0x70ffffff,
-            0x00ffffff,
+            0x00000000,
             Shader.TileMode.CLAMP
         )
         paint.shader = shader
         //Apply porterduff in the rect shape
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
+        paint.alpha = 250
 
         //draw rect with paint
-        canvas.drawRect(0f, originalImageHeight.toFloat(), originalImageWidth.toFloat()
-            , reflectionGap + bitmapWithReflection.height, paint)
+        canvas.drawRect(
+            0f,
+            originalImageHeight.toFloat(),
+            originalImageWidth.toFloat(),
+            reflectionGap + bitmapWithReflection.height + 20,
+            paint
+        )
 
         super.setImageDrawable(BitmapDrawable(resources, bitmapWithReflection))
 
+    }
+
+    private fun doReflection(originalImage: Bitmap?) {
+        if (originalImage == null) return
+        val reflectionGap = 4
+        val width = originalImage.width
+        val height = originalImage.height
+        val matrix = Matrix()
+        matrix.preScale(1f, -1f)
+        val reflectionImage = Bitmap.createBitmap(
+            originalImage, 0,
+            height / 2, width, height / 2, matrix, false
+        )
+        val bitmapWithReflection = Bitmap.createBitmap(
+            width,
+            height + height / 2, Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmapWithReflection)
+
+        val paint = Paint()
+        val shader: LinearGradient = LinearGradient(
+            0f,
+            originalImage.height.toFloat(), 0f, bitmapWithReflection.height.toFloat()
+                    + reflectionGap, 0x70ffffff, 0x00000000,
+            Shader.TileMode.MIRROR
+        )
+        paint.shader = shader
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
+
+        canvas.drawBitmap(originalImage, 0f, 0f, null)
+        val defaultPaint = Paint()
+        canvas.drawRect(
+            0f,
+            height.toFloat(),
+            width.toFloat(),
+            (bitmapWithReflection.height + reflectionGap).toFloat(),
+            defaultPaint
+        )
+        canvas.drawBitmap(reflectionImage, 0f, (height + reflectionGap).toFloat(), null)
+
+        canvas.drawRect(
+            0f, height.toFloat(), width.toFloat(), (bitmapWithReflection.height
+                    + reflectionGap).toFloat(), paint
+        )
+        super.setImageDrawable(BitmapDrawable(resources, bitmapWithReflection))
     }
 }
