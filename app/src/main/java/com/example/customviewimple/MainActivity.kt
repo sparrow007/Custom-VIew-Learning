@@ -37,6 +37,11 @@ class MainActivity : AppCompatActivity() {
        // recycler.layoutManager = CoverLayout()
        // val snapHelper = LinearSnapHelper()
         recycler.adapter = adapter
+
+        nextButton.setOnClickListener {
+            recycler.getCoverLayout().scrollToPosition(3)
+        }
+
     }
 
     override fun onResume() {

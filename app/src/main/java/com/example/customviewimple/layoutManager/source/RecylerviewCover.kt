@@ -28,11 +28,11 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
 
     }
 
-    private fun getCoverLayoutManager(): CoverFlowLayoutManger {
+     fun getCoverLayoutManager(): CoverFlowLayoutManger {
         return layoutManager as CoverFlowLayoutManger
     }
 
-    private fun getCoverLayout(): CoverLayout {
+     fun getCoverLayout(): CoverLayout {
         return layoutManager as CoverLayout
     }
     override fun getChildDrawingOrder(childCount: Int, i: Int): Int {
