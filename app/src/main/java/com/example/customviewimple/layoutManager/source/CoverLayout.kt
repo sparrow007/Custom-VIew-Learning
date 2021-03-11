@@ -26,7 +26,6 @@ class CoverLayout: RecyclerView.LayoutManager() {
     private var mItemHeight: Int = 0
 
     private var mStartX = 0
-    private var mStartY = 0
 
     private var mOffsetAll = 0
 
