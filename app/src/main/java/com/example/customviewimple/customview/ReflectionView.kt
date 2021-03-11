@@ -1,10 +1,7 @@
 package com.example.customviewimple.customview
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Matrix
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
@@ -24,7 +21,9 @@ class ReflectionView(context: Context, attrs: AttributeSet): AppCompatImageView(
         super.onDraw(canvas)
     }
 
-    private fun getReflection(image: Bitmap) {
+    private fun getReflection(image: Bitmap?) {
+
+        if (image == null ) return
 
         val reflectionGap = 4f
         val matrix = Matrix()
@@ -46,6 +45,9 @@ class ReflectionView(context: Context, attrs: AttributeSet): AppCompatImageView(
 
         //draw reflection image
         canvas.drawBitmap(reflectionImage, 0f, originalImageHeight + reflectionGap, null)
+
+        val paint = Paint()
+
 
         super.setImageDrawable(BitmapDrawable(resources, bitmapWithReflection))
 
