@@ -60,7 +60,7 @@ class CoverLayout: RecyclerView.LayoutManager() {
         if (state == null || recycler == null)
             return
 
-        if (state.itemCount <= 0 || state.isPreLayout || state.didStructureChange()) {
+        if (state.itemCount <= 0 || state.isPreLayout) {
             mOffsetAll = 0
             return
         }
@@ -124,7 +124,6 @@ class CoverLayout: RecyclerView.LayoutManager() {
               travel = (maxOffset() - mOffsetAll)
           }
       }
-        Log.e("MY TAG", "OFFSET IN SCROLLHORI AND TRAVEL $mOffsetAll and $travel")
         mOffsetAll += travel
         layoutItems(recycler, state, if (dx > 0) SCROLL_TO_LEFT else SCROLL_TO_RIGHT)
         return travel
@@ -250,7 +249,6 @@ class CoverLayout: RecyclerView.LayoutManager() {
                 if (moreDx > 0) scrollPosition++
                 else scrollPosition--
             }
-            Log.e("MY TAG", "SCROLL POSITION " + scrollPosition)
             val finalOffset = scrollPosition * getIntervalDistance()
             startScroll(mOffsetAll, finalOffset)
         }
@@ -262,8 +260,6 @@ class CoverLayout: RecyclerView.LayoutManager() {
             valueAnimator?.cancel()
         }
         val direction = if (from < to) SCROLL_TO_LEFT else SCROLL_TO_RIGHT
-
-        Log.e("MY TAG", "FROM $from to offset $to")
 
         valueAnimator = ValueAnimator.ofFloat(from * 1.0f, to * 1.0f)
         valueAnimator?.duration= 500
@@ -289,6 +285,7 @@ class CoverLayout: RecyclerView.LayoutManager() {
     private fun computeScale(x: Int): Float {
         var scale: Float =
             1 - abs(x - mStartX) * 1.0f / abs(mStartX + mItemWidth / intervalRation)
+        
         if (scale < 0) scale = 0f
         if (scale > 1) scale = 1f
         return scale
