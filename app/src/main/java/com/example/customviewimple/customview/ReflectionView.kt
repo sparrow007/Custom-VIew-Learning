@@ -67,11 +67,22 @@ class ReflectionView(context: Context, attrs: AttributeSet): AppCompatImageView(
         canvas.drawBitmap(reflectionImage, 0f, originalImageHeight + reflectionGap, null)
 
         val paint = Paint()
+        //Adding shading to the paint for the gradient
+        val shader = LinearGradient(
+            0f,
+            originalImageHeight.toFloat(),
+            0f,
+            bitmapWithReflection.height + reflectionGap,
+            0x70ffffff,
+            0x00ffffff,
+            Shader.TileMode.CLAMP
+        )
+        paint.shader = shader
         //Apply porterduff in the rect shape
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
 
-        //draw rect with paint 
-        canvas.drawRect(0f, originalImageWidth.toFloat(), originalImageWidth.toFloat()
+        //draw rect with paint
+        canvas.drawRect(0f, originalImageHeight.toFloat(), originalImageWidth.toFloat()
             , reflectionGap + bitmapWithReflection.height, paint)
 
         super.setImageDrawable(BitmapDrawable(resources, bitmapWithReflection))
