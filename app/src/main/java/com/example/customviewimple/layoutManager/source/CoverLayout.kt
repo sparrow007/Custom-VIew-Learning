@@ -14,10 +14,12 @@ import kotlin.math.sqrt
 
 /**
  * Initial layout manager for just showing the view in the manner
- * 1. NO Infinite loop of items
- * 2. NO support for drawing order in overlapping of child view
+ * 1. NO Infinite loop of items (done)
+ * 2. NO support for drawing order in overlapping of child view (done)
  * 3. No implementation of fix position when scroll (done)
  * 4. No implementation of the animation in the layout manager (done)
+ * 5. Create attributes for the user
+ * 6. Create few callback on selected items so that user has easy access for center position
  */
 
 class CoverLayout: RecyclerView.LayoutManager() {
@@ -55,8 +57,6 @@ class CoverLayout: RecyclerView.LayoutManager() {
     }
 
     override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
-
-        Log.e("MY TAG", "I AM LAYOUT CALLED BY SOMEONE")
         if (state == null || recycler == null)
             return
 
