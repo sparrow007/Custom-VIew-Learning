@@ -356,7 +356,6 @@ class CoverLayout: RecyclerView.LayoutManager() {
     }
 
     fun centerPosition(): Int {
-       // Log.e("MY TAG", "OFFSET $mOffsetAll")
         var pos = mOffsetAll / getIntervalDistance()
         val more = mOffsetAll % getIntervalDistance()
         if (abs(more) >= getIntervalDistance() * 0.5f) {
@@ -430,6 +429,10 @@ class CoverLayout: RecyclerView.LayoutManager() {
 
     interface OnSelected {
         fun onItemSelected(position: Int)
+    }
+
+    fun setOnSelectedListener(l: OnSelected) {
+        this.mSelectedListener = l
     }
 
 }

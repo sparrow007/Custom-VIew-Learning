@@ -1,6 +1,7 @@
 package com.example.customviewimple
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.example.customviewimple.adapter.DataAdapter
@@ -41,6 +42,13 @@ class MainActivity : AppCompatActivity() {
         nextButton.setOnClickListener {
             recycler.getCoverLayout().scrollToPosition(3)
         }
+
+        recycler.setItemSelectListener(object : CoverLayout.OnSelected {
+            override fun onItemSelected(position: Int) {
+                Toast.makeText(this@MainActivity, "Position $position", Toast.LENGTH_SHORT).show()
+            }
+
+        })
 
     }
 

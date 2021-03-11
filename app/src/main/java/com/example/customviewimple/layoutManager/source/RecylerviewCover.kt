@@ -75,6 +75,10 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
         return order
     }
 
+    fun setItemSelectListener(listener: CoverLayout.OnSelected) {
+        getCoverLayout().setOnSelectedListener(listener)
+    }
+
 //    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
 //        when (ev.action) {
 //            MotionEvent.ACTION_DOWN -> {
