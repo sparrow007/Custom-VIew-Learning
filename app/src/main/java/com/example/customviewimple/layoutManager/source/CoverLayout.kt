@@ -1,5 +1,6 @@
 package com.example.customviewimple.layoutManager.source
 
+import android.animation.Animator
 import android.animation.ValueAnimator
 import android.graphics.Rect
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs
+import kotlin.math.round
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
@@ -47,6 +49,10 @@ class CoverLayout: RecyclerView.LayoutManager() {
     private lateinit var state: RecyclerView.State
 
     private var mInfinite = true
+
+    private var mSelectedListener: OnSelected? = null
+    private var selectedPosition: Int = 0
+    private var mLastSelectedPosition: Int = 0
 
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
@@ -278,6 +284,21 @@ class CoverLayout: RecyclerView.LayoutManager() {
             mOffsetAll = (animation.animatedValue as Float).roundToInt()
             layoutItems(recycler, state, direction)
         }
+        valueAnimator?.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                onSelectedCallback()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+        })
         valueAnimator?.start()
     }
 
@@ -380,6 +401,21 @@ class CoverLayout: RecyclerView.LayoutManager() {
             }
             i--
         }
+    }
+
+    private fun onSelectedCallback() {
+        selectedPosition = ((mOffsetAll / getIntervalDistance()).toFloat()).roundToInt()
+        selectedPosition = abs(selectedPosition % itemCount)
+        //check if the listener is implemented
+        //mLastSelectedPosition keeps track of last position which will prevent simple slide and same position
+        if (mSelectedListener != null && selectedPosition != mLastSelectedPosition) {
+            mSelectedListener!!.onItemSelected(selectedPosition)
+        }
+        mLastSelectedPosition = selectedPosition
+    }
+
+    interface OnSelected {
+        fun onItemSelected(position: Int)
     }
 
 }
