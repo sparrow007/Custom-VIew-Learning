@@ -22,7 +22,7 @@ import kotlin.math.sqrt
  * 4. No implementation of the animation in the layout manager (done)
  * 5. Create attributes for the user
  * 6. Create few callback on selected items so that user has easy access for center position
- * 7. Fix the issue with wrong value of selected position
+ * 7. Fix the issue with wrong value of selected position (done)
  */
 
 class CoverLayout: RecyclerView.LayoutManager() {
@@ -418,6 +418,8 @@ class CoverLayout: RecyclerView.LayoutManager() {
 
     private fun onSelectedCallback() {
         selectedPosition = ((mOffsetAll / getIntervalDistance()).toFloat()).roundToInt()
+
+        if (selectedPosition < 0) selectedPosition += itemCount
         selectedPosition = abs(selectedPosition % itemCount)
         //check if the listener is implemented
         //mLastSelectedPosition keeps track of last position which will prevent simple slide and same position
