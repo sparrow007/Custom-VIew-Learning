@@ -244,6 +244,8 @@ class CoverLayout constructor(
 
         if (is3DItem) itemRotate(child, rect)
 
+        if (isAlpha) child.alpha = computeAlpha(rect.left - mOffsetAll)
+        
     }
 
     private fun itemRotate(child: View, frame: Rect) {
@@ -450,6 +452,15 @@ class CoverLayout constructor(
         if (scale < 0) scale = 0f
         if (scale > 1) scale = 1f
         return scale
+    }
+
+    private fun computeAlpha(x: Int): Float {
+        var alpha: Float =
+            1 - abs(x - mStartX) * 1.0f / abs(mStartX + mItemWidth / intervalRation)
+
+        if (alpha < 0.3f) alpha = 0f
+        if (alpha > 1) alpha = 1f
+        return alpha
     }
 
     private fun calculateOffset(position: Int): Int {
