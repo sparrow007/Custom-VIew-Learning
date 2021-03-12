@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity() {
 
         recycler.adapter = adapter
         recycler.setInfinite()
-        recycler.setFlat()
+        recycler.set3DItem()
+        recycler.setAlpha()
 
         nextButton.setOnClickListener {
             recycler.getCoverLayout().smoothScrollToPosition(null, null, 3)

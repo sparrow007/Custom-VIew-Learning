@@ -245,7 +245,7 @@ class CoverLayout constructor(
         if (is3DItem) itemRotate(child, rect)
 
         if (isAlpha) child.alpha = computeAlpha(rect.left - mOffsetAll)
-        
+
     }
 
     private fun itemRotate(child: View, frame: Rect) {
