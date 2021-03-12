@@ -461,7 +461,7 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean): RecyclerView.
     /**
      * Use the builder pattern to get all the required attribute for the layout manager
      */
-    internal class Builder {
+    class Builder {
         private var isInfinite = false
         private var is3DItem = false
 

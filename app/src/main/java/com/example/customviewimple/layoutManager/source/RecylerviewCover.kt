@@ -2,8 +2,6 @@ package com.example.customviewimple.layoutManager.source
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
-import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 import com.example.customviewimple.layoutManager.coverlayout.CoverFlowLayoutManger
 
@@ -18,17 +16,25 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
     attributeSet
 ) {
 
-     private var mDownX:Float = 0.0f
+    private var customLayoutManagerBuilder: CoverLayout.Builder = CoverLayout.Builder()
 
     init {
-        //layoutManager = CoverFlowLayoutManger(false, false, false, -1f,true, false)
-        layoutManager = CoverLayout()
+        layoutManager = customLayoutManagerBuilder.build()
         isChildrenDrawingOrderEnabled = true
-       // overScrollMode = OVER_SCROLL_NEVER
-
     }
 
-     fun getCoverLayoutManager(): CoverFlowLayoutManger {
+    fun set3DItem() {
+        customLayoutManagerBuilder.set3DItem(true)
+        layoutManager = customLayoutManagerBuilder.build()
+    }
+
+    fun setInfinite() {
+        customLayoutManagerBuilder.setIsInfinite(true)
+        layoutManager = customLayoutManagerBuilder.build()
+    }
+
+
+    fun getCoverLayoutManager(): CoverFlowLayoutManger {
         return layoutManager as CoverFlowLayoutManger
     }
 

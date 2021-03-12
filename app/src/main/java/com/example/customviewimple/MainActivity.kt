@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity() {
        // recycler.layoutManager = CoverLayout()
        // val snapHelper = LinearSnapHelper()
         recycler.adapter = adapter
+        recycler.set3DItem()
+        recycler.setInfinite()
 
         nextButton.setOnClickListener {
             recycler.getCoverLayout().smoothScrollToPosition(null, null, 3)
