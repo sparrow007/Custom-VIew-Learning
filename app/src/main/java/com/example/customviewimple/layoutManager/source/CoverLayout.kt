@@ -27,45 +27,83 @@ class CoverLayout constructor(
     isLoop: Boolean, isItem3D: Boolean, ratio: Float, flat: Boolean, alpha: Boolean)
     : RecyclerView.LayoutManager() {
 
+    /**
+     * We are supposing that all the items in recyclerview will have same size
+     * Decorated child view width
+     * */
+    private var mItemDecoratedWidth: Int = 0
 
-    private var mItemWidth: Int = 0
-    private var mItemHeight: Int = 0
+    /** Decorated child view height */
+    private var mItemDecoratedHeight: Int = 0
 
+    /** Initially position of an item (x coordinates) */
     private var mStartX = 0
 
+    /** items Sliding offset */
     private var mOffsetAll = 0
 
-    private val MAX_RECT_COUNT = 100
+    /** interval ratio is how much portion of a view will show */
+    private var intervalRatio = 0.5f
 
-    private val SCROLL_TO_RIGHT = 1
-    private val SCROLL_TO_LEFT = 2
-
-    private var intervalRation = 0.5f
-
+    /** Cached all required items in rect object (left, top, right, bottom) */
     private val mAllItemsFrames = SparseArray<Rect>()
 
+    /** Cache those items which are currently attached to the screen */
     private val mHasAttachedItems = SparseBooleanArray()
 
-    private var valueAnimator:ValueAnimator?= null
+    /** animator animate the items in layout manager */
+    private var animator:ValueAnimator?= null
+
+    /** Store recycler so that we can use it in [scrollToPosition]*/
     private lateinit var recycler: RecyclerView.Recycler
+
+    /** Store state so that we use in scrolling [scrollToPosition] */
     private lateinit var state: RecyclerView.State
 
+    /** set infinite loop of items in the layout manager if true */
     private var mInfinite = false
+
+    /** set tilt of items in layout manager if true */
     private var is3DItem = false
+
+    /** set flat each item if true */
     private var isFlat = false
+
+    /** set alpha based on the position of items in layout manager if true */
     private var isAlpha = false
 
+    /** interface for the selected item or middle item in the layout manager */
     private var mSelectedListener: OnSelected? = null
+
+    /** selected position of layout manager (center item)*/
     private var selectedPosition: Int = 0
+
+    /** Previous item which was in center in layout manager */
     private var mLastSelectedPosition: Int = 0
 
+    /** Initialize all the attribute from the constructor and also apply some conditions */
     init {
         this.mInfinite = isLoop
         this.is3DItem = isItem3D
         this.isAlpha = alpha
-        if (ratio in 0f..1f) this.intervalRation = ratio
+        if (ratio in 0f..1f) this.intervalRatio = ratio
         isFlat = flat
-        if (isFlat) intervalRation = 1.1f
+        if (isFlat) intervalRatio = 1.1f
+    }
+
+    companion object {
+        /**Item moves to right */
+        private const val SCROLL_TO_RIGHT = 1
+
+        /**Items moves to left */
+        private const val SCROLL_TO_LEFT = 2
+
+        /**
+         * Maximum information that can store at a time so if there are suppose more than 10000
+         * it is not good idea to cache those views so initially we keep 100 items in cache memory
+         */
+        private const val MAX_RECT_COUNT = 100
+
     }
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
@@ -91,9 +129,9 @@ class CoverLayout constructor(
         addView(scrap)
         measureChildWithMargins(scrap, 0, 0)
 
-        mItemWidth = getDecoratedMeasuredWidth(scrap)
-        mItemHeight = getDecoratedMeasuredHeight(scrap)
-        mStartX = ((getHorizontalSpace() - mItemWidth) * 1.0f / 2).roundToInt()
+        mItemDecoratedWidth = getDecoratedMeasuredWidth(scrap)
+        mItemDecoratedHeight = getDecoratedMeasuredHeight(scrap)
+        mStartX = ((getHorizontalSpace() - mItemDecoratedWidth) * 1.0f / 2).roundToInt()
 
         var offset = mStartX
 
@@ -105,7 +143,7 @@ class CoverLayout constructor(
             if (frame == null) {
                 frame = Rect()
             }
-            frame.set(offset, 0, (offset + mItemWidth), mItemHeight)
+            frame.set(offset, 0, (offset + mItemDecoratedWidth), mItemDecoratedHeight)
             mAllItemsFrames.put(i, frame)
             mHasAttachedItems.put(i, false)
             offset += getIntervalDistance()
@@ -128,8 +166,8 @@ class CoverLayout constructor(
         recycler: RecyclerView.Recycler?,
         state: RecyclerView.State?
     ): Int {
-        if (valueAnimator != null && valueAnimator!!.isRunning) {
-            valueAnimator?.cancel()
+        if (animator != null && animator!!.isRunning) {
+            animator?.cancel()
         }
 
         if (recycler == null || state == null) return 0
@@ -171,12 +209,12 @@ class CoverLayout constructor(
         for (index in 0 until childCount) {
 
             val child = getChildAt(index) ?: break
-            if (child.tag != null) {
+            position = if (child.tag != null) {
                 //get position from tag class define later
                 val tag = checkTAG(child.tag)
-                position = tag!!.pos
+                tag!!.pos
             }else {
-                position = getPosition(child)
+                getPosition(child)
             }
 
             val rect = getFrame(position)
@@ -250,10 +288,10 @@ class CoverLayout constructor(
 
     private fun itemRotate(child: View, frame: Rect) {
         val itemCenter = (frame.left + frame.right - 2*mOffsetAll) / 2f
-        var value = (itemCenter - (mStartX + mItemWidth / 2f)) * 1f / (itemCount*getIntervalDistance())
+        var value = (itemCenter - (mStartX + mItemDecoratedWidth / 2f)) * 1f / (itemCount*getIntervalDistance())
         value = sqrt(abs(value).toDouble()).toFloat()
         val symbol =
-            if (itemCenter > mStartX + mItemWidth / 2f) (-1).toFloat() else 1.toFloat()
+            if (itemCenter > mStartX + mItemDecoratedWidth / 2f) (-1).toFloat() else 1.toFloat()
         child.rotationY = symbol * 50* abs(value)
 
     }
@@ -288,20 +326,20 @@ class CoverLayout constructor(
 
     private fun startScroll(from: Int, to: Int) {
         //Start animation
-        if (valueAnimator != null && valueAnimator!!.isRunning) {
-            valueAnimator?.cancel()
+        if (animator != null && animator!!.isRunning) {
+            animator?.cancel()
         }
         val direction = if (from < to) SCROLL_TO_LEFT else SCROLL_TO_RIGHT
 
-        valueAnimator = ValueAnimator.ofFloat(from * 1.0f, to * 1.0f)
-        valueAnimator?.duration= 500
-        valueAnimator?.interpolator = DecelerateInterpolator()
+        animator = ValueAnimator.ofFloat(from * 1.0f, to * 1.0f)
+        animator?.duration= 500
+        animator?.interpolator = DecelerateInterpolator()
 
-        valueAnimator?.addUpdateListener { animation ->
+        animator?.addUpdateListener { animation ->
             mOffsetAll = (animation.animatedValue as Float).roundToInt()
             layoutItems(recycler, state, direction)
         }
-        valueAnimator?.addListener(object : Animator.AnimatorListener {
+        animator?.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator?) {
             }
 
@@ -316,7 +354,7 @@ class CoverLayout constructor(
             }
 
         })
-        valueAnimator?.start()
+        animator?.start()
     }
 
     override fun scrollToPosition(position: Int) {
@@ -440,14 +478,14 @@ class CoverLayout constructor(
         if (frame == null) {
             frame = Rect()
             val offset = mStartX + getIntervalDistance() * position
-            frame.set((offset), 0, (offset + mItemWidth), mItemHeight)
+            frame.set((offset), 0, (offset + mItemDecoratedWidth), mItemDecoratedHeight)
             return frame
         }
         return frame
     }
     private fun computeScale(x: Int): Float {
         var scale: Float =
-            1 - abs(x - mStartX) * 1.0f / abs(mStartX + mItemWidth / intervalRation)
+            1 - abs(x - mStartX) * 1.0f / abs(mStartX + mItemDecoratedWidth / intervalRatio)
 
         if (scale < 0) scale = 0f
         if (scale > 1) scale = 1f
@@ -456,7 +494,7 @@ class CoverLayout constructor(
 
     private fun computeAlpha(x: Int): Float {
         var alpha: Float =
-            1 - abs(x - mStartX) * 1.0f / abs(mStartX + mItemWidth / intervalRation)
+            1 - abs(x - mStartX) * 1.0f / abs(mStartX + mItemDecoratedWidth / intervalRatio)
 
         if (alpha < 0.3f) alpha = 0f
         if (alpha > 1) alpha = 1f
@@ -468,7 +506,7 @@ class CoverLayout constructor(
     }
 
     private fun getIntervalDistance(): Int {
-        return (mItemWidth * intervalRation).roundToInt()
+        return (mItemDecoratedWidth * intervalRatio).roundToInt()
     }
 
     private fun getHorizontalSpace(): Int {
