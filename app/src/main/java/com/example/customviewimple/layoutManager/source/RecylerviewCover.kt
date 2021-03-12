@@ -14,46 +14,77 @@ import com.example.customviewimple.layoutManager.coverlayout.CoverFlowLayoutMang
 
 class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerView(context, attributeSet) {
 
+    /** Create layout manager builder so that we can easily add more methods to it */
     private var customLayoutManagerBuilder: CoverLayout.Builder = CoverLayout.Builder()
 
+    /**
+     * Initialize the layout manager and also enable the childDrawingOrder
+     */
     init {
         layoutManager = customLayoutManagerBuilder.build()
         isChildrenDrawingOrderEnabled = true
     }
 
-    fun set3DItem() {
-        customLayoutManagerBuilder.set3DItem(true)
+    /**
+     * set the 3d item to the layout manager
+     * @param is3DItem make items in layout manager tilt if true
+     * */
+    fun set3DItem(is3DItem: Boolean) {
+        customLayoutManagerBuilder.set3DItem(is3DItem)
         layoutManager = customLayoutManagerBuilder.build()
     }
 
-    fun setInfinite() {
-        customLayoutManagerBuilder.setIsInfinite(true)
+    /**
+     * set the infinite items in the layout manager
+     * @param isInfinite make loop in items
+     * */
+    fun setInfinite(isInfinite: Boolean) {
+        customLayoutManagerBuilder.setIsInfinite(isInfinite)
         layoutManager = customLayoutManagerBuilder.build()
     }
 
-    fun setFlat() {
-        customLayoutManagerBuilder.setIsFlat(true)
+    /**
+     * set flat items in layout manager
+     * @param isFlat flat the views and also increase the interval between views
+     * */
+    fun setFlat(isFlat: Boolean) {
+        customLayoutManagerBuilder.setIsFlat(isFlat)
         layoutManager = customLayoutManagerBuilder.build()
     }
 
-    fun setAlpha() {
+    /**
+     * set the alpha for each item depends on the position in the layout manager
+     * @param isAlpha alpha value and it should in range (0.3f - 1.0f)
+     */
+    fun setAlpha(isAlpha: Boolean) {
         customLayoutManagerBuilder.setIsAlpha(true)
         layoutManager = customLayoutManagerBuilder.build()
     }
 
-    fun getCoverLayoutManager(): CoverFlowLayoutManger {
-        return layoutManager as CoverFlowLayoutManger
-    }
-
+    /**
+     * set the interval ratio which is gap between items (views) in layout manager
+     * @param ratio value of gap, it should in range (0.4f - 1f)
+     */
     fun setIntervalRatio(ratio: Float) {
         customLayoutManagerBuilder.setIntervalRatio(ratio)
         layoutManager = customLayoutManagerBuilder.build()
     }
 
+    /**
+     * Get the layout manager instance
+     * @return CoverLayout
+     */
      fun getCoverLayout(): CoverLayout {
         return layoutManager as CoverLayout
     }
 
+    /**
+     * provides the drawing of the child view in the layout manager, calculate the priority of the views
+     * depends on the position in the layout manager
+     * @param childCount currently number of visible view
+     * @param i current position of view
+     * @return order of the view
+     */
     override fun getChildDrawingOrder(childCount: Int, i: Int): Int {
         val center: Int = getCoverLayout().centerPosition()
 
