@@ -52,24 +52,5 @@ class MainActivity : AppCompatActivity() {
         })
 
     }
-
-    override fun onResume() {
-        super.onResume()
-
-
-//        Handler().postDelayed( {
-//
-//            val list = ArrayList<DataModel>()
-//            list.add(DataModel(R.drawable.image_third, "Thi is cool"))
-//            list.add(DataModel(R.drawable.image_second, "Thi is cool"))
-//            list.add(DataModel(R.drawable.image_six, "Thi is cool"))
-//            list.add(DataModel(R.drawable.image_fifth, "Thi is cool"))
-//            list.add(DataModel(R.drawable.image_third, "Thi is cool"))
-//            list.add(DataModel(R.drawable.image_fifth, "Thi is cool"))
-//            adapter.updateData(list)
-//
-//
-//        }, 10000)
-
-    }
+    
 }
