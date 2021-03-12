@@ -22,6 +22,7 @@ import kotlin.math.sqrt
  * 4. No implementation of the animation in the layout manager (done)
  * 5. Create attributes for the user
  * 6. Create few callback on selected items so that user has easy access for center position
+ * 7. Fix the issue with wrong value of selected position
  */
 
 class CoverLayout: RecyclerView.LayoutManager() {
