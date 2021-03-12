@@ -30,8 +30,8 @@ class MainActivity : AppCompatActivity() {
         val adapter = DataAdapter(list)
 
         recycler.adapter = adapter
-        recycler.set3DItem()
         recycler.setInfinite()
+        recycler.setFlat()
 
         nextButton.setOnClickListener {
             recycler.getCoverLayout().smoothScrollToPosition(null, null, 3)

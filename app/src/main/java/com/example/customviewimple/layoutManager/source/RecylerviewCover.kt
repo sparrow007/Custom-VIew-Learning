@@ -33,6 +33,11 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
         layoutManager = customLayoutManagerBuilder.build()
     }
 
+    fun setFlat() {
+        customLayoutManagerBuilder.setIsFlat(true)
+        layoutManager = customLayoutManagerBuilder.build()
+    }
+
     fun getCoverLayoutManager(): CoverFlowLayoutManger {
         return layoutManager as CoverFlowLayoutManger
     }

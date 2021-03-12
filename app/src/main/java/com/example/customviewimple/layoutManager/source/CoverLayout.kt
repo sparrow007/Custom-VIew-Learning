@@ -3,15 +3,12 @@ package com.example.customviewimple.layoutManager.source
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.graphics.Rect
-import android.os.Build
-import android.util.Log
 import android.util.SparseArray
 import android.util.SparseBooleanArray
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs
-import kotlin.math.round
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
@@ -26,7 +23,7 @@ import kotlin.math.sqrt
  * 7. Implementation of smooth scrolling
  */
 
-class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean): RecyclerView.LayoutManager() {
+class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean, ratio: Float, flat: Boolean): RecyclerView.LayoutManager() {
 
 
     private var mItemWidth: Int = 0
@@ -53,6 +50,7 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean): RecyclerView.
 
     private var mInfinite = false
     private var is3DItem = false
+    private var isFlat = false
 
     private var mSelectedListener: OnSelected? = null
     private var selectedPosition: Int = 0
@@ -61,9 +59,10 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean): RecyclerView.
     init {
         this.mInfinite = isLoop
         this.is3DItem = isItem3D
-
+        if (ratio in 0f..1f) this.intervalRation = ratio
+        isFlat = flat
+        if (isFlat) intervalRation = 1.1f
     }
-
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
         return RecyclerView.LayoutParams(
@@ -234,8 +233,10 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean): RecyclerView.
             rect.bottom
         )
 
-        child.scaleX = computeScale(rect.left - mOffsetAll)
-        child.scaleY = computeScale(rect.left - mOffsetAll)
+        if (!isFlat) {
+            child.scaleX = computeScale(rect.left - mOffsetAll)
+            child.scaleY = computeScale(rect.left - mOffsetAll)
+        }
 
         if (is3DItem) itemRotate(child, rect)
 
@@ -490,6 +491,8 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean): RecyclerView.
     class Builder {
         private var isInfinite = false
         private var is3DItem = false
+        private var intervalRation: Float = 0.5f
+        private var isFlat = false
 
         fun setIsInfinite(isInfinite: Boolean) : Builder {
             this.isInfinite = isInfinite
@@ -501,8 +504,18 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean): RecyclerView.
             return this
         }
 
+        fun setIntervalRatio(intervalRatio: Float): Builder {
+            this.intervalRation = intervalRatio
+            return this
+        }
+
+        fun setIsFlat(isFlat: Boolean): Builder {
+            this.isFlat = isFlat
+            return this
+        }
+
         fun build(): CoverLayout {
-            return CoverLayout(isInfinite, is3DItem)
+            return CoverLayout(isInfinite, is3DItem, intervalRation, isFlat)
         }
     }
 
