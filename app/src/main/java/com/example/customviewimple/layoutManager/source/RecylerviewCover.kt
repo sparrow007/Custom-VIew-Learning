@@ -2,6 +2,7 @@ package com.example.customviewimple.layoutManager.source
 
 import android.content.Context
 import android.util.AttributeSet
+import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.customviewimple.layoutManager.coverlayout.CoverFlowLayoutManger
 
@@ -45,6 +46,11 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
 
     fun getCoverLayoutManager(): CoverFlowLayoutManger {
         return layoutManager as CoverFlowLayoutManger
+    }
+
+    fun setIntervalRatio(ratio: Float) {
+        customLayoutManagerBuilder.setIntervalRatio(ratio)
+        layoutManager = customLayoutManagerBuilder.build()
     }
 
      fun getCoverLayout(): CoverLayout {
