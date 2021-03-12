@@ -33,7 +33,6 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
         layoutManager = customLayoutManagerBuilder.build()
     }
 
-
     fun getCoverLayoutManager(): CoverFlowLayoutManger {
         return layoutManager as CoverFlowLayoutManger
     }
@@ -77,7 +76,7 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
 
     /**
      * Get selected position from the layout manager
-     * @return center view of the layout manager 
+     * @return center view of the layout manager
      */
     fun getSelectedPosition() = getCoverLayout().getSelectedPosition()
 

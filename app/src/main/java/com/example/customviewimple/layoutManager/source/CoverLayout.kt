@@ -421,8 +421,10 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean): RecyclerView.
         mAllItemsFrames.clear()
     }
 
-    data class TAG(var pos: Int = 0)
-
+    /**
+     * Get the first visible position from the layout manager
+     * @return get view which is at the start of the screen
+     */
     fun getFirstVisiblePosition(): Int {
         val displayFrame =
             Rect(mOffsetAll, 0, mOffsetAll + getHorizontalSpace(), getVerticalSpace())
@@ -434,6 +436,24 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean): RecyclerView.
                 return abs(i) % itemCount
             }
             i--
+        }
+    }
+
+    /**
+     * Get the last visible position from the layout manager
+     * @return get view which is at the end of the screen
+     */
+    fun getLastVisiblePosition(): Int {
+        val displayFrame =
+            Rect(mOffsetAll, 0, mOffsetAll + getHorizontalSpace(), getVerticalSpace())
+        val cur: Int = centerPosition()
+        var i = cur - 1
+        while (true) {
+            val rect = getFrame(i)
+            if (rect.left >= displayFrame.left) {
+                return abs(i) % itemCount
+            }
+            i++
         }
     }
 
@@ -485,5 +505,10 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean): RecyclerView.
             return CoverLayout(isInfinite, is3DItem)
         }
     }
+
+    /**
+     * Store the child position for laying out the view
+     */
+    internal data class TAG(var pos: Int = 0)
 
 }
