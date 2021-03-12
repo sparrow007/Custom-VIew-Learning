@@ -335,49 +335,6 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean, ratio: Float, 
         startScroll(mOffsetAll, finalOffset)
     }
 
-    private fun getFrame(position: Int): Rect {
-        var frame = mAllItemsFrames[position]
-        if (frame == null) {
-            frame = Rect()
-            val offset = mStartX + getIntervalDistance() * position
-            frame.set((offset), 0, (offset + mItemWidth), mItemHeight)
-            return frame
-        }
-        return frame
-    }
-    private fun computeScale(x: Int): Float {
-        var scale: Float =
-            1 - abs(x - mStartX) * 1.0f / abs(mStartX + mItemWidth / intervalRation)
-
-        if (scale < 0) scale = 0f
-        if (scale > 1) scale = 1f
-        return scale
-    }
-
-    private fun calculateOffset(position: Int): Int {
-        return ((getIntervalDistance() * position).toFloat()).roundToInt()
-    }
-
-    private fun getIntervalDistance(): Int {
-        return (mItemWidth * intervalRation).roundToInt()
-    }
-
-    private fun getHorizontalSpace(): Int {
-        return width - paddingLeft - paddingRight
-    }
-
-    private fun getVerticalSpace(): Int {
-        return height - paddingBottom - paddingTop
-    }
-
-    private fun maxOffset(): Int{
-        return ((itemCount - 1) * getIntervalDistance())
-    }
-
-    override fun isAutoMeasureEnabled(): Boolean {
-        return true
-    }
-
     fun centerPosition(): Int {
         var pos = mOffsetAll / getIntervalDistance()
         val more = mOffsetAll % getIntervalDistance()
@@ -469,6 +426,50 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean, ratio: Float, 
             mSelectedListener!!.onItemSelected(selectedPosition)
         }
         mLastSelectedPosition = selectedPosition
+    }
+
+
+    private fun getFrame(position: Int): Rect {
+        var frame = mAllItemsFrames[position]
+        if (frame == null) {
+            frame = Rect()
+            val offset = mStartX + getIntervalDistance() * position
+            frame.set((offset), 0, (offset + mItemWidth), mItemHeight)
+            return frame
+        }
+        return frame
+    }
+    private fun computeScale(x: Int): Float {
+        var scale: Float =
+            1 - abs(x - mStartX) * 1.0f / abs(mStartX + mItemWidth / intervalRation)
+
+        if (scale < 0) scale = 0f
+        if (scale > 1) scale = 1f
+        return scale
+    }
+
+    private fun calculateOffset(position: Int): Int {
+        return ((getIntervalDistance() * position).toFloat()).roundToInt()
+    }
+
+    private fun getIntervalDistance(): Int {
+        return (mItemWidth * intervalRation).roundToInt()
+    }
+
+    private fun getHorizontalSpace(): Int {
+        return width - paddingLeft - paddingRight
+    }
+
+    private fun getVerticalSpace(): Int {
+        return height - paddingBottom - paddingTop
+    }
+
+    private fun maxOffset(): Int{
+        return ((itemCount - 1) * getIntervalDistance())
+    }
+
+    override fun isAutoMeasureEnabled(): Boolean {
+        return true
     }
 
     interface OnSelected {
