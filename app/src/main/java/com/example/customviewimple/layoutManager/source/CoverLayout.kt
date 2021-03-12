@@ -3,6 +3,7 @@ package com.example.customviewimple.layoutManager.source
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.graphics.Rect
+import android.os.Build
 import android.util.Log
 import android.util.SparseArray
 import android.util.SparseBooleanArray
@@ -25,7 +26,8 @@ import kotlin.math.sqrt
  * 7. Implementation of smooth scrolling
  */
 
-class CoverLayout: RecyclerView.LayoutManager() {
+class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean): RecyclerView.LayoutManager() {
+
 
     private var mItemWidth: Int = 0
     private var mItemHeight: Int = 0
@@ -50,10 +52,17 @@ class CoverLayout: RecyclerView.LayoutManager() {
     private lateinit var state: RecyclerView.State
 
     private var mInfinite = false
+    private var is3DItem = false
 
     private var mSelectedListener: OnSelected? = null
     private var selectedPosition: Int = 0
     private var mLastSelectedPosition: Int = 0
+
+    init {
+        this.mInfinite = isLoop
+        this.is3DItem = isItem3D
+
+    }
 
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
@@ -226,9 +235,9 @@ class CoverLayout: RecyclerView.LayoutManager() {
         )
 
         child.scaleX = computeScale(rect.left - mOffsetAll)
-
         child.scaleY = computeScale(rect.left - mOffsetAll)
-        itemRotate(child, rect)
+
+        if (is3DItem) itemRotate(child, rect)
 
     }
 
@@ -447,6 +456,28 @@ class CoverLayout: RecyclerView.LayoutManager() {
 
     fun setOnSelectedListener(l: OnSelected) {
         this.mSelectedListener = l
+    }
+
+    /**
+     * Use the builder pattern to get all the required attribute for the layout manager
+     */
+    internal class Builder {
+        private var isInfinite = false
+        private var is3DItem = false
+
+        fun setIsInfinite(isInfinite: Boolean) : Builder {
+            this.isInfinite = isInfinite
+            return this
+        }
+
+        fun set3DItem(is3DItem: Boolean): Builder {
+            this.is3DItem = is3DItem
+            return this
+        }
+
+        fun build(): CoverLayout {
+            return CoverLayout(isInfinite, is3DItem)
+        }
     }
 
 }
