@@ -20,10 +20,12 @@ import kotlin.math.sqrt
  * 4. No implementation of the animation in the layout manager (done)
  * 5. Create attributes for the user
  * 6. Create few callback on selected items so that user has easy access for center position
- * 7. Implementation of smooth scrolling
+ * 7. Implementation of alpha features
  */
 
-class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean, ratio: Float, flat: Boolean): RecyclerView.LayoutManager() {
+class CoverLayout constructor(
+    isLoop: Boolean, isItem3D: Boolean, ratio: Float, flat: Boolean, alpha: Boolean)
+    : RecyclerView.LayoutManager() {
 
 
     private var mItemWidth: Int = 0
@@ -51,6 +53,7 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean, ratio: Float, 
     private var mInfinite = false
     private var is3DItem = false
     private var isFlat = false
+    private var isAlpha = false
 
     private var mSelectedListener: OnSelected? = null
     private var selectedPosition: Int = 0
@@ -59,6 +62,7 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean, ratio: Float, 
     init {
         this.mInfinite = isLoop
         this.is3DItem = isItem3D
+        this.isAlpha = alpha
         if (ratio in 0f..1f) this.intervalRation = ratio
         isFlat = flat
         if (isFlat) intervalRation = 1.1f
@@ -494,6 +498,7 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean, ratio: Float, 
         private var is3DItem = false
         private var intervalRation: Float = 0.5f
         private var isFlat = false
+        private var isAlpha = false
 
         fun setIsInfinite(isInfinite: Boolean) : Builder {
             this.isInfinite = isInfinite
@@ -515,8 +520,13 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean, ratio: Float, 
             return this
         }
 
+        fun setIsAlpha(isAlpha: Boolean): Builder {
+            this.isAlpha = isAlpha
+            return this
+        }
+
         fun build(): CoverLayout {
-            return CoverLayout(isInfinite, is3DItem, intervalRation, isFlat)
+            return CoverLayout(isInfinite, is3DItem, intervalRation, isFlat, isAlpha)
         }
     }
 
