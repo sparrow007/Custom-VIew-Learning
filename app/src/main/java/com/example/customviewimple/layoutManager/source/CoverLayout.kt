@@ -459,6 +459,12 @@ class CoverLayout constructor(isLoop: Boolean, isItem3D: Boolean): RecyclerView.
     }
 
     /**
+     * Get the selected position or centered position
+     * @return selectedPosition
+     */
+    internal fun getSelectedPosition() = selectedPosition
+
+    /**
      * Use the builder pattern to get all the required attribute for the layout manager
      */
     class Builder {

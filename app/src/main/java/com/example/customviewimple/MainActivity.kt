@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.test_main)
-        
+
         val list = ArrayList<DataModel>()
         list.add(DataModel(R.drawable.image_fifth, "Thi is cool"))
         list.add(DataModel(R.drawable.image_six, "Thi is cool"))

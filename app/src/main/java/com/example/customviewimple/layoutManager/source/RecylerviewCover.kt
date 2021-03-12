@@ -41,6 +41,7 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
      fun getCoverLayout(): CoverLayout {
         return layoutManager as CoverLayout
     }
+
     override fun getChildDrawingOrder(childCount: Int, i: Int): Int {
         val center: Int = getCoverLayout().centerPosition()
 
@@ -74,5 +75,10 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
         getCoverLayout().setOnSelectedListener(listener)
     }
 
+    /**
+     * Get selected position from the layout manager
+     * @return center view of the layout manager 
+     */
+    fun getSelectedPosition() = getCoverLayout().getSelectedPosition()
 
 }
