@@ -48,7 +48,7 @@ class CoverLayout: RecyclerView.LayoutManager() {
     private lateinit var recycler: RecyclerView.Recycler
     private lateinit var state: RecyclerView.State
 
-    private var mInfinite = false
+    private var mInfinite = true
 
     private var mSelectedListener: OnSelected? = null
     private var selectedPosition: Int = 0
@@ -364,7 +364,6 @@ class CoverLayout: RecyclerView.LayoutManager() {
         }
         return pos
     }
-
 
     fun getChildActualPos(index: Int): Int {
         val child = getChildAt(index)
