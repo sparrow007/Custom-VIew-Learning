@@ -12,17 +12,6 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
-/**
- * Initial layout manager for just showing the view in the manner
- * 1. NO Infinite loop of items (done)
- * 2. NO support for drawing order in overlapping of child view (done)
- * 3. No implementation of fix position when scroll (done)
- * 4. No implementation of the animation in the layout manager (done)
- * 5. Create attributes for the user
- * 6. Create few callback on selected items so that user has easy access for center position
- * 7. Implementation of alpha features
- */
-
 class CoverLayout constructor(
     isLoop: Boolean, isItem3D: Boolean, ratio: Float, flat: Boolean, alpha: Boolean)
     : RecyclerView.LayoutManager() {
