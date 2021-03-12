@@ -106,6 +106,10 @@ class CoverLayout constructor(
 
     }
 
+    /**
+     * Initial method for the layout manager at first you just have override in
+     * order to compile your layout manager generate layout params for your items.
+     */
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
         return RecyclerView.LayoutParams(
             RecyclerView.LayoutParams.WRAP_CONTENT,
@@ -113,10 +117,17 @@ class CoverLayout constructor(
         )
     }
 
+    /**
+     * It will call initially two times first when adapter data and second when dispatch layout is called
+     * layout the data initially
+     * @param recycler recyclerview recycler which will provides view for the position
+     * @param state recyclerview state which has information about state of the recyclerview
+     */
     override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
         if (state == null || recycler == null)
             return
 
+        /** check item count and pre layout state of the layout manager*/
         if (state.itemCount <= 0 || state.isPreLayout) {
             mOffsetAll = 0
             return
@@ -157,10 +168,19 @@ class CoverLayout constructor(
         this.state = state
     }
 
+    /** Method tell recyclerview that layout manager will act on horizontally scroll
+     * @return return boolean value to tell recyclerview for scroll handling with horizontal direction
+     * */
     override fun canScrollHorizontally(): Boolean {
         return true
     }
 
+    /**
+     * Callback method, whenever horizontal scroll happens recyclerview calls this method with the offset
+     * @param dx how much does it scroll including the direction (-ve left) (+ve right)
+     * @param recycler provides the view from recyclerview
+     * @param state provides information about state of the layout manager
+     */
     override fun scrollHorizontallyBy(
         dx: Int,
         recycler: RecyclerView.Recycler?,
@@ -188,10 +208,9 @@ class CoverLayout constructor(
 
     /**
      * Layout out items
-     * 1. First recycle those items views which are no longer visible to the screens
-     * 2. Layout new items on the screens which are currently visible
+     * First recycle those items views which are no longer visible to the screens
+     * Layout new items on the screens which are currently visible
      */
-
     private fun layoutItems(
         recycler: RecyclerView.Recycler,
         state: RecyclerView.State,
@@ -199,6 +218,7 @@ class CoverLayout constructor(
     ) {
 
         if (state.isPreLayout) return
+        //calculate current display area for showing views
         val displayFrames = Rect(
             mOffsetAll,
             0,
@@ -207,7 +227,6 @@ class CoverLayout constructor(
         )
         var position = 0
         for (index in 0 until childCount) {
-
             val child = getChildAt(index) ?: break
             position = if (child.tag != null) {
                 //get position from tag class define later
@@ -231,9 +250,8 @@ class CoverLayout constructor(
         }
 
         if (position == 0) position = centerPosition()
-        /**
-         * For making infinite loop for the layout manager
-         */
+
+        //For making infinite loop for the layout manager
         var min = position - 20
         var max = position + 20
 
@@ -244,6 +262,8 @@ class CoverLayout constructor(
 
         for (index in min until max) {
             val rect = getFrame(index)
+            //layout items area of a view if it's first inside the display area
+            // and also not already on the screen
            if (Rect.intersects(displayFrames, rect) && !mHasAttachedItems.get(
                    index
                )) {
@@ -266,6 +286,11 @@ class CoverLayout constructor(
 
     }
 
+    /**
+     * Layout item and apply different attribute on the view
+     * @param child view to be layout
+     * @param rect area of the view (left, top. right, bottom)
+     */
     private fun layoutItem(child: View, rect: Rect) {
         layoutDecorated(
             child,
@@ -286,6 +311,10 @@ class CoverLayout constructor(
 
     }
 
+    /**
+     * Tilt the child view, center view rotation will be 0
+     * tilt others views based on the drawing order
+     */
     private fun itemRotate(child: View, frame: Rect) {
         val itemCenter = (frame.left + frame.right - 2*mOffsetAll) / 2f
         var value = (itemCenter - (mStartX + mItemDecoratedWidth / 2f)) * 1f / (itemCount*getIntervalDistance())
@@ -296,21 +325,23 @@ class CoverLayout constructor(
 
     }
 
+    /**
+     * Callback method when the scroll state changes,
+     * we are using this method to fix the position of middle item and this could be done with snap helper
+     * @param state scroll state
+     */
     override fun onScrollStateChanged(state: Int) {
         super.onScrollStateChanged(state)
-        when (state) {
-            RecyclerView.SCROLL_STATE_IDLE -> {
-                //When scrolling stops
-                fixOffsetWhenFinishOffset()
-            }
-
-            RecyclerView.SCROLL_STATE_DRAGGING -> {
-            }
-            RecyclerView.SCROLL_STATE_SETTLING -> {
-            }
+        if (state == RecyclerView.SCROLL_STATE_IDLE) {
+            //When scrolling stops
+            fixOffsetWhenFinishOffset()
         }
     }
 
+    /**
+     * Determine the position of the center element of the layout manager based on the scrolling offset [mOffsetAll],
+     * scroll to that item position with the animation
+     */
     private fun fixOffsetWhenFinishOffset() {
         if (getIntervalDistance() != 0) {
             var scrollPosition = (mOffsetAll * 1.0f / getIntervalDistance()).toInt()
@@ -324,6 +355,11 @@ class CoverLayout constructor(
         }
     }
 
+    /**
+     * Scroll the items of the layout manager from scrolling offset [mOffsetAll] to final offset with the animation
+     * @param from initial offset, beginning position for an animation
+     * @param to final offset, end position for an animation
+     */
     private fun startScroll(from: Int, to: Int) {
         //Start animation
         if (animator != null && animator!!.isRunning) {
@@ -357,9 +393,14 @@ class CoverLayout constructor(
         animator?.start()
     }
 
+    /**
+     * Scroll to particular position, in this we are not performing any animation we just layout items to
+     * specified position in the parameter
+     * @param position where we need to scroll
+     */
     override fun scrollToPosition(position: Int) {
         if (position < 0 || position > itemCount - 1) return
-        mOffsetAll = calculateOffset(position)
+        mOffsetAll = calculatePositionOffset(position)
         layoutItems(recycler,
             state,
             if (position > selectedPosition) SCROLL_TO_LEFT
@@ -368,6 +409,12 @@ class CoverLayout constructor(
 
     }
 
+    /**
+     * Scroll to specified position with the animation
+     * @param recyclerView Recyclerview instance
+     * @param state provides information about the state of the layout manager
+     * @param position where we need to scrolls
+     */
     override fun smoothScrollToPosition(
         recyclerView: RecyclerView?,
         state: RecyclerView.State?,
@@ -375,10 +422,15 @@ class CoverLayout constructor(
     ) {
         //Loop does not support for smooth scrolling
         if (mInfinite) return
-        val finalOffset = calculateOffset(position)
+        val finalOffset = calculatePositionOffset(position)
         startScroll(mOffsetAll, finalOffset)
     }
 
+    /**
+     * Provides the center position of current display area, this method used in the [RecylerviewCover.getChildDrawingOrder]
+     * where we make child order
+     * @return Int center position
+     */
     fun centerPosition(): Int {
         var pos = mOffsetAll / getIntervalDistance()
         val more = mOffsetAll % getIntervalDistance()
@@ -389,6 +441,10 @@ class CoverLayout constructor(
         return pos
     }
 
+    /**
+     * Provides the child actual position from layout manager by using child tag [TAG] and recyclerview position
+     * It's also used in the [RecylerviewCover.getChildDrawingOrder] for measure the order of the child
+     */
     fun getChildActualPos(index: Int): Int {
         val child = getChildAt(index)
         if (child!!.tag != null) {
@@ -399,13 +455,15 @@ class CoverLayout constructor(
         return getPosition(child)
     }
 
+    /**
+     * Check the child tag if it's not the [TAG] throw an error
+     */
     private fun checkTAG(tag: Any?): TAG? {
         return if (tag != null) {
             if (tag is TAG) {
                 tag as TAG
             }else {
                 throw IllegalArgumentException("You should use the set tag with the position")
-
             }
         }else {
             null
@@ -413,6 +471,10 @@ class CoverLayout constructor(
 
     }
 
+    /**
+     * Callback method, call when the data of the adapter is changes,
+     * we resetting all the data and attributes
+     */
     override fun onAdapterChanged(
         oldAdapter: RecyclerView.Adapter<*>?,
         newAdapter: RecyclerView.Adapter<*>?
@@ -421,6 +483,11 @@ class CoverLayout constructor(
         mOffsetAll = 0
         mHasAttachedItems.clear()
         mAllItemsFrames.clear()
+        mInfinite = false
+        is3DItem = false
+        isFlat = false
+        isAlpha = false
+        intervalRatio = 0.5f
     }
 
     /**
@@ -459,9 +526,12 @@ class CoverLayout constructor(
         }
     }
 
+    /**
+     * It will calculate the selected position which the center view of the layout manager,
+     * calls the interface callback
+     */
     private fun onSelectedCallback() {
         selectedPosition = ((mOffsetAll / getIntervalDistance()).toFloat()).roundToInt()
-
         if (selectedPosition < 0) selectedPosition += itemCount
         selectedPosition = abs(selectedPosition % itemCount)
         //check if the listener is implemented
@@ -472,7 +542,11 @@ class CoverLayout constructor(
         mLastSelectedPosition = selectedPosition
     }
 
-
+    /**
+     * Get the frame of specified view
+     * @param position view position
+     * @return Rect
+     */
     private fun getFrame(position: Int): Rect {
         var frame = mAllItemsFrames[position]
         if (frame == null) {
@@ -483,6 +557,12 @@ class CoverLayout constructor(
         }
         return frame
     }
+
+    /**
+     * Calculate the scale of the view
+     * @param x left coordinate of the view
+     * @return Float
+     */
     private fun computeScale(x: Int): Float {
         var scale: Float =
             1 - abs(x - mStartX) * 1.0f / abs(mStartX + mItemDecoratedWidth / intervalRatio)
@@ -492,6 +572,11 @@ class CoverLayout constructor(
         return scale
     }
 
+    /**
+     * Calculate the transulate of the view
+     * @param x left coordinate of the view
+     * @return Float
+     */
     private fun computeAlpha(x: Int): Float {
         var alpha: Float =
             1 - abs(x - mStartX) * 1.0f / abs(mStartX + mItemDecoratedWidth / intervalRatio)
@@ -501,34 +586,46 @@ class CoverLayout constructor(
         return alpha
     }
 
-    private fun calculateOffset(position: Int): Int {
+    /**
+     * Calculate position offset from the positon of the view
+     * @param position view's position
+     * @return Int offset of the view
+     */
+    private fun calculatePositionOffset(position: Int): Int {
         return ((getIntervalDistance() * position).toFloat()).roundToInt()
     }
 
+    /**
+     * Get the item interval
+     */
     private fun getIntervalDistance(): Int {
         return (mItemDecoratedWidth * intervalRatio).roundToInt()
     }
 
+    /**
+     * Get the horizontal space for the layout manager
+     */
     private fun getHorizontalSpace(): Int {
         return width - paddingLeft - paddingRight
     }
 
+    /**
+     * Get the vertical space and it's used for the calculate the display area for the layout manager
+     */
     private fun getVerticalSpace(): Int {
         return height - paddingBottom - paddingTop
     }
 
+    /**
+     * Calculate the maximum offset
+     */
     private fun maxOffset(): Int{
         return ((itemCount - 1) * getIntervalDistance())
     }
 
-    override fun isAutoMeasureEnabled(): Boolean {
-        return true
-    }
-
-    interface OnSelected {
-        fun onItemSelected(position: Int)
-    }
-
+    /**
+     * set the selected listener (interface)
+     */
     fun setOnSelectedListener(l: OnSelected) {
         this.mSelectedListener = l
     }
@@ -583,5 +680,11 @@ class CoverLayout constructor(
      * Store the child position for laying out the view
      */
     internal data class TAG(var pos: Int = 0)
+
+    override fun isAutoMeasureEnabled() = true
+
+    interface OnSelected {
+        fun onItemSelected(position: Int)
+    }
 
 }
