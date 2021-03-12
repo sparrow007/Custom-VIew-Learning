@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         recycler.adapter = adapter
 
         nextButton.setOnClickListener {
-            recycler.getCoverLayout().scrollToPosition(3)
+            recycler.getCoverLayout().smoothScrollToPosition(null, null, 3)
         }
 
         recycler.setItemSelectListener(object : CoverLayout.OnSelected {

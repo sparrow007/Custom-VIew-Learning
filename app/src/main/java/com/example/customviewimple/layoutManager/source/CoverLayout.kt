@@ -22,7 +22,7 @@ import kotlin.math.sqrt
  * 4. No implementation of the animation in the layout manager (done)
  * 5. Create attributes for the user
  * 6. Create few callback on selected items so that user has easy access for center position
- * 7. Fix the issue with wrong value of selected position (done)
+ * 7. Implementation of smooth scrolling
  */
 
 class CoverLayout: RecyclerView.LayoutManager() {
@@ -49,7 +49,7 @@ class CoverLayout: RecyclerView.LayoutManager() {
     private lateinit var recycler: RecyclerView.Recycler
     private lateinit var state: RecyclerView.State
 
-    private var mInfinite = true
+    private var mInfinite = false
 
     private var mSelectedListener: OnSelected? = null
     private var selectedPosition: Int = 0
@@ -310,7 +310,19 @@ class CoverLayout: RecyclerView.LayoutManager() {
             state,
             if (position > selectedPosition) SCROLL_TO_LEFT
             else SCROLL_TO_RIGHT)
+        onSelectedCallback()
 
+    }
+
+    override fun smoothScrollToPosition(
+        recyclerView: RecyclerView?,
+        state: RecyclerView.State?,
+        position: Int
+    ) {
+        //Loop does not support for smooth scrolling
+        if (mInfinite) return
+        val finalOffset = calculateOffset(position)
+        startScroll(mOffsetAll, finalOffset)
     }
 
     private fun getFrame(position: Int): Rect {
