@@ -35,8 +35,7 @@ class MainActivity : AppCompatActivity() {
         list.add(DataModel(R.drawable.image_second, "Thi is cool"))
 
         val adapter = DataAdapter(list)
-       // recycler.layoutManager = CoverLayout()
-       // val snapHelper = LinearSnapHelper()
+
         recycler.adapter = adapter
         recycler.set3DItem()
         recycler.setInfinite()
