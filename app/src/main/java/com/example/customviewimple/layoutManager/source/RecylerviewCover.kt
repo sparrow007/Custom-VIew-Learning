@@ -12,10 +12,7 @@ import com.example.customviewimple.layoutManager.coverlayout.CoverFlowLayoutMang
  * NO understanding of the dispatch event for the touch (Not done)
  */
 
-class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerView(
-    context,
-    attributeSet
-) {
+class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerView(context, attributeSet) {
 
     private var customLayoutManagerBuilder: CoverLayout.Builder = CoverLayout.Builder()
 
