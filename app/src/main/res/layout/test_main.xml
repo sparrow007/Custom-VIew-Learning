@@ -20,30 +20,30 @@
       <LinearLayout
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_marginTop="2dp"
+          android:layout_marginTop="10dp"
          android:orientation="vertical">
 
          <ImageView
              android:layout_width="25dp"
-             android:layout_height="3dp"
+             android:layout_height="2dp"
             android:background="@color/white"/>
 
          <ImageView
              android:layout_width="15dp"
-             android:layout_height="3dp"
-             android:layout_marginTop="3dp"
+             android:layout_height="2dp"
+             android:layout_marginTop="4dp"
              android:background="@color/white"/>
 
          <ImageView
              android:layout_width="25dp"
-             android:layout_height="3dp"
-             android:layout_marginTop="3dp"
+             android:layout_height="2dp"
+             android:layout_marginTop="4dp"
              android:background="@color/white"/>
 
       </LinearLayout>
 
       <TextView
-          android:layout_width="wrap_content"
+          android:layout_width="0dp"
           android:layout_height="wrap_content"
          android:text="Hi, Ankit"
           android:gravity="center"
@@ -54,10 +54,10 @@
          android:textColor="@color/white"
           android:layout_marginLeft="20dp" />
 
-      <ImageView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-         android:src="@drawable/userprofile"/>
+      <com.jackandphantom.circularimageview.CircleImage
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+         android:src="@drawable/guypro"/>
 
    </LinearLayout>
 
@@ -84,13 +84,14 @@
    <TextView
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:layout_marginTop="50dp"
        android:fontFamily="@font/yantramanav"
        android:text="Popular Movies"
        android:textColor="@color/white"
        android:textSize="22sp"
        app:layout_constraintStart_toStartOf="@+id/textView"
        app:layout_constraintTop_toBottomOf="@+id/recycler" />
+
+   
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
