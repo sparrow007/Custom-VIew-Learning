@@ -37,10 +37,11 @@ class MainActivity : AppCompatActivity() {
 
         recycler.adapter = adapter
         recycler.setInfinite(true)
-        recycler.set3DItem(true)
+        recycler.setFlat(true)
 
         pop_recycler.adapter = popAdapter
         pop_recycler.setInfinite(true)
+        pop_recycler.setAlpha(true)
 
 
         recycler.setItemSelectListener(object : CoverLayout.OnSelected {
