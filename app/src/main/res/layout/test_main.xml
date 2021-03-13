@@ -2,23 +2,76 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/colorPrimaryDark"
     android:layout_height="match_parent">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+      app:layout_constraintStart_toStartOf="parent"
+       android:orientation="horizontal"
+       android:id="@+id/toolbar"
+       android:layout_margin="20dp"
+       android:padding="10dp"
+      app:layout_constraintTop_toTopOf="parent">
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="2dp"
+         android:orientation="vertical">
+
+         <ImageView
+             android:layout_width="25dp"
+             android:layout_height="3dp"
+            android:background="@color/white"/>
+
+         <ImageView
+             android:layout_width="15dp"
+             android:layout_height="3dp"
+             android:layout_marginTop="3dp"
+             android:background="@color/white"/>
+
+         <ImageView
+             android:layout_width="25dp"
+             android:layout_height="3dp"
+             android:layout_marginTop="3dp"
+             android:background="@color/white"/>
+
+      </LinearLayout>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+         android:text="Hi, Ankit"
+          android:gravity="center"
+          android:layout_gravity="center"
+          android:textSize="20sp"
+          android:layout_weight="2"
+          android:layout_marginStart="20dp"
+         android:textColor="@color/white"
+          android:layout_marginLeft="20dp" />
+
+      <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+         android:src="@drawable/userprofile"/>
+
+   </LinearLayout>
 
    <TextView
        android:id="@+id/textView"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:layout_marginStart="10dp"
-       android:layout_marginLeft="10dp"
-       android:layout_marginTop="40dp"
-       android:fontFamily="@font/product_sans_bold"
-       android:text="All Movies"
+       android:layout_marginTop="20dp"
+       android:fontFamily="@font/yantramanav"
+       android:text="Best Movies"
        android:textColor="@color/white"
-       android:textSize="25sp"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent" />
+       android:textSize="22sp"
+       app:layout_constraintStart_toStartOf="@+id/toolbar"
+       app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
    <com.example.customviewimple.layoutManager.source.RecylerviewCover
        android:id="@+id/recycler"
@@ -32,11 +85,11 @@
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:layout_marginTop="50dp"
-       android:fontFamily="@font/product_sans_bold"
+       android:fontFamily="@font/yantramanav"
        android:text="Popular Movies"
        android:textColor="@color/white"
-       android:textSize="25sp"
-       app:layout_constraintStart_toStartOf="parent"
+       android:textSize="22sp"
+       app:layout_constraintStart_toStartOf="@+id/textView"
        app:layout_constraintTop_toBottomOf="@+id/recycler" />
 
 

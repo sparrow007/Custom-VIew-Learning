@@ -20,12 +20,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.test_main)
 
         val list = ArrayList<DataModel>()
-        list.add(DataModel(R.drawable.image_fifth, "Thi is cool"))
-        list.add(DataModel(R.drawable.image_six, "Thi is cool"))
-        list.add(DataModel(R.drawable.image_second, "Thi is cool"))
-        list.add(DataModel(R.drawable.image_six, "Thi is cool"))
-        list.add(DataModel(R.drawable.image_third, "Thi is cool"))
-        list.add(DataModel(R.drawable.image_second, "Thi is cool"))
+        list.add(DataModel(R.drawable.joker, "Thi is cool"))
+        list.add(DataModel(R.drawable.hobes, "Thi is cool"))
+        list.add(DataModel(R.drawable.moonlight, "Thi is cool"))
+        list.add(DataModel(R.drawable.twlight, "Thi is cool"))
+        list.add(DataModel(R.drawable.notebook, "Thi is cool"))
+        list.add(DataModel(R.drawable.goingdistance, "Thi is cool"))
 
         val adapter = DataAdapter(list)
 
