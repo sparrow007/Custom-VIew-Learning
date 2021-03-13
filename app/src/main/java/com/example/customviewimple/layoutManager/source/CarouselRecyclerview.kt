@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
  * NO understanding of the dispatch event for the touch (Not done)
  */
 
-class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerView(context, attributeSet) {
+class CarouselRecyclerview(context: Context, attributeSet: AttributeSet) : RecyclerView(context, attributeSet) {
 
     /** Create layout manager builder so that we can easily add more methods to it */
     private var carouselLayoutManagerBuilder: CarouselLayoutManager.Builder = CarouselLayoutManager.Builder()

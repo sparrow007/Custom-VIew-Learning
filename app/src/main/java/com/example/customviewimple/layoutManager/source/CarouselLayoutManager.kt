@@ -416,7 +416,7 @@ class CarouselLayoutManager constructor(
     }
 
     /**
-     * Provides the center position of current display area, this method used in the [RecylerviewCover.getChildDrawingOrder]
+     * Provides the center position of current display area, this method used in the [CarouselRecyclerview.getChildDrawingOrder]
      * where we make child order
      * @return Int center position
      */
@@ -432,7 +432,7 @@ class CarouselLayoutManager constructor(
 
     /**
      * Provides the child actual position from layout manager by using child tag [TAG] and recyclerview position
-     * It's also used in the [RecylerviewCover.getChildDrawingOrder] for measure the order of the child
+     * It's also used in the [CarouselRecyclerview.getChildDrawingOrder] for measure the order of the child
      */
     fun getChildActualPos(index: Int): Int {
         val child = getChildAt(index)
