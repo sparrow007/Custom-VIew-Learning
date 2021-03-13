@@ -33,9 +33,6 @@ class MainActivity : AppCompatActivity() {
         recycler.setInfinite(true)
         recycler.set3DItem(true)
 
-        nextButton.setOnClickListener {
-            recycler.getCoverLayout().smoothScrollToPosition(null, null, 3)
-        }
 
         recycler.setItemSelectListener(object : CoverLayout.OnSelected {
             override fun onItemSelected(position: Int) {
