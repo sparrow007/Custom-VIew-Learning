@@ -1,5 +1,13 @@
 <h1 align="center"> Layout Manager </h1>
-This repo is only for learning the custom view and implementing different view such as a custom view, layout manager in recylcerview and many more.
+
+<p align="center">
+Carsouel Recyclerview: Create carsoule effect with powerfull recyclerview in your application
+</p>
+</br>
+<p align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
+</p>
+</br>
 
 ![Layout manager](./preview/lm.jpg)
 
