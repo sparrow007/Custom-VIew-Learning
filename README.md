@@ -1,7 +1,7 @@
-<h1 align="center"> Carousel Recyclerview </h1>
+<h1 align="center">  Carousel Recyclerview </h1>
 
 <p align="center">
-Carsouel Recyclerview: Create carsoule effect with powerfull recyclerview in your application
+Create carsoule effect with powerfull recyclerview in your application.
 </p>
 </br>
 <p align="center">
