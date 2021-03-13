@@ -67,7 +67,7 @@ Method | Description | Default
   ```Kotlin
    carouselRecyclerview.setItemSelectListener(object : OnSelected {
             override fun onItemSelected(position: Int) {
-                //selected item
+                //Cente item
             }
         })
   
