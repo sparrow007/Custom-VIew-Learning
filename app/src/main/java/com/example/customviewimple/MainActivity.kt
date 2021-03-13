@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         pop_recycler.setInfinite(true)
         pop_recycler.setAlpha(true)
 
-
         recycler.setItemSelectListener(object : CoverLayout.OnSelected {
             override fun onItemSelected(position: Int) {
                // Toast.makeText(this@MainActivity, "Position $position", Toast.LENGTH_SHORT).show()
