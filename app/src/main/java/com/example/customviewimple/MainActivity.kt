@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         recycler.setItemSelectListener(object : CoverLayout.OnSelected {
             override fun onItemSelected(position: Int) {
-                Toast.makeText(this@MainActivity, "Position $position", Toast.LENGTH_SHORT).show()
+               // Toast.makeText(this@MainActivity, "Position $position", Toast.LENGTH_SHORT).show()
             }
 
         })
