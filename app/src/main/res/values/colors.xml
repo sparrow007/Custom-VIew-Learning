@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFF</color>
     <color name="colorPrimaryBackground">#FFFFFF</color>
     <color name="colorPrimary">#71CC75</color>
     <color name="colorPrimaryDark">#333A47</color>
-    <color name="black">#FF000000</color>
+    <color name="colorSecondary">#999999</color>
     <color name="screenBackgroundColor">#F9F9FA</color>
-    <color name="col">#00000000</color>
+    <color name="light_Font_color">#5C616C</color>
+    <color name="extra_lite_Font_color">#5C616C</color>
+    <color name="item_layout_text_background">#F1F1F1</color>
+    <color name="card_background_border_color">#EDEDED</color>
+    <color name="tab_layout_select">#F9F9FA</color>
+    <color name="seekbar_thumb_color">#DFDCDC</color>
+    <color name="yellow">#FFBA08</color>
+    <color name="red">#E74E4B</color>
 </resources>
