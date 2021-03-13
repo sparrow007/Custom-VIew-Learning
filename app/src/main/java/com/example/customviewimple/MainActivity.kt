@@ -3,12 +3,7 @@ package com.example.customviewimple
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearSnapHelper
 import com.example.customviewimple.adapter.DataAdapter
-import com.example.customviewimple.kotlinLearn.LearnClass
-import com.example.customviewimple.layoutManager.StackLayout
-import com.example.customviewimple.layoutManager.StackLayoutManager
-import com.example.customviewimple.layoutManager.TechLayoutManager
 import com.example.customviewimple.layoutManager.source.CoverLayout
 import com.example.customviewimple.model.DataModel
 import kotlinx.android.synthetic.main.test_main.*
@@ -27,11 +22,25 @@ class MainActivity : AppCompatActivity() {
         list.add(DataModel(R.drawable.notebook, "Thi is cool"))
         list.add(DataModel(R.drawable.goingdistance, "Thi is cool"))
 
+        /** Popular list */
+
+        val popList = ArrayList<DataModel>()
+        popList.add(DataModel(R.drawable.hacker, "Thi is cool"))
+        popList.add(DataModel(R.drawable.thehill, "Thi is cool"))
+        popList.add(DataModel(R.drawable.shawshank, "Thi is cool"))
+        popList.add(DataModel(R.drawable.replicas, "Thi is cool"))
+        popList.add(DataModel(R.drawable.theowner, "Thi is cool"))
+        popList.add(DataModel(R.drawable.wolverine, "Thi is cool"))
+
         val adapter = DataAdapter(list)
+        val popAdapter = DataAdapter(popList)
 
         recycler.adapter = adapter
         recycler.setInfinite(true)
         recycler.set3DItem(true)
+
+        pop_recycler.adapter = popAdapter
+        pop_recycler.setInfinite(true)
 
 
         recycler.setItemSelectListener(object : CoverLayout.OnSelected {

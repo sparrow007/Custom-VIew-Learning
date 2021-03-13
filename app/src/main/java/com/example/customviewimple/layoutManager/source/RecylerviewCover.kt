@@ -36,7 +36,7 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
 
     /**
      * set the infinite items in the layout manager
-     * @param isInfinite make loop in items
+     * @param isInfinite make loop of items
      * */
     fun setInfinite(isInfinite: Boolean) {
         customLayoutManagerBuilder.setIsInfinite(isInfinite)
