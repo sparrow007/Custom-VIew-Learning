@@ -1,7 +1,7 @@
 <h1 align="center">  Carousel Recyclerview </h1>
 
 <p align="center">
-Create carsoule effect with powerfull recyclerview in your application.
+Create carousel effect in recyclerview with the CarouselRecyclerview in a simple way.
 </p>
 </br>
 <p align="center">
