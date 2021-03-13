@@ -2,9 +2,7 @@ package com.example.customviewimple.layoutManager.source
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
-import com.example.customviewimple.layoutManager.coverlayout.CoverFlowLayoutManger
 
 /**
  * Simple implementation of the recyclerview in android
@@ -15,13 +13,13 @@ import com.example.customviewimple.layoutManager.coverlayout.CoverFlowLayoutMang
 class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerView(context, attributeSet) {
 
     /** Create layout manager builder so that we can easily add more methods to it */
-    private var customLayoutManagerBuilder: CoverLayout.Builder = CoverLayout.Builder()
+    private var carouselLayoutManagerBuilder: CarouselLayoutManager.Builder = CarouselLayoutManager.Builder()
 
     /**
      * Initialize the layout manager and also enable the childDrawingOrder
      */
     init {
-        layoutManager = customLayoutManagerBuilder.build()
+        layoutManager = carouselLayoutManagerBuilder.build()
         isChildrenDrawingOrderEnabled = true
     }
 
@@ -30,8 +28,8 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
      * @param is3DItem make items in layout manager tilt if true
      * */
     fun set3DItem(is3DItem: Boolean) {
-        customLayoutManagerBuilder.set3DItem(is3DItem)
-        layoutManager = customLayoutManagerBuilder.build()
+        carouselLayoutManagerBuilder.set3DItem(is3DItem)
+        layoutManager = carouselLayoutManagerBuilder.build()
     }
 
     /**
@@ -39,8 +37,8 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
      * @param isInfinite make loop of items
      * */
     fun setInfinite(isInfinite: Boolean) {
-        customLayoutManagerBuilder.setIsInfinite(isInfinite)
-        layoutManager = customLayoutManagerBuilder.build()
+        carouselLayoutManagerBuilder.setIsInfinite(isInfinite)
+        layoutManager = carouselLayoutManagerBuilder.build()
     }
 
     /**
@@ -48,8 +46,8 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
      * @param isFlat flat the views and also increase the interval between views
      * */
     fun setFlat(isFlat: Boolean) {
-        customLayoutManagerBuilder.setIsFlat(isFlat)
-        layoutManager = customLayoutManagerBuilder.build()
+        carouselLayoutManagerBuilder.setIsFlat(isFlat)
+        layoutManager = carouselLayoutManagerBuilder.build()
     }
 
     /**
@@ -57,8 +55,8 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
      * @param isAlpha alpha value and it should in range (0.3f - 1.0f)
      */
     fun setAlpha(isAlpha: Boolean) {
-        customLayoutManagerBuilder.setIsAlpha(true)
-        layoutManager = customLayoutManagerBuilder.build()
+        carouselLayoutManagerBuilder.setIsAlpha(true)
+        layoutManager = carouselLayoutManagerBuilder.build()
     }
 
     /**
@@ -66,16 +64,16 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
      * @param ratio value of gap, it should in range (0.4f - 1f)
      */
     fun setIntervalRatio(ratio: Float) {
-        customLayoutManagerBuilder.setIntervalRatio(ratio)
-        layoutManager = customLayoutManagerBuilder.build()
+        carouselLayoutManagerBuilder.setIntervalRatio(ratio)
+        layoutManager = carouselLayoutManagerBuilder.build()
     }
 
     /**
      * Get the layout manager instance
      * @return CoverLayout
      */
-     fun getCoverLayout(): CoverLayout {
-        return layoutManager as CoverLayout
+     fun getCoverLayout(): CarouselLayoutManager {
+        return layoutManager as CarouselLayoutManager
     }
 
     /**
@@ -114,7 +112,7 @@ class RecylerviewCover(context: Context, attributeSet: AttributeSet) : RecyclerV
         return order
     }
 
-    fun setItemSelectListener(listener: CoverLayout.OnSelected) {
+    fun setItemSelectListener(listener: CarouselLayoutManager.OnSelected) {
         getCoverLayout().setOnSelectedListener(listener)
     }
 

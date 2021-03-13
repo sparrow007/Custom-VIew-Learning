@@ -12,7 +12,7 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
-class CoverLayout constructor(
+class CarouselLayoutManager constructor(
     isLoop: Boolean, isItem3D: Boolean, ratio: Float, flat: Boolean, alpha: Boolean)
     : RecyclerView.LayoutManager() {
 
@@ -660,8 +660,8 @@ class CoverLayout constructor(
             return this
         }
 
-        fun build(): CoverLayout {
-            return CoverLayout(isInfinite, is3DItem, intervalRation, isFlat, isAlpha)
+        fun build(): CarouselLayoutManager {
+            return CarouselLayoutManager(isInfinite, is3DItem, intervalRation, isFlat, isAlpha)
         }
     }
 

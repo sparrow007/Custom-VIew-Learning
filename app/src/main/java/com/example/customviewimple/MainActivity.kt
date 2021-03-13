@@ -1,10 +1,9 @@
 package com.example.customviewimple
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.customviewimple.adapter.DataAdapter
-import com.example.customviewimple.layoutManager.source.CoverLayout
+import com.example.customviewimple.layoutManager.source.CarouselLayoutManager
 import com.example.customviewimple.model.DataModel
 import kotlinx.android.synthetic.main.test_main.*
 
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         pop_recycler.setInfinite(true)
         pop_recycler.setAlpha(true)
 
-        recycler.setItemSelectListener(object : CoverLayout.OnSelected {
+        recycler.setItemSelectListener(object : CarouselLayoutManager.OnSelected {
             override fun onItemSelected(position: Int) {
                // Toast.makeText(this@MainActivity, "Position $position", Toast.LENGTH_SHORT).show()
             }
