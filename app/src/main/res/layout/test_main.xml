@@ -93,7 +93,7 @@
        app:layout_constraintTop_toBottomOf="@+id/recycler" />
 
 
-   <com.example.customviewimple.layoutManager.source.CarouselRecyclerview
+   <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:id="@+id/pop_recycler"

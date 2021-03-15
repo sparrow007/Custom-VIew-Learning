@@ -11,4 +11,10 @@
         android:src="@drawable/image_fifth"
         android:id="@+id/image"/>
 
+    <com.jackandphantom.carouselrecyclerview.view.ReflectionImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/hacker"
+        />
+
 </FrameLayout>
