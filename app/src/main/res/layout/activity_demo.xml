@@ -6,14 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".DemoActivity">
 
-    <com.jackandphantom.carouselrecyclerview.view.ReflectionImageView
-        android:layout_width="160dp"
-        android:layout_height="250dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/goingdistance"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.customviewimple.views.CheckView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
