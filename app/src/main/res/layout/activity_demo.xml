@@ -7,9 +7,9 @@
     tools:context=".DemoActivity">
 
 
-    <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
+    <com.example.customviewimple.views.PathViewS
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/recycler"/>
 
 </LinearLayout>

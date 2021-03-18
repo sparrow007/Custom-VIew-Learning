@@ -28,8 +28,9 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
         canvas.translate(width / 2f, height /2f)
 
         path.lineTo(200f, 200f)
-        
-
+        path.lineTo(200f, 0f)
+        canvas.drawPath(path, paint)
     }
+
 
 }
