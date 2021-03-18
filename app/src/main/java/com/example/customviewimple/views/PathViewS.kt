@@ -30,7 +30,7 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
         path.lineTo(200f, 200f)
 
         //Move to
-        path.moveTo(100f, 100f)
+        path.setLastPoint(100f, 100f)
 
         path.lineTo(200f, 0f)
         canvas.drawPath(path, paint)
