@@ -30,9 +30,11 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
         path.lineTo(200f, 200f)
 
         //Move to
-        path.setLastPoint(100f, 100f)
 
         path.lineTo(200f, 0f)
+        //it close the path
+        //collapse the first point and the last point
+        path.close()
         canvas.drawPath(path, paint)
     }
 
