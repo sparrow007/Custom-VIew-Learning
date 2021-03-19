@@ -29,7 +29,7 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
 
         val rect = RectF(0f,0f, 300f, 300f)
 
-        path.addArc(rect, 0f, 270f)
+        path.arcTo(rect, 0f, 270f)
 
         canvas.drawPath(path, paint)
     }
