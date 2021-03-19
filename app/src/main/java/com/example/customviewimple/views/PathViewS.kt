@@ -48,20 +48,22 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
 
         for (j in 1..6) {
 
+            val currRadi = radi * j
+            path.reset()
+
             for (i in 0..5) {
 
                 if (i == 0) {
-                    path.moveTo(mCenterX.toFloat() + radi, mCenterY.toFloat())
+                    path.moveTo(mCenterX.toFloat() + currRadi, mCenterY.toFloat())
                 }else {
-                    val x: Float = (radi * cos(angle * i)).toFloat()
-                    val y = (radi * sin(angle * i)).toFloat()
+                    val x: Float = (currRadi * cos(angle * i)).toFloat()
+                    val y = (currRadi * sin(angle * i)).toFloat()
                     path.lineTo(mCenterX + x, mCenterY + y)
                 }
             }
             path.close()
             canvas.drawPath(path, paint)
 
-            radi *= 2
         }
     }
 
