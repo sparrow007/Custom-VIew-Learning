@@ -32,9 +32,11 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
         //Move to
 
         path.addRect(-200f, -200f, 200f,
-            200f, Path.Direction.CW)
+            200f, Path.Direction.CCW)
 
         path.setLastPoint(-300f, 300f)
+
+
         canvas.drawPath(path, paint)
     }
 
