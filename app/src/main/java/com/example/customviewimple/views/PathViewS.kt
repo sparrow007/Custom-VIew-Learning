@@ -7,6 +7,7 @@ import android.view.View
 import androidx.annotation.MainThread
 import kotlin.math.PI
 import kotlin.math.cos
+import kotlin.math.min
 import kotlin.math.sin
 
 class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,attributeSet) {
@@ -16,7 +17,7 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
 
     private var mCenterX = 0
     private var mCenterY = 0
-    private var mRadius = 50
+    private var mRadius = 0f
     init {
 
         paint.color = Color.RED
@@ -29,8 +30,8 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
         super.onSizeChanged(w, h, oldw, oldh)
         mCenterX = w / 2
         mCenterY = h / 2
-
-        path.moveTo(mCenterX.toFloat() + mRadius, mCenterY.toFloat())
+        mRadius = min(h, w) / 2*0.9f
+       // path.moveTo(mCenterX.toFloat() + mRadius, mCenterY.toFloat())
     }
 
     /**
@@ -43,15 +44,25 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
 
         //Start from center fo the screen
         val angle = 2 * PI / 6
+        var radi = mRadius / 6
 
-        
+        for (j in 1..6) {
 
-        for (i in 1..6) {
-            val x: Float = (mRadius * cos(angle*i)).toFloat()
-            val y = (mRadius * sin(angle*i)).toFloat()
-            path.lineTo(mCenterX + x, mCenterY+ y)
+            for (i in 0..5) {
+
+                if (i == 0) {
+                    path.moveTo(mCenterX.toFloat() + radi, mCenterY.toFloat())
+                }else {
+                    val x: Float = (radi * cos(angle * i)).toFloat()
+                    val y = (radi * sin(angle * i)).toFloat()
+                    path.lineTo(mCenterX + x, mCenterY + y)
+                }
+            }
+            path.close()
+            canvas.drawPath(path, paint)
+
+            radi *= 2
         }
-        canvas.drawPath(path, paint)
     }
 
 
