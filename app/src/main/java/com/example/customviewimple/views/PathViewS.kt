@@ -65,6 +65,22 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
             canvas.drawPath(path, paint)
 
         }
+
+        /**
+         * Draw the straight lines
+         */
+
+        path.reset()
+
+        for (i in 1..6) {
+            path.moveTo(mCenterX.toFloat() , mCenterY.toFloat())
+
+            path.lineTo(mCenterX + (mRadius * cos(angle * i)).toFloat()
+                ,mCenterY + (mRadius* sin(angle * i)).toFloat() )
+        }
+
+        canvas.drawPath(path, paint)
+
     }
 
 
