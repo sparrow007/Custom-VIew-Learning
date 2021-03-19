@@ -18,11 +18,15 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
     private var mCenterX = 0
     private var mCenterY = 0
     private var mRadius = 0f
+
+    private var titles = arrayListOf("a", "b", "c", "d", "e", "f")
+    private var angle:Float = 0f
+
     init {
 
         paint.color = Color.RED
         paint.style = Paint.Style.STROKE
-        paint.strokeWidth = 10f
+        paint.textSize = 20f
 
     }
 
@@ -43,10 +47,10 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
         if(canvas == null) return
 
         //Start from center fo the screen
-        val angle = 2 * PI / 6
-        var radi = mRadius / 6
+        angle = (2 * PI / 6).toFloat()
+        val radi = mRadius / 5
 
-        for (j in 1..6) {
+        for (j in 1..5) {
 
             val currRadi = radi * j
             path.reset()
@@ -65,12 +69,15 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
             canvas.drawPath(path, paint)
 
         }
+        drawLines(canvas)
+        drawText(canvas)
 
-        /**
-         * Draw the straight lines
-         */
-
-        path.reset()
+    }
+    /**
+     * Draw the straight lines
+     */
+    private fun drawLines(canvas: Canvas) {
+        //path.reset()
 
         for (i in 1..6) {
             path.moveTo(mCenterX.toFloat() , mCenterY.toFloat())
@@ -80,6 +87,28 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
         }
 
         canvas.drawPath(path, paint)
+    }
+
+    private fun drawText(canvas: Canvas) {
+
+//        path.reset()
+//
+//        path.moveTo(mCenterX.toFloat() + mRadius, mCenterY.toFloat())
+
+        val fontMetric = paint.fontMetrics
+
+        val fonHeight = fontMetric.descent - fontMetric.ascent
+
+        paint.color = Color.BLACK
+
+        for (i in 0..5) {
+
+            val x = mCenterX + (mRadius + fonHeight/2) * cos(angle * i)
+            val y = mCenterY + (mRadius + fonHeight/2) * sin(angle * i)
+
+            canvas.drawText(titles[i], x, y, paint)
+
+        }
 
     }
 
