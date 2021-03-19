@@ -14,6 +14,7 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
 
     private val paint = Paint()
     private val path = Path()
+    private val valuePaint = Paint()
 
     private var mCenterX = 0
     private var mCenterY = 0
@@ -21,6 +22,9 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
 
     private var titles = arrayListOf("a", "b", "c", "d", "e", "f")
     private var angle:Float = 0f
+
+    private val data = arrayListOf(100, 60, 60, 60, 100, 50)
+    private val maxValue = 100
 
     init {
 
@@ -71,6 +75,7 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
         }
         drawLines(canvas)
         drawText(canvas)
+        drawRegion(canvas)
 
     }
     /**
@@ -109,6 +114,31 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
             canvas.drawText(titles[i], x, y, paint)
 
         }
+
+    }
+
+    private fun drawRegion(canvas: Canvas) {
+
+        path.reset()
+
+        valuePaint.color = Color.BLUE
+        for (i in 0..5) {
+            val percent = data[i] / maxValue.toFloat()
+            val x = mCenterX + mRadius * cos(angle * i) * percent
+            val y = mCenterY + mRadius * sin(angle * i) * percent
+
+            if (i == 0) {
+                path.moveTo(x, mCenterY.toFloat())
+            }else
+                path.lineTo(x, y)
+
+            canvas.drawCircle(x, y ,10f, valuePaint)
+
+        }
+
+        valuePaint.style = Paint.Style.FILL_AND_STROKE
+        valuePaint.alpha = 100
+        canvas.drawPath(path, valuePaint)
 
     }
 
