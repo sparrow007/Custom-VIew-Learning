@@ -27,14 +27,14 @@ class PathViewS(context: Context, attributeSet: AttributeSet) : View(context,att
         //Start from center fo the screen
         canvas.translate(width / 2f, height /2f)
 
-        path.lineTo(200f, 200f)
+        //path.lineTo(200f, 200f)
 
         //Move to
 
-        path.lineTo(200f, 0f)
-        //it close the path
-        //collapse the first point and the last point
-        path.close()
+        path.addRect(-200f, -200f, 200f,
+            200f, Path.Direction.CW)
+
+        path.setLastPoint(-300f, 300f)
         canvas.drawPath(path, paint)
     }
 
