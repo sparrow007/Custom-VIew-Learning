@@ -7,7 +7,7 @@
     tools:context=".DemoActivity">
 
 
-    <com.example.customviewimple.views.PathViewS
+    <com.example.customviewimple.views.SecondBezier
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycler"/>

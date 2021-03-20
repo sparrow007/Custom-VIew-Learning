@@ -3,6 +3,7 @@ package com.example.customviewimple.views
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 
 class SecondBezier(context: Context, attributeSet: AttributeSet): View(context, attributeSet) {
@@ -33,12 +34,29 @@ class SecondBezier(context: Context, attributeSet: AttributeSet): View(context, 
         paint.color = Color.BLACK
         paint.strokeWidth =  10f
         paint.style = Paint.Style.STROKE
-        
 
+
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+
+
+        return true
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+
+        if (canvas == null) return
+
+        //draw points at data and control points
+        canvas.drawPoint(start.x, start.y, paint)
+        canvas.drawPoint(end.x, end.y, paint)
+        canvas.drawPoint(control.x, control.y, paint)
+
+
+
+
     }
 
 }
