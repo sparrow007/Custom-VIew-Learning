@@ -55,6 +55,11 @@ class SecondBezier(context: Context, attributeSet: AttributeSet): View(context, 
         canvas.drawPoint(control.x, control.y, paint)
 
 
+        //draw lines
+        paint.color = Color.BLUE
+        paint.strokeWidth = 3f
+        canvas.drawLine(start.x, start.y, control.x, control.y, paint)
+        canvas.drawLine(end.x, end.y, control.x, control.y, paint)
 
 
     }
