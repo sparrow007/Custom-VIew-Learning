@@ -38,6 +38,7 @@ class ThirdBezier (context: Context, attributeSet: AttributeSet): View(context, 
 
         paint.color = Color.BLACK
         paint.strokeWidth = 10f
+        paint.style = Paint.Style.STROKE
 
     }
 
@@ -57,6 +58,13 @@ class ThirdBezier (context: Context, attributeSet: AttributeSet): View(context, 
         canvas.drawLine(start.x, start.y, controlF.x, controlF.y, paint)
         canvas.drawLine(end.x, end.y, controlS.x, controlS.y, paint)
         canvas.drawLine(controlF.x, controlF.y, controlS.x, controlS.y, paint)
+
+        //draw curve
+        paint.color = Color.RED
+        path.reset()
+        path.moveTo(start.x, start.y)
+        path.cubicTo(controlF.x, controlF.y, controlS.x, controlS.y, end.x, end.y)
+        canvas.drawPath(path, paint)
 
     }
 }
