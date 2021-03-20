@@ -40,6 +40,11 @@ class SecondBezier(context: Context, attributeSet: AttributeSet): View(context, 
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
 
+        if (event == null) return true
+
+        control.x = event.x
+        control.y = event.y
+        invalidate()
 
         return true
     }
@@ -61,6 +66,13 @@ class SecondBezier(context: Context, attributeSet: AttributeSet): View(context, 
         canvas.drawLine(start.x, start.y, control.x, control.y, paint)
         canvas.drawLine(end.x, end.y, control.x, control.y, paint)
 
+        //draw curve
+        paint.color = Color.RED
+        path.reset()
+        path.moveTo(start.x, start.y)
+        path.quadTo(control.x, control.y, end.x, end.y)
+
+        canvas.drawPath(path, paint)
 
     }
 
