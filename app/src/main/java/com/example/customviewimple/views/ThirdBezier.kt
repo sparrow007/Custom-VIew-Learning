@@ -3,6 +3,7 @@ package com.example.customviewimple.views
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 
 class ThirdBezier (context: Context, attributeSet: AttributeSet): View(context, attributeSet){
@@ -40,6 +41,17 @@ class ThirdBezier (context: Context, attributeSet: AttributeSet): View(context, 
         paint.strokeWidth = 10f
         paint.style = Paint.Style.STROKE
 
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+
+        if (event == null) return false
+
+        controlF.x = event.x
+        controlF.y = event.y
+        invalidate()
+
+        return true
     }
 
     override fun onDraw(canvas: Canvas?) {
