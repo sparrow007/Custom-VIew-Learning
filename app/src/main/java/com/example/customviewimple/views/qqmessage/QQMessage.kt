@@ -9,6 +9,13 @@ import android.view.View
 class QQMessage (context: Context, attributeSet: AttributeSet): View(context, attributeSet) {
 
     private val paint = Paint()
+    private var mBigCircleX = 0f
+    private var mBigCircleY = 0f
+    private var mBigCircleRadius = 50f
+
+    private var mSmallCircleX = 0f
+    private var mSmallCircleY = 0f
+    private var mSmallCircleRadius = 0f
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -17,4 +24,6 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
     }
+
+    
 }
