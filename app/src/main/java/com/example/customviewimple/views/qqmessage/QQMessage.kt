@@ -27,7 +27,14 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        
+
+        if (canvas == null) return
+
+        if (mSmallCircleHideRadius <= mSmallCircleShowRadius) {
+            canvas.drawCircle(mSmallCircleX, mSmallCircleY, mSmallCircleRadius, paint)
+        }
+
+        canvas.drawCircle(mBigCircleX, mBigCircleY, mBigCircleRadius, paint)
     }
 
     private fun calDistance(): Int {
