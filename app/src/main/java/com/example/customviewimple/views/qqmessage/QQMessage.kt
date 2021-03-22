@@ -5,6 +5,8 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import java.lang.Math.pow
+import kotlin.math.sqrt
 
 class QQMessage (context: Context, attributeSet: AttributeSet): View(context, attributeSet) {
 
@@ -15,7 +17,9 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
 
     private var mSmallCircleX = 0f
     private var mSmallCircleY = 0f
-    private var mSmallCircleRadius = 0f
+    private var mSmallCircleShowRadius = 4f
+    private var mSmallCircleHideRadius = 0f
+    private var mSmallCircleRadius = mSmallCircleShowRadius
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -23,7 +27,10 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+        
     }
 
-    
+    private fun calDistance(): Int {
+        return sqrt(pow((mSmallCircleX - mBigCircleX).toDouble(), 2.toDouble())+ pow((mSmallCircleY - mBigCircleY).toDouble(), 2.toDouble())).toInt()
+    }
 }
