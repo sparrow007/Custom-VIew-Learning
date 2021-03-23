@@ -1,7 +1,6 @@
 package com.example.customviewimple.views.qqmessage
 
-import android.animation.AnimatorSet
-import android.animation.ValueAnimator
+import android.animation.*
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -9,6 +8,8 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.OvershootInterpolator
+import androidx.core.animation.addListener
 import kotlin.math.*
 
 class QQMessage (context: Context, attributeSet: AttributeSet): View(context, attributeSet) {
@@ -103,6 +104,10 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
         when (event.action) {
 
             MotionEvent.ACTION_DOWN -> {
+                mBigCircleRadius = 50f
+                isFirst = false
+                isAttached = true
+
                 mSmallCircleRadius = mSmallCircleShowRadius
                 mBigCircleX = downX
                 mBigCircleY = downY
@@ -115,13 +120,49 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
                 mBigCircleY = downY
                 val distance = calDistance()
                 mSmallCircleRadius = mSmallCircleShowRadius - distance / mSmallCircleHideRadius
+                if (mSmallCircleRadius < mSmallCircleHideRadius) {
+                    isAttached = false
+                }
 
             }
-
             MotionEvent.ACTION_UP -> {
-                mSmallCircleRadius = 0f
-            }
+                if (!isAttached) {
+                    val radiusAnimator = ObjectAnimator.ofFloat(mBigCircleRadius, 0f)
+                    radiusAnimator.addUpdateListener {
+                        mBigCircleRadius = it.animatedValue as Float
+                        invalidate()
+                    }
 
+                    radiusAnimator.duration = 500
+                    radiusAnimator.start()
+                } else if (mSmallCircleRadius >= mSmallCircleHideRadius) {
+                    animatorSet = AnimatorSet()
+                    xAnimator = ObjectAnimator.ofFloat(mBigCircleX, mSmallCircleX)
+                    xAnimator.addUpdateListener {
+                        mBigCircleX = it.animatedValue as Float
+                        val distance = calDistance()
+                        mSmallCircleRadius =
+                            mSmallCircleShowRadius - distance / mSmallCircleHideRadius
+                    }
+
+                    yAnimator = ObjectAnimator.ofFloat(mBigCircleY, mSmallCircleY)
+                    yAnimator.addUpdateListener {
+                        mBigCircleY = it.animatedValue as Float
+                        invalidate()
+                    }
+
+                    animatorSet.playTogether(xAnimator, yAnimator)
+                    animatorSet.interpolator = OvershootInterpolator(2.5f)
+                    animatorSet.duration = 500
+                    animatorSet.start()
+                    animatorSet.addListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator?) {
+                            mSmallCircleRadius = 0f
+                        }
+                    })
+                }
+
+            }
         }
 
         invalidate()
@@ -136,9 +177,11 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
         mBezierPath = calculateBezierPath()
 
         if (mBezierPath != null) {
-            canvas.drawCircle(mSmallCircleX, mSmallCircleY, mSmallCircleRadius, paint)
             canvas.drawPath(mBezierPath!!, paint)
+        }
 
+        if (isAttached) {
+            canvas.drawCircle(mSmallCircleX, mSmallCircleY, mSmallCircleRadius, paint)
         }
 
         //first time then don't draw the circle
