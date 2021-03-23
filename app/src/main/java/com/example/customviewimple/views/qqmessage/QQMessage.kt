@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import java.lang.Math.pow
-import kotlin.math.sqrt
+import kotlin.math.*
 
 class QQMessage (context: Context, attributeSet: AttributeSet): View(context, attributeSet) {
 
@@ -42,8 +42,43 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
 
     private var mAngle = 0f
 
-    private var bezierPath = Path()
-    private var mBezierPath = Path()
+    private var mBezierPath:Path? = null
+
+    private fun calculateBezierPath(): Path?{
+
+        if(mSmallCircleRadius < mSmallCircleHideRadius) return null
+
+        dx = mBigCircleX - mSmallCircleX
+        dy = mBigCircleY - mSmallCircleY
+
+        val tan = dy / dx
+        mAngle = atan(tan)
+
+        mControlx = (mBigCircleX + mSmallCircleX) / 2
+        mControly = (mBigCircleY + mBigCircleY) / 2
+
+        p1x = (mSmallCircleX + sin(mAngle) * mSmallCircleRadius)
+        p1y = (mSmallCircleX - cos(mAngle) * mSmallCircleRadius)
+
+        p4x = (mSmallCircleX - sin(mAngle) * mSmallCircleRadius)
+        p4y = (mSmallCircleX + cos(mAngle) * mSmallCircleRadius)
+
+
+        p2x = (mBigCircleX + sin(mAngle) * mBigCircleRadius)
+        p2y = (mBigCircleY - cos(mAngle) * mBigCircleRadius)
+
+        p3x = (mBigCircleX - sin(mAngle) * mBigCircleRadius)
+        p3y = (mBigCircleY + cos(mAngle) * mBigCircleRadius)
+
+        val bezierPath = Path()
+        bezierPath.moveTo(p1x, p1y)
+        bezierPath.quadTo(mControlx, mControly, p2x, p2y)
+        bezierPath.lineTo(p3x, p3y)
+        bezierPath.quadTo(mControlx, mControly, p4x, p4y)
+        bezierPath.close()
+
+        return bezierPath
+    }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
 
@@ -57,10 +92,9 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
             MotionEvent.ACTION_DOWN -> {
                 mSmallCircleRadius = mSmallCircleShowRadius
                 mBigCircleX = downX
-                mSmallCircleX = downX
-                mSmallCircleY = downY
                 mBigCircleY = downY
-
+                mSmallCircleX = mBigCircleX
+                mSmallCircleY = mBigCircleY
             }
 
             MotionEvent.ACTION_MOVE -> {
@@ -86,14 +120,21 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
 
         if (canvas == null) return
 
-        if (mSmallCircleHideRadius <= mSmallCircleShowRadius) {
-            canvas.drawCircle(mSmallCircleX, mSmallCircleY, mSmallCircleRadius, paint)
+        mBezierPath = calculateBezierPath()
 
-        }
+//        if (mBezierPath != null) {
+//            canvas.drawPath(mBezierPath!!, paint)
+//
+//        }
+
+        canvas.drawCircle(mSmallCircleX, mSmallCircleY, mSmallCircleRadius, paint)
         canvas.drawCircle(mBigCircleX, mBigCircleY, mBigCircleRadius, paint)
+
     }
 
     private fun calDistance(): Int {
-        return sqrt(pow((mSmallCircleX - mBigCircleX).toDouble(), 2.toDouble())+ pow((mSmallCircleY - mBigCircleY).toDouble(), 2.toDouble())).toInt()
+        return sqrt((mSmallCircleX - mBigCircleX).toDouble().pow(2.toDouble()) + (mSmallCircleY - mBigCircleY).toDouble()
+            .pow(2.toDouble())
+        ).toInt()
     }
 }

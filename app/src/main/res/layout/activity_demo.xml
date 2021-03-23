@@ -6,8 +6,8 @@
     tools:context=".DemoActivity">
 
     <com.example.customviewimple.views.qqmessage.QQMessage
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/recycler"/>
 
 </LinearLayout>
