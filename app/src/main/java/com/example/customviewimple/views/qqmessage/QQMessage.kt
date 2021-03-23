@@ -55,13 +55,13 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
         mAngle = atan(tan)
 
         mControlx = (mBigCircleX + mSmallCircleX) / 2
-        mControly = (mBigCircleY + mBigCircleY) / 2
+        mControly = (mBigCircleY + mSmallCircleY) / 2
 
         p1x = (mSmallCircleX + sin(mAngle) * mSmallCircleRadius)
-        p1y = (mSmallCircleX - cos(mAngle) * mSmallCircleRadius)
+        p1y = (mSmallCircleY - cos(mAngle) * mSmallCircleRadius)
 
         p4x = (mSmallCircleX - sin(mAngle) * mSmallCircleRadius)
-        p4y = (mSmallCircleX + cos(mAngle) * mSmallCircleRadius)
+        p4y = (mSmallCircleY + cos(mAngle) * mSmallCircleRadius)
 
 
         p2x = (mBigCircleX + sin(mAngle) * mBigCircleRadius)
@@ -75,7 +75,7 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
         bezierPath.quadTo(mControlx, mControly, p2x, p2y)
         bezierPath.lineTo(p3x, p3y)
         bezierPath.quadTo(mControlx, mControly, p4x, p4y)
-        bezierPath.close()
+      //  bezierPath.close()
 
         return bezierPath
     }
@@ -122,12 +122,12 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
 
         mBezierPath = calculateBezierPath()
 
-//        if (mBezierPath != null) {
-//            canvas.drawPath(mBezierPath!!, paint)
-//
-//        }
+        if (mBezierPath != null) {
+            canvas.drawCircle(mSmallCircleX, mSmallCircleY, mSmallCircleRadius, paint)
+            canvas.drawPath(mBezierPath!!, paint)
 
-        canvas.drawCircle(mSmallCircleX, mSmallCircleY, mSmallCircleRadius, paint)
+        }
+
         canvas.drawCircle(mBigCircleX, mBigCircleY, mBigCircleRadius, paint)
 
     }
