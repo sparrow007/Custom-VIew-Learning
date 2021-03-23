@@ -1,5 +1,7 @@
 package com.example.customviewimple.views.qqmessage
 
+import android.animation.AnimatorSet
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -7,12 +9,13 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import java.lang.Math.pow
 import kotlin.math.*
 
 class QQMessage (context: Context, attributeSet: AttributeSet): View(context, attributeSet) {
 
-    private val paint = Paint()
+    private val paint = Paint().apply {
+        isAntiAlias = true
+    }
     private var mBigCircleX = 0f
     private var mBigCircleY = 0f
     private var mBigCircleRadius = 50f
@@ -44,6 +47,15 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
 
     private var mBezierPath:Path? = null
 
+    private var isAttached = false
+    private var isFirst = true
+
+    private var radius:Float = 0f
+
+    private lateinit var animatorSet: AnimatorSet
+    private lateinit var xAnimator: ValueAnimator
+    private lateinit var yAnimator: ValueAnimator
+
     private fun calculateBezierPath(): Path?{
 
         if(mSmallCircleRadius < mSmallCircleHideRadius) return null
@@ -73,6 +85,7 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
         val bezierPath = Path()
         bezierPath.moveTo(p1x, p1y)
         bezierPath.quadTo(mControlx, mControly, p2x, p2y)
+
         bezierPath.lineTo(p3x, p3y)
         bezierPath.quadTo(mControlx, mControly, p4x, p4y)
       //  bezierPath.close()
@@ -127,6 +140,9 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
             canvas.drawPath(mBezierPath!!, paint)
 
         }
+
+        //first time then don't draw the circle
+        if (isFirst) return
 
         canvas.drawCircle(mBigCircleX, mBigCircleY, mBigCircleRadius, paint)
 
