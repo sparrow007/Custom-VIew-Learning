@@ -1,5 +1,6 @@
 package com.example.customviewimple.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,16 @@ import com.example.customviewimple.customview.ReflectionView
 import com.example.customviewimple.model.DataModel
 
 class DataAdapter (private var list : List<DataModel>): RecyclerView.Adapter<DataAdapter.ViewHolder>() {
+
+    /**
+     * Interface that provides the position of clicked item in the list
+     */
+
+    interface OnItemListener {
+        fun onItemSelect(pos: Int)
+    }
+
+  private var onItemListener: OnItemListener? = null
 
      class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
          val image : ReflectionView = itemView.findViewById(R.id.image)
@@ -26,10 +37,24 @@ class DataAdapter (private var list : List<DataModel>): RecyclerView.Adapter<Dat
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Glide.with(holder.image).load(list.get(position).img).into(holder.image)
+
+        /**
+         * When user click on item then make callback
+         */
+        holder.itemView.setOnClickListener {
+            onItemListener?.onItemSelect(position)
+        }
     }
 
     fun updateData(list: List<DataModel>) {
         this.list = list
         notifyDataSetChanged()
+    }
+
+    /**
+     * Initialize the itemSelect listener
+     */
+    fun setOnItemSelectListener(onItemListener: OnItemListener) {
+        this.onItemListener = onItemListener
     }
 }
