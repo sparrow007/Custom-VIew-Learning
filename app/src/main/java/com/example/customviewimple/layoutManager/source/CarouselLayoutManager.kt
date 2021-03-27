@@ -154,6 +154,11 @@ class CarouselLayoutManager constructor(
 
         detachAndScrapAttachedViews(recycler)
 
+        if (selectedPosition != 0) {
+            mOffsetAll =calculatePositionOffset(selectedPosition)
+            onSelectedCallback()
+        }
+
         layoutItems(recycler, state, SCROLL_TO_LEFT)
         this.recycler = recycler
         this.state = state
@@ -685,8 +690,7 @@ class CarouselLayoutManager constructor(
     override fun onRestoreInstanceState(state: Parcelable?) {
         super.onRestoreInstanceState(state)
         if (state is SaveState) {
-           // this.selectedPosition =
-            scrollToPosition(state.scrollPosition)
+           this.selectedPosition = state.scrollPosition
         }
     }
 
