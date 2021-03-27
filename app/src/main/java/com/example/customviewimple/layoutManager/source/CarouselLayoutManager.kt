@@ -72,6 +72,8 @@ class CarouselLayoutManager constructor(
     /** Previous item which was in center in layout manager */
     private var mLastSelectedPosition: Int = 0
 
+    private var isOrientationChange = false
+
     /** Initialize all the attribute from the constructor and also apply some conditions */
     init {
         this.mInfinite = isLoop
@@ -153,11 +155,12 @@ class CarouselLayoutManager constructor(
         }
 
         detachAndScrapAttachedViews(recycler)
-//
-//        if (selectedPosition != 0) {
-//            mOffsetAll = calculatePositionOffset(selectedPosition)
-//            //onSelectedCallback()
-//        }
+
+        if (isOrientationChange && selectedPosition != 0) {
+            isOrientationChange = false
+            mOffsetAll = calculatePositionOffset(selectedPosition)
+            //onSelectedCallback()
+        }
 
         layoutItems(recycler, state, SCROLL_TO_LEFT)
         this.recycler = recycler
@@ -690,6 +693,7 @@ class CarouselLayoutManager constructor(
     override fun onRestoreInstanceState(state: Parcelable?) {
         super.onRestoreInstanceState(state)
         if (state is SaveState) {
+            isOrientationChange = true
            this.selectedPosition = state.scrollPosition
         }
     }
