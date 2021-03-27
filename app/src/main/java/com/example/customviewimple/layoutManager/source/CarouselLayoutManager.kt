@@ -153,11 +153,11 @@ class CarouselLayoutManager constructor(
         }
 
         detachAndScrapAttachedViews(recycler)
-
-        if (selectedPosition != 0) {
-            mOffsetAll =calculatePositionOffset(selectedPosition)
-            onSelectedCallback()
-        }
+//
+//        if (selectedPosition != 0) {
+//            mOffsetAll = calculatePositionOffset(selectedPosition)
+//            //onSelectedCallback()
+//        }
 
         layoutItems(recycler, state, SCROLL_TO_LEFT)
         this.recycler = recycler

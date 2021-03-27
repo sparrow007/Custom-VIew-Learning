@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
              */
             override fun onItemSelect(pos: Int) {
                 //Scroll to that position where user clicked
-                customLayoutManager.scrollToPosition(pos)
+               // customLayoutManager.scrollToPosition(pos)
             }
         })
 
