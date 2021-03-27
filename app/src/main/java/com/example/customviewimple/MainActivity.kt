@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         recycler.adapter = adapter
         recycler.setInfinite(true)
-        recycler.set3DItem(true)
+        recycler.setFlat(true)
         //Get the instance of layout manager from recyclerview
         val customLayoutManager = recycler.getCoverLayout()
 
