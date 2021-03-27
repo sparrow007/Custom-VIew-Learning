@@ -2,6 +2,7 @@ package com.example.customviewimple
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.customviewimple.adapter.DataAdapter
 import com.example.customviewimple.layoutManager.source.CarouselLayoutManager
 import com.example.customviewimple.model.DataModel
@@ -39,6 +40,8 @@ class MainActivity : AppCompatActivity() {
         recycler.setFlat(true)
         //Get the instance of layout manager from recyclerview
         val customLayoutManager = recycler.getCoverLayout()
+
+        
 
         /**
          * Start listening for the clicked position

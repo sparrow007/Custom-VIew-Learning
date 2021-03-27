@@ -1,8 +1,12 @@
 package com.example.customviewimple.layoutManager.source
 
 import android.content.Context
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
+import com.example.customviewimple.layoutManager.coverlayout.CoverFlowLayoutManger
 
 /**
  * Simple implementation of the recyclerview in android
@@ -14,6 +18,10 @@ class CarouselRecyclerview(context: Context, attributeSet: AttributeSet) : Recyc
 
     /** Create layout manager builder so that we can easily add more methods to it */
     private var carouselLayoutManagerBuilder: CarouselLayoutManager.Builder = CarouselLayoutManager.Builder()
+
+    private val SAVE_SUPER_STATE = "super-state"
+    private val SAVE_LAYOUT_MANAGER = "layout-manager-state"
+    private var layoutManagerState: Parcelable? = null
 
     /**
      * Initialize the layout manager and also enable the childDrawingOrder
@@ -116,10 +124,47 @@ class CarouselRecyclerview(context: Context, attributeSet: AttributeSet) : Recyc
         getCoverLayout().setOnSelectedListener(listener)
     }
 
+    override fun onSaveInstanceState(): Parcelable? {
+        val bundle = Bundle()
+        bundle.putParcelable(SAVE_SUPER_STATE, super.onSaveInstanceState())
+        Log.e("MY TAG", "onsave state  "+ getCoverLayout().onSaveInstanceState())
+
+        bundle.putParcelable(SAVE_LAYOUT_MANAGER, getCoverLayout().onSaveInstanceState())
+        return bundle
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        Log.e("MY TAG", "onrestore state before ")
+
+        if (state is Bundle) {
+
+            layoutManagerState = state.getParcelable(SAVE_LAYOUT_MANAGER)
+            Log.e("MY TAG", "onrestore state after  "+ layoutManagerState)
+
+            super.onRestoreInstanceState(state.getParcelable(SAVE_SUPER_STATE))
+        }else super.onRestoreInstanceState(state)
+
+    }
+
     /**
      * Get selected position from the layout manager
      * @return center view of the layout manager
      */
     fun getSelectedPosition() = getCoverLayout().getSelectedPosition()
+
+  private fun resotorePosition() {
+        if(layoutManagerState != null) {
+            Log.e("MY TAG", "CALLED ME, adapter save statee " + layoutManager)
+            getCoverLayout().onRestoreInstanceState(layoutManagerState)
+            layoutManagerState = null
+        }
+    }
+
+    override fun setAdapter(adapter: Adapter<*>?) {
+        Log.e("MY TAG", "HELLO ")
+        super.setAdapter(adapter)
+        resotorePosition()
+
+    }
 
 }

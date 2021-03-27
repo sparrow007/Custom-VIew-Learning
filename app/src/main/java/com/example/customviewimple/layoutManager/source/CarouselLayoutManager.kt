@@ -3,6 +3,7 @@ package com.example.customviewimple.layoutManager.source
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.graphics.Rect
+import android.os.Parcelable
 import android.util.SparseArray
 import android.util.SparseBooleanArray
 import android.view.View
@@ -674,6 +675,14 @@ class CarouselLayoutManager constructor(
 
     interface OnSelected {
         fun onItemSelected(position: Int)
+    }
+
+    override fun onSaveInstanceState(): Parcelable? {
+        return super.onSaveInstanceState()
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        super.onRestoreInstanceState(state)
     }
 
 }
