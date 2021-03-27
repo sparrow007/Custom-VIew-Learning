@@ -3,6 +3,7 @@ package com.example.customviewimple.layoutManager.source
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.graphics.Rect
+import android.os.Parcel
 import android.os.Parcelable
 import android.util.SparseArray
 import android.util.SparseBooleanArray
@@ -678,11 +679,41 @@ class CarouselLayoutManager constructor(
     }
 
     override fun onSaveInstanceState(): Parcelable? {
-        return super.onSaveInstanceState()
+        return SaveState(selectedPosition)
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
         super.onRestoreInstanceState(state)
+        if (state is SaveState) {
+           // this.selectedPosition =
+            scrollToPosition(state.scrollPosition)
+        }
+    }
+
+    class SaveState constructor(var scrollPosition:Int = 0) : Parcelable {
+
+        constructor(parcel: Parcel) : this() {
+            scrollPosition = parcel.readInt()
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        override fun writeToParcel(dest: Parcel?, flags: Int) {
+            dest?.writeInt(scrollPosition)
+        }
+
+        companion object CREATOR : Parcelable.Creator<SaveState> {
+            override fun createFromParcel(parcel: Parcel): SaveState {
+                return SaveState(parcel)
+            }
+
+            override fun newArray(size: Int): Array<SaveState?> {
+                return arrayOfNulls(size)
+            }
+        }
+
     }
 
 }

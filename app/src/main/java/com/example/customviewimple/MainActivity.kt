@@ -41,8 +41,6 @@ class MainActivity : AppCompatActivity() {
         //Get the instance of layout manager from recyclerview
         val customLayoutManager = recycler.getCoverLayout()
 
-        
-
         /**
          * Start listening for the clicked position
          */
