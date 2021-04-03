@@ -67,7 +67,7 @@ class SecondBezier(context: Context, attributeSet: AttributeSet): View(context, 
         canvas.drawLine(end.x, end.y, control.x, control.y, paint)
 
         //draw curve
-        paint.color = Color.RED
+        paint.color = Color.BLACK
         path.reset()
         path.moveTo(start.x, start.y)
         path.quadTo(control.x, control.y, end.x, end.y)

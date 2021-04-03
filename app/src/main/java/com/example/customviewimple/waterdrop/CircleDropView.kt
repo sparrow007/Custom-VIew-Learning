@@ -7,11 +7,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PointF
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.view.animation.*
-import androidx.core.animation.addListener
 
 class CircleDropView (context: Context, attributeSet: AttributeSet): View(context, attributeSet) {
 
@@ -22,6 +22,10 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
         color = Color.BLACK
         style = Paint.Style.FILL
     }
+
+    private val start: PointF = PointF(0f,0f)
+    private val end: PointF = PointF(0f, 0f)
+    private val control: PointF = PointF(0f, 0f)
 
     private var lastCenter = 0f
 
