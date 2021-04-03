@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".DemoActivity">
 
-    <com.example.customviewimple.views.qqmessage.QQMessage
+    <com.example.customviewimple.waterdrop.CircleDropView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycler"/>
