@@ -10,7 +10,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import android.view.animation.LinearInterpolator
+import android.view.animation.*
 import androidx.core.animation.addListener
 
 class CircleDropView (context: Context, attributeSet: AttributeSet): View(context, attributeSet) {
@@ -52,7 +52,7 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
      fun animateCircle() {
 
        val valueAnimator = ValueAnimator.ofFloat(0f, 50f)
-        valueAnimator.interpolator = LinearInterpolator()
+        valueAnimator.interpolator = AccelerateDecelerateInterpolator()
 
         valueAnimator.addUpdateListener {
             val value = it.animatedValue as Float
@@ -91,6 +91,26 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
 
              invalidate()
          }
+
+            downAnimator .addListener(object : Animator.AnimatorListener {
+                 override fun onAnimationStart(animation: Animator?) {
+
+                 }
+
+                 override fun onAnimationEnd(animation: Animator?) {
+                     mCenterY = height / 2f
+                     lastCenter = mCenterY
+                 }
+
+                 override fun onAnimationCancel(animation: Animator?) {
+
+                 }
+
+                 override fun onAnimationRepeat(animation: Animator?) {
+
+                 }
+
+             })
 
         animator = AnimatorSet()
         animator.play(valueAnimator).before(downAnimator)

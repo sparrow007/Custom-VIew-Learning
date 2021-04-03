@@ -12,7 +12,7 @@
         android:id="@+id/button"
         android:text="Animate"/>
 
-    <com.example.customviewimple.waterdrop.CircleDropView
+    <com.example.customviewimple.views.SecondBezier
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recycler"/>
