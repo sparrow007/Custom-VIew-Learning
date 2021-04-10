@@ -4,10 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.PointF
+import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -27,6 +24,8 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
     private val end: PointF = PointF(0f, 0f)
     private val control: PointF = PointF(0f, 0f)
 
+    private lateinit var rectF: RectF
+
     private var lastCenter = 0f
 
     private lateinit var animator: AnimatorSet
@@ -40,6 +39,8 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
         mCenterX = w / 2f
         mCenterY = h / 2f
         lastCenter = mCenterY
+
+        rectF = RectF(0f, h/2f - radius, w - 40f, h/2f+200)
     }
 
 
@@ -49,13 +50,14 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
         if (canvas == null) return
 
         canvas.drawCircle(mCenterX, mCenterY, radius, paint)
+        canvas.drawRect(rectF, paint)
 
        // Log.e("MY TAG", "CENTER Y " + mCenterY)
     }
 
      fun animateCircle() {
 
-       val valueAnimator = ValueAnimator.ofFloat(0f, 50f)
+       val valueAnimator = ValueAnimator.ofFloat(0f, 70f)
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
 
         valueAnimator.addUpdateListener {
@@ -85,7 +87,7 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
 
          })
 
-         val downAnimator = ValueAnimator.ofFloat(0f, 50f)
+         val downAnimator = ValueAnimator.ofFloat(0f, 70f)
          downAnimator.interpolator = LinearInterpolator()
          downAnimator.addUpdateListener {
              val value = it.animatedValue as Float
