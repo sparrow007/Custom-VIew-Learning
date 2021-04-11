@@ -12,4 +12,10 @@ class LearnClass(name : String) {
     init {
         println("This is second block of init and length = ${name.length}")
     }
+
+
+
+    fun test() {
+        
+    }
 }
