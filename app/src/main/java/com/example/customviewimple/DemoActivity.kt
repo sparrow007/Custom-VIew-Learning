@@ -2,6 +2,7 @@ package com.example.customviewimple
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.customviewimple.kotlinLearn.LearnClass
 import com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
 import kotlinx.android.synthetic.main.activity_demo.*
 
@@ -11,7 +12,8 @@ class DemoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_demo)
 
         button.setOnClickListener {
-            recycler.animateCircle()
+           val test = LearnClass("ankit")
+            test.test()
         }
 
 

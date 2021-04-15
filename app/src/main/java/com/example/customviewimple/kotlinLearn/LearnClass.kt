@@ -1,6 +1,9 @@
 package com.example.customviewimple.kotlinLearn
 
 import android.util.Log
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class LearnClass(name : String) {
     val your = name.also (::println)
@@ -16,6 +19,14 @@ class LearnClass(name : String) {
 
 
     fun test() {
-        
+
+        GlobalScope.launch {
+            println("a")
+            delay(1000)
+            println("b")
+        }
+
+        print("c")
+
     }
 }
