@@ -12,10 +12,8 @@ class DemoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_demo)
 
         button.setOnClickListener {
-           val test = LearnClass("ankit")
-            test.test()
+            recycler.animateCircle()
         }
-
 
     }
 }

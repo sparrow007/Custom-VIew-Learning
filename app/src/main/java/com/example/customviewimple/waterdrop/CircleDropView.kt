@@ -20,6 +20,7 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
         style = Paint.Style.FILL
     }
 
+    private val path = Path()
     private val start: PointF = PointF(0f,0f)
     private val end: PointF = PointF(0f, 0f)
     private val control: PointF = PointF(0f, 0f)
@@ -40,6 +41,15 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
         mCenterY = h / 2f
         lastCenter = mCenterY
 
+        start.x = mCenterX - 30f
+        start.y = mCenterY
+
+        end.x = mCenterX + 30f
+        end.y = mCenterY
+
+        control.x = mCenterX
+        control.y = mCenterY - 70f
+
         rectF = RectF(0f, h/2f - radius, w - 40f, h/2f+200)
     }
 
@@ -50,7 +60,12 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
         if (canvas == null) return
 
         canvas.drawCircle(mCenterX, mCenterY, radius, paint)
-        canvas.drawRect(rectF, paint)
+       // canvas.drawRect(rectF, paint)
+        path.reset()
+        path.moveTo(start.x, start.y)
+        path.quadTo(control.x, control.y, end.x, end.y)
+        path.close()
+        canvas.drawPath(path, paint)
 
        // Log.e("MY TAG", "CENTER Y " + mCenterY)
     }
@@ -98,7 +113,7 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
              invalidate()
          }
 
-            downAnimator .addListener(object : Animator.AnimatorListener {
+            downAnimator.addListener(object : Animator.AnimatorListener {
                  override fun onAnimationStart(animation: Animator?) {
 
                  }
