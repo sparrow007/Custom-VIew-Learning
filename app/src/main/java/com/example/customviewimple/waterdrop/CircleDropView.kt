@@ -41,10 +41,10 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
         mCenterY = h / 2f
         lastCenter = mCenterY
 
-        start.x = mCenterX - 40f
+        start.x = mCenterX - 30f
         start.y = mCenterY
 
-        end.x = mCenterX + 40f
+        end.x = mCenterX + 30f
         end.y = mCenterY
 
         control.x = mCenterX
