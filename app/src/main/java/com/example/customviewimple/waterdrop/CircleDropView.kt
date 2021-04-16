@@ -133,12 +133,17 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
 
              })
 
-         val bezierAnimator = ValueAnimator.ofFloat(0f,60f)
+         val bezierAnimator = ValueAnimator.ofFloat(0f,120f)
          bezierAnimator.interpolator = LinearInterpolator()
+         bezierAnimator.duration = 500
          bezierAnimator.addUpdateListener {
              val value = it.animatedValue as Float
+             if (value > 60)
+                 control.y = (mCenterY - 60)+ (value - 60)
+             else
+                 control.y = mCenterY - value
+
              control.x = mCenterX
-             control.y = mCenterY - value
              invalidate()
          }
          bezierAnimator.start()
