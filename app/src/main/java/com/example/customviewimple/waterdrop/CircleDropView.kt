@@ -41,14 +41,14 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
         mCenterY = h / 2f
         lastCenter = mCenterY
 
-        start.x = mCenterX - 30f
+        start.x = mCenterX - 40f
         start.y = mCenterY
 
-        end.x = mCenterX + 30f
+        end.x = mCenterX + 40f
         end.y = mCenterY
 
         control.x = mCenterX
-        control.y = mCenterY - 70f
+        control.y = mCenterY
 
         rectF = RectF(0f, h/2f - radius, w - 40f, h/2f+200)
     }
@@ -59,7 +59,7 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
 
         if (canvas == null) return
 
-        canvas.drawCircle(mCenterX, mCenterY, radius, paint)
+       // canvas.drawCircle(mCenterX, mCenterY, radius, paint)
        // canvas.drawRect(rectF, paint)
         path.reset()
         path.moveTo(start.x, start.y)
@@ -133,10 +133,20 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
 
              })
 
-        animator = AnimatorSet()
-        animator.play(valueAnimator).before(downAnimator)
-         animator.duration = 500
-        animator.start()
+         val bezierAnimator = ValueAnimator.ofFloat(0f,60f)
+         bezierAnimator.interpolator = LinearInterpolator()
+         bezierAnimator.addUpdateListener {
+             val value = it.animatedValue as Float
+             control.x = mCenterX
+             control.y = mCenterY - value
+             invalidate()
+         }
+         bezierAnimator.start()
+
+//        animator = AnimatorSet()
+//        animator.play(valueAnimator).before(downAnimator)
+//         animator.duration = 500
+//        animator.start()
     }
 
 }
