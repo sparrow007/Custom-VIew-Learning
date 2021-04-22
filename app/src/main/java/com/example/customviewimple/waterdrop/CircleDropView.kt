@@ -61,11 +61,11 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
 
         canvas.drawCircle(mCenterX, mCenterY, radius, paint)
        // canvas.drawRect(rectF, paint)
-//        path.reset()
-//        path.moveTo(start.x, start.y)
-//        path.quadTo(control.x, control.y, end.x, end.y)
-//        path.close()
-//        canvas.drawPath(path, paint)
+        path.reset()
+        path.moveTo(start.x, start.y)
+        path.quadTo(control.x, control.y, end.x, end.y)
+        path.close()
+        canvas.drawPath(path, paint)
 
        // Log.e("MY TAG", "CENTER Y " + mCenterY)
     }
@@ -149,8 +149,8 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
         // bezierAnimator.start()
 
         animator = AnimatorSet()
-        animator.play(valueAnimator).before(downAnimator)
-         animator.duration = 500
+         animator.play(valueAnimator).with(bezierAnimator).before(downAnimator)
+       // animator.playTogether(valueAnimator,bezierAnimator)
         animator.start()
     }
 
