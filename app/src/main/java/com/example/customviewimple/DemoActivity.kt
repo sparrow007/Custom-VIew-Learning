@@ -12,7 +12,7 @@ class DemoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_demo)
 
         button.setOnClickListener {
-            recycler.animateCircle()
+            //recycler.animateCircle()
         }
 
     }

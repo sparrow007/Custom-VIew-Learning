@@ -59,7 +59,7 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
 
         if (canvas == null) return
 
-        canvas.drawCircle(mCenterX, mCenterY, radius, paint)
+       // canvas.drawCircle(mCenterX, mCenterY, radius, paint)
        // canvas.drawRect(rectF, paint)
         path.reset()
         path.moveTo(start.x, start.y)
@@ -72,7 +72,7 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
 
      fun animateCircle() {
 
-       val valueAnimator = ValueAnimator.ofFloat(0f, 70f)
+       val valueAnimator = ValueAnimator.ofFloat(0f, 120f)
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
 
         valueAnimator.addUpdateListener {
@@ -146,12 +146,12 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
              control.x = mCenterX
              invalidate()
          }
-        // bezierAnimator.start()
+         bezierAnimator.start()
 
-        animator = AnimatorSet()
-         animator.play(valueAnimator).with(bezierAnimator).before(downAnimator)
-       // animator.playTogether(valueAnimator,bezierAnimator)
-        animator.start()
+//        animator = AnimatorSet()
+//         animator.play(bezierAnimator).after(valueAnimator).before(downAnimator)
+//       // animator.playTogether(valueAnimator,bezierAnimator)
+//        animator.start()
     }
 
 }
