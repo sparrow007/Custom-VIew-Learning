@@ -41,10 +41,10 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
         mCenterY = h / 2f
         lastCenter = mCenterY
 
-        start.x = mCenterX - 30f
+        start.x = mCenterX - 33f
         start.y = mCenterY
 
-        end.x = mCenterX + 30f
+        end.x = mCenterX + 33f
         end.y = mCenterY
 
         control.x = mCenterX
@@ -59,13 +59,13 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
 
         if (canvas == null) return
 
-       // canvas.drawCircle(mCenterX, mCenterY, radius, paint)
+        canvas.drawCircle(mCenterX, mCenterY, radius, paint)
        // canvas.drawRect(rectF, paint)
-        path.reset()
-        path.moveTo(start.x, start.y)
-        path.quadTo(control.x, control.y, end.x, end.y)
-        path.close()
-        canvas.drawPath(path, paint)
+//        path.reset()
+//        path.moveTo(start.x, start.y)
+//        path.quadTo(control.x, control.y, end.x, end.y)
+//        path.close()
+//        canvas.drawPath(path, paint)
 
        // Log.e("MY TAG", "CENTER Y " + mCenterY)
     }
@@ -146,12 +146,12 @@ class CircleDropView (context: Context, attributeSet: AttributeSet): View(contex
              control.x = mCenterX
              invalidate()
          }
-         bezierAnimator.start()
+        // bezierAnimator.start()
 
-//        animator = AnimatorSet()
-//        animator.play(valueAnimator).before(downAnimator)
-//         animator.duration = 500
-//        animator.start()
+        animator = AnimatorSet()
+        animator.play(valueAnimator).before(downAnimator)
+         animator.duration = 500
+        animator.start()
     }
 
 }

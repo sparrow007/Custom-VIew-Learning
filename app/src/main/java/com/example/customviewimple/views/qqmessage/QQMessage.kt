@@ -19,11 +19,11 @@ class QQMessage (context: Context, attributeSet: AttributeSet): View(context, at
     }
     private var mBigCircleX = 0f
     private var mBigCircleY = 0f
-    private var mBigCircleRadius = 50f
+    private var mBigCircleRadius = 20f
 
     private var mSmallCircleX = 0f
     private var mSmallCircleY = 0f
-    private var mSmallCircleShowRadius = 40f
+    private var mSmallCircleShowRadius = 50f
     private var mSmallCircleHideRadius = 15f
     private var mSmallCircleRadius = mSmallCircleShowRadius
 
