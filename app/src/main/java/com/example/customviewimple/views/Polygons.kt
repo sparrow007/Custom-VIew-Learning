@@ -22,7 +22,7 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
     private val path = Path()
 
     var sides: Int = 3
-    var radius: Int = 60
+    var radius: Int = 170
     private var angle:Float = 60f
 
     private var initialX = 0f
@@ -30,11 +30,11 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        initialX = w/2f + radius
+        initialX = w/2f
         initialY = h / 2f
         angle = ((2 * PI) / 3f).toFloat()
 
-        path.moveTo(initialX, initialY)
+        path.moveTo(initialX + radius, initialY)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -61,7 +61,5 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
     fun improveSides(side: Int) {
         angle = 360f / side
     }
-
-
 
 }
