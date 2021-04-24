@@ -1,6 +1,5 @@
 package com.example.customviewimple.views
 
-import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
@@ -9,7 +8,6 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
 
 import kotlin.math.PI
@@ -27,7 +25,7 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
     private val path = Path()
 
     var sides: Int = 3
-    var radius: Int = 170
+    var radius = 60f
     private var angle:Float = 60f
 
     private var initialX = 0f
@@ -52,13 +50,25 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
         if (canvas == null) return
 
         //
-        canvas.drawCircle(initialX, initialY, 60f, paint)
+        canvas.drawCircle(initialX, initialY, radius, paint)
 
     }
 
     fun animateScale() {
 
+        val animator = ValueAnimator.ofFloat(1f, -1f)
+        animator.addUpdateListener {
+            val animateValue = it.animatedValue as Float
+            val current = width/2f
 
+            radius = 60 * (1 +1 * sin(animateValue))
+            invalidate()
+        }
+        animator.repeatCount = ValueAnimator.INFINITE
+        animator.repeatMode = ValueAnimator.REVERSE
+        animator.interpolator = LinearInterpolator()
+        animator.duration = 1000
+        animator.start()
 
     }
 
