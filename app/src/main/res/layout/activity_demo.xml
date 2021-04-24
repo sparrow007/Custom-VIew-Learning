@@ -6,9 +6,12 @@
     android:orientation="vertical"
     tools:context=".DemoActivity">
 
-    <Button
+    <SeekBar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:progress="3"
+        android:max="50"
+        android:progressTint="#BC2323"
         android:id="@+id/button"
         android:text="Animate"/>
 

@@ -59,7 +59,12 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
     }
 
     fun improveSides(side: Int) {
-        angle = 360f / side
+        this.sides = side
+        angle = ((2 * PI) / side).toFloat()
+        path.reset()
+        path.moveTo(initialX + radius, initialY)
+        invalidate()
+
     }
 
 }

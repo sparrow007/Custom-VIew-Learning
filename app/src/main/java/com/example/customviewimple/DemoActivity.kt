@@ -2,6 +2,7 @@ package com.example.customviewimple
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.SeekBar
 import com.example.customviewimple.kotlinLearn.LearnClass
 import com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
 import kotlinx.android.synthetic.main.activity_demo.*
@@ -11,9 +12,20 @@ class DemoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_demo)
 
-        button.setOnClickListener {
-            //recycler.animateCircle()
-        }
+        button.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                recycler.improveSides(progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+        })
 
     }
 }
