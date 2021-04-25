@@ -1,4 +1,4 @@
-package com.example.customviewimple.views
+package com.example.customviewimple.views.patterns
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -9,12 +9,11 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
-
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-class Polygons(context:Context, attributeSet: AttributeSet): View(context, attributeSet) {
+class CircularPattern(context: Context, attributeSet: AttributeSet): View(context, attributeSet) {
 
 
     private val paint = Paint().apply {
@@ -35,8 +34,6 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
 
     var distance = 150f
     var dots = 10
-    private val distanceArray = arrayListOf<Float>( )
-
 
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -45,11 +42,6 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
         initialY = h / 2f
         path.moveTo(initialX + radius, initialY)
         angle = ((2 * PI) / dots).toFloat()
-        var tempDistance = 150f
-        for (i in 1..4) {
-            distanceArray.add(tempDistance)
-            tempDistance += 60f
-        }
     }
 
 
@@ -58,8 +50,6 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
         if (canvas == null) return
 
 
-        for (i in 1..4) {
-
             for (j in 1..dots) {
                 initialX = width / 2f + distance * cos(angle * j)
                 initialY = height / 2f + distance * sin(angle * j)
@@ -67,11 +57,7 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
 
             }
 
-            distance += 60f
-            dots += 3
-            angle = ((2 * PI) / dots).toFloat()
 
-        }
     }
 
     fun animateScale() {
@@ -79,19 +65,17 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
         animator.addUpdateListener {
             val animateValue = it.animatedValue as Float
             distance = 50 * (1 + 1 * sin(theta))
-            dots = 10
-            angle = ((2 * PI) / dots).toFloat()
             invalidate()
             theta += 0.06f
         }
         animator.repeatCount = ValueAnimator.INFINITE
-       // animator.duration = 500
+        // animator.duration = 500
         animator.interpolator = LinearInterpolator()
         animator.start()
 
     }
 
-     fun animateTransition() {
+    fun animateTransition() {
 
         val animator = ValueAnimator.ofFloat(-1f, 1f)
         animator.addUpdateListener {
@@ -102,7 +86,7 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
         }
         animator.repeatCount = ValueAnimator.INFINITE
         animator.repeatMode = ValueAnimator.REVERSE
-         animator.interpolator = LinearInterpolator()
+        animator.interpolator = LinearInterpolator()
         animator.duration = 1000
         animator.start()
 
