@@ -25,7 +25,7 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
     private val path = Path()
 
     var sides: Int = 3
-    var radius = 70f
+    var radius = 10f
     private var angle:Float = 60f
 
     private var initialX = 0f
@@ -33,80 +33,61 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
 
     private var theta = -1f
 
-    private var dots = 10
+    var distance = 150f
+    var dots = 10
+
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         initialX = w/2f
         initialY = h / 2f
-        angle = ((2 * PI) / dots).toFloat()
-
         path.moveTo(initialX + radius, initialY)
-    }
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        angle = ((2 * PI) / dots).toFloat()
     }
 
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         if (canvas == null) return
-
-        //
-//        canvas.drawCircle(initialX, initialY, radius, paint)
-//        canvas.drawCircle(width/2f, height / 2f, 10f, paint)
-
         //Creating dots for 5 circle
-        for (i in 1..5) {
+//        for (i in 1..5) {
+//
+//            distance += 60f
+//            dots += 5
+//           // radius += 3
+//            angle = ((2 * PI) / dots).toFloat()
+//
+//        }
+
+
+        for (i in 1..4) {
             for (j in 1..dots) {
-                initialX = width / 2f + radius * cos(angle * j)
-                initialY = height / 2f + radius * sin(angle * j)
-                canvas.drawCircle(initialX, initialY, 10f, paint)
+                initialX = width / 2f + distance * cos(angle * j)
+                initialY = height / 2f + distance * sin(angle * j)
+                canvas.drawCircle(initialX, initialY, radius, paint)
 
             }
 
-            radius += 60f
-            dots += 5
+            distance += 60f
+            dots += 3
             angle = ((2 * PI) / dots).toFloat()
 
         }
     }
 
-    fun animateRotate() {
-
+    fun animateScale() {
         val animator = ValueAnimator.ofFloat(0f, 100f)
         animator.addUpdateListener {
-            val centerX = width / 2f
-            val centerY = height / 2f
-
-            initialX = centerX + 300 * cos(theta)
-            initialY = centerY + 300 * sin(theta)
-            theta += 0.04f
-            invalidate()
-        }
-
-        animator.repeatCount = ValueAnimator.INFINITE
-
-        animator.interpolator = LinearInterpolator()
-        animator.start()
-
-    }
-
-    fun animateScale() {
-
-        val animator = ValueAnimator.ofFloat(1f, -1f)
-        animator.addUpdateListener {
             val animateValue = it.animatedValue as Float
-            val current = width/2f
-
-            radius = 60 * (1 +1 * sin(animateValue))
+            distance = 50 * (1 + 1 * sin(theta))
+            dots = 10
+            angle = ((2 * PI) / dots).toFloat()
             invalidate()
+            theta += 0.06f
         }
         animator.repeatCount = ValueAnimator.INFINITE
-        animator.repeatMode = ValueAnimator.REVERSE
+       // animator.duration = 500
         animator.interpolator = LinearInterpolator()
-        animator.duration = 1000
         animator.start()
 
     }
@@ -148,5 +129,26 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
         invalidate()
 
     }
+
+    fun animateRotate() {
+
+        val animator = ValueAnimator.ofFloat(0f, 100f)
+        animator.addUpdateListener {
+            val centerX = width / 2f
+            val centerY = height / 2f
+
+            initialX = centerX + 300 * cos(theta)
+            initialY = centerY + 300 * sin(theta)
+            theta += 0.04f
+            invalidate()
+        }
+
+        animator.repeatCount = ValueAnimator.INFINITE
+
+        animator.interpolator = LinearInterpolator()
+        animator.start()
+
+    }
+
 
 }
