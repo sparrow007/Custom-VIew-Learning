@@ -6,14 +6,6 @@
     android:orientation="vertical"
     tools:context=".DemoActivity">
 
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:progress="3"
-        android:max="50"
-        android:progressTint="#BC2323"
-        android:id="@+id/button"
-        android:text="Animate"/>
 
     <com.example.customviewimple.views.Polygons
         android:layout_width="match_parent"
