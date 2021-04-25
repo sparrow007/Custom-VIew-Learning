@@ -25,7 +25,7 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
     private val path = Path()
 
     var sides: Int = 3
-    var radius = 40f
+    var radius = 70f
     private var angle:Float = 60f
 
     private var initialX = 0f
@@ -33,11 +33,13 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
 
     private var theta = -1f
 
+    private var dots = 10
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         initialX = w/2f
         initialY = h / 2f
-        angle = ((2 * PI) / 3f).toFloat()
+        angle = ((2 * PI) / dots).toFloat()
 
         path.moveTo(initialX + radius, initialY)
     }
@@ -52,9 +54,23 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
         if (canvas == null) return
 
         //
-        canvas.drawCircle(initialX, initialY, radius, paint)
-        canvas.drawCircle(width/2f, height / 2f, 20f, paint)
+//        canvas.drawCircle(initialX, initialY, radius, paint)
+//        canvas.drawCircle(width/2f, height / 2f, 10f, paint)
 
+        //Creating dots for 5 circle
+        for (i in 1..5) {
+            for (j in 1..dots) {
+                initialX = width / 2f + radius * cos(angle * j)
+                initialY = height / 2f + radius * sin(angle * j)
+                canvas.drawCircle(initialX, initialY, 10f, paint)
+
+            }
+
+            radius += 60f
+            dots += 5
+            angle = ((2 * PI) / dots).toFloat()
+
+        }
     }
 
     fun animateRotate() {
