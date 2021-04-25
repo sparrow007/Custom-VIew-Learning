@@ -25,11 +25,13 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
     private val path = Path()
 
     var sides: Int = 3
-    var radius = 60f
+    var radius = 40f
     private var angle:Float = 60f
 
     private var initialX = 0f
     private var initialY = 0f
+
+    private var theta = -1f
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -51,6 +53,27 @@ class Polygons(context:Context, attributeSet: AttributeSet): View(context, attri
 
         //
         canvas.drawCircle(initialX, initialY, radius, paint)
+        canvas.drawCircle(width/2f, height / 2f, 20f, paint)
+
+    }
+
+    fun animateRotate() {
+
+        val animator = ValueAnimator.ofFloat(0f, 100f)
+        animator.addUpdateListener {
+            val centerX = width / 2f
+            val centerY = height / 2f
+
+            initialX = centerX + 300 * cos(theta)
+            initialY = centerY + 300 * sin(theta)
+            theta += 0.04f
+            invalidate()
+        }
+
+        animator.repeatCount = ValueAnimator.INFINITE
+
+        animator.interpolator = LinearInterpolator()
+        animator.start()
 
     }
 
