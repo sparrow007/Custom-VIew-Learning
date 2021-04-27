@@ -12,8 +12,13 @@ class DemoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_demo)
 
-       recycler.animateScale()
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        recycler.animateScale()
 
     }
 }
