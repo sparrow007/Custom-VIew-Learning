@@ -1,5 +1,6 @@
 package com.example.customviewimple.views.patterns
 
+import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
@@ -49,7 +50,6 @@ class CircularPattern(context: Context, attributeSet: AttributeSet): View(contex
         super.onDraw(canvas)
         if (canvas == null) return
 
-
             for (j in 1..dots) {
                 initialX = width / 2f + distance * cos(angle * j)
                 initialY = height / 2f + distance * sin(angle * j)
@@ -60,7 +60,7 @@ class CircularPattern(context: Context, attributeSet: AttributeSet): View(contex
 
     }
 
-    fun animateScale() {
+    fun animateScale(startDelay: Long) : Animator{
         val animator = ValueAnimator.ofFloat(0f, 100f)
         animator.addUpdateListener {
             val animateValue = it.animatedValue as Float
@@ -70,8 +70,11 @@ class CircularPattern(context: Context, attributeSet: AttributeSet): View(contex
         }
         animator.repeatCount = ValueAnimator.INFINITE
         // animator.duration = 500
+       // animator.startDelay = startDelay
+        animator.repeatMode = ValueAnimator.REVERSE
         animator.interpolator = LinearInterpolator()
-        animator.start()
+        //animator.start()
+        return animator
 
     }
 
@@ -133,5 +136,9 @@ class CircularPattern(context: Context, attributeSet: AttributeSet): View(contex
 
     }
 
+    fun increaseDistance(distance: Float) {
+        this.distance = distance
+        invalidate()
+    }
 
 }
