@@ -13,7 +13,6 @@ class ShapeContainer(context: Context, attributeSet: AttributeSet): FrameLayout(
 
     private val patternList = arrayListOf<Animator>()
 
-    val delayTime = 500
     private val animatorSet = AnimatorSet()
 
    init {
