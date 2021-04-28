@@ -25,18 +25,18 @@ class ShapeContainer(context: Context, attributeSet: AttributeSet): FrameLayout(
            //patternList.add(view.animateScale(500L-(10 * i)))
            distance += 60f
 
-           val scaleXAnimator = ObjectAnimator.ofFloat(view, "ScaleX", 0f, 1f);
-           scaleXAnimator.repeatCount = ObjectAnimator.INFINITE;
-           scaleXAnimator.repeatMode = ObjectAnimator.REVERSE;
-           scaleXAnimator.startDelay = i * 500L;
-           scaleXAnimator.duration = 3000L;
-           patternList.add(scaleXAnimator);
-           val scaleYAnimator = ObjectAnimator.ofFloat(view, "ScaleY", 0F,1f);
-           scaleYAnimator.repeatCount = ObjectAnimator.INFINITE;
-           scaleYAnimator.repeatMode = ObjectAnimator.REVERSE;
-           scaleYAnimator.startDelay = i * 500L;
-           scaleYAnimator.duration = 3000L;
-           patternList.add(scaleYAnimator);
+           val scaleXAnimator = ObjectAnimator.ofFloat(view, "ScaleX", 0f, 1f)
+           scaleXAnimator.repeatCount = ObjectAnimator.INFINITE
+           scaleXAnimator.repeatMode = ObjectAnimator.REVERSE
+           scaleXAnimator.startDelay = i * 500L
+           scaleXAnimator.duration = 3000L
+           patternList.add(scaleXAnimator)
+           val scaleYAnimator = ObjectAnimator.ofFloat(view, "ScaleY", 0F,1f)
+           scaleYAnimator.repeatCount = ObjectAnimator.INFINITE
+           scaleYAnimator.repeatMode = ObjectAnimator.REVERSE
+           scaleYAnimator.startDelay = i * 500L
+           scaleYAnimator.duration = 3000L
+           patternList.add(scaleYAnimator)
 
        }
       // animatorSet.playTogether(patternList)
