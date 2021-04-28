@@ -25,7 +25,7 @@ class CircularPattern(context: Context, attributeSet: AttributeSet): View(contex
     private val path = Path()
 
     var sides: Int = 3
-    var radius = 10f
+    var radius = 15f
     private var angle:Float = 60f
 
     private var initialX = 0f
