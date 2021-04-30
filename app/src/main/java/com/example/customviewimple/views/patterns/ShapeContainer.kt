@@ -27,14 +27,14 @@ class ShapeContainer(context: Context, attributeSet: AttributeSet): FrameLayout(
 
            val scaleXAnimator = ObjectAnimator.ofFloat(view, "ScaleX", -1f, 1f)
            scaleXAnimator.repeatCount = ObjectAnimator.INFINITE
-           scaleXAnimator.repeatMode = ObjectAnimator.REVERSE
-           scaleXAnimator.startDelay = 500L-(10 * i)
+          // scaleXAnimator.repeatMode = ObjectAnimator.REVERSE
+           scaleXAnimator.startDelay = 300L*i
            scaleXAnimator.duration = 3000L
            patternList.add(scaleXAnimator)
            val scaleYAnimator = ObjectAnimator.ofFloat(view, "ScaleY", -1f,1f)
            scaleYAnimator.repeatCount = ObjectAnimator.INFINITE
-           scaleYAnimator.repeatMode = ObjectAnimator.REVERSE
-           scaleYAnimator.startDelay = 500L-(10 * i)
+          // scaleYAnimator.repeatMode = ObjectAnimator.REVERSE
+           scaleYAnimator.startDelay = 300L*i
            scaleYAnimator.duration = 3000L
            patternList.add(scaleYAnimator)
 
