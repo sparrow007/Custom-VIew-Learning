@@ -22,12 +22,17 @@ class PolyViewDraw(context: Context, attributeSet: AttributeSet): View(context, 
     }
 
     fun startAnimation() {
-        ObjectAnimator.ofFloat(polygonLapsDrawable, PolygonLapsDrawable.PROGRESS, 0f, 1f).apply {
-            duration = 4000L
+        val anim = ObjectAnimator.ofFloat(polygonLapsDrawable, PolygonLapsDrawable.DOT_PROGRESS, 0f, 1f).apply {
+            duration = 30000L
             interpolator = LinearInterpolator()
             repeatCount = INFINITE
             repeatMode = RESTART
-        }.start()
+        }
+        anim.addUpdateListener {
+            invalidate()
+        }
+        anim.start()
+        //invalidate()
     }
 
 }
