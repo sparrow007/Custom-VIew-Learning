@@ -22,6 +22,7 @@ class DemoActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
        // recycler.animateScale()
+        recycler.startAnimation()
 
     }
 }
