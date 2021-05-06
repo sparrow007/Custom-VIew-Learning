@@ -1,19 +1,10 @@
 package com.example.customviewimple.views.drawable
 
-import android.graphics.Canvas
-import android.graphics.ColorFilter
-import android.graphics.ComposePathEffect
-import android.graphics.CornerPathEffect
-import android.graphics.DashPathEffect
-import android.graphics.Paint
+import android.graphics.*
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.graphics.Paint.Style.FILL
 import android.graphics.Paint.Style.STROKE
-import android.graphics.Path
-import android.graphics.PathDashPathEffect
 import android.graphics.PathDashPathEffect.Style.*
-import android.graphics.PathMeasure
-import android.graphics.PixelFormat
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.FloatProperty
@@ -64,7 +55,9 @@ class PolygonLapsDrawable : Drawable() {
     }
 
     private val pathDot = Path().apply {
-        addCircle(0f, 0f, 8f, Path.Direction.CW)
+        //addCircle(0f, 0f, 8f, Path.Direction.CW)
+        val rectF = RectF(0f, -5f, 100f, 5f)
+        addRoundRect(rectF, 5f, 5f,Path.Direction.CW)
     }
 
     override fun draw(canvas: Canvas) {
@@ -81,7 +74,7 @@ class PolygonLapsDrawable : Drawable() {
         // loop separately to ensure the dots are on top
         polygons.forEach { polygon ->
             val phase =  dotProgress * polygon.length
-            dotPaint.pathEffect = PathDashPathEffect(pathDot, polygon.length, phase, ROTATE)
+            dotPaint.pathEffect = PathDashPathEffect(pathDot, polygon.length, phase, MORPH)
             canvas.drawPath(polygon.path, dotPaint)
         }
     }
