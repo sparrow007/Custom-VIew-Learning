@@ -12,6 +12,7 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         color = Color.GREEN
         style = Paint.Style.STROKE
         strokeWidth = 10f
+        pathEffect = CornerPathEffect(30f)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -25,12 +26,16 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         if(canvas == null) return
         //canvas.translate(width / 2f, height / 2f)
 
-        path.moveTo(0f, height/2f)
+        path.moveTo(100f, height/2f)
 //       val rect = RectF(0f, 0f, 200f, 200f)
 //        path.addRect(rect,Path.Direction.CW)
         path.lineTo(450f,height/2f)
+        path.lineTo(450f, height/2f+ 400f)
+        path.lineTo(100f, height/2f+400f)
+        path.lineTo(100f, height/2f)
 
         canvas.drawPath(path, paint)
+
     }
 
 
