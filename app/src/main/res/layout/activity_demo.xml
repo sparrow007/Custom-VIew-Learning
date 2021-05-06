@@ -7,7 +7,7 @@
     tools:context=".DemoActivity">
 
 
-    <com.example.customviewimple.views.drawable.PolyViewDraw
+    <com.example.customviewimple.views.path.ObjectFollow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
