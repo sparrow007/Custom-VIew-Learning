@@ -11,7 +11,7 @@ import android.graphics.Paint.Style.FILL
 import android.graphics.Paint.Style.STROKE
 import android.graphics.Path
 import android.graphics.PathDashPathEffect
-import android.graphics.PathDashPathEffect.Style.TRANSLATE
+import android.graphics.PathDashPathEffect.Style.*
 import android.graphics.PathMeasure
 import android.graphics.PixelFormat
 import android.graphics.drawable.Drawable
@@ -80,8 +80,8 @@ class PolygonLapsDrawable : Drawable() {
         }
         // loop separately to ensure the dots are on top
         polygons.forEach { polygon ->
-            val phase = polygon.initialPhase + dotProgress * polygon.length * polygon.laps
-            dotPaint.pathEffect = PathDashPathEffect(pathDot, polygon.length, phase, TRANSLATE)
+            val phase =  dotProgress * polygon.length
+            dotPaint.pathEffect = PathDashPathEffect(pathDot, polygon.length, phase, ROTATE)
             canvas.drawPath(polygon.path, dotPaint)
         }
     }
