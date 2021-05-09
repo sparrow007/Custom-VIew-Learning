@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".DemoActivity">
 
 
-    <com.example.customviewimple.views.path.ObjectFollow
+    <com.example.customviewimple.views.path.AnimatedPathView
+        android:id="@+id/animated_path"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:id="@+id/recycler"/>
+        android:layout_height="match_parent" />
 
 </RelativeLayout>
