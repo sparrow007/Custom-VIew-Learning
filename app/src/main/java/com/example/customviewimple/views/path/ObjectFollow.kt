@@ -12,7 +12,6 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         color = Color.GREEN
         style = Paint.Style.STROKE
         strokeWidth = 10f
-        pathEffect = CornerPathEffect(30f)
     }
 
     private var pathLength = 0f
@@ -22,7 +21,7 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
     private val initialMoveX = 300f
     private var initialMoveY = 0f
 
-    private val cornerPathEffect = CornerPathEffect(15f)
+    private val cornerPathEffect = CornerPathEffect(50f)
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
