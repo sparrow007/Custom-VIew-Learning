@@ -12,11 +12,11 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         color = Color.GREEN
         style = Paint.Style.STROKE
         strokeWidth = 10f
+        pathEffect = CornerPathEffect(50f)
     }
 
     private var pathLength = 0f
     private var pathProgress = 0f
-
 
     private val initialMoveX = 300f
     private var initialMoveY = 0f
@@ -46,7 +46,7 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
 
         path.lineTo(initialMoveX - 80f, initialMoveY + 400f)
         path.lineTo(initialMoveX - 80f, initialMoveY)
-        path.close()
+        path.lineTo(initialMoveX , initialMoveY)
 
 
 

@@ -1,6 +1,7 @@
 package com.example.customviewimple
 
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
@@ -60,6 +61,8 @@ class DemoActivity : AppCompatActivity() {
         val anim = ObjectAnimator.ofFloat(view, "percentage", 0.0f, 1.0f)
         anim.duration = 5000
         anim.interpolator = LinearInterpolator()
+        anim.repeatCount = ValueAnimator.INFINITE
+        anim.repeatMode = ValueAnimator.REVERSE
         anim.start()
 
     }
