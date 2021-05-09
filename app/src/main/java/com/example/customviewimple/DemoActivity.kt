@@ -1,5 +1,6 @@
 package com.example.customviewimple
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -9,9 +10,11 @@ import android.view.ViewTreeObserver
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.Window
 import android.view.WindowManager
+import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.animation.addListener
 import com.example.customviewimple.views.path.AnimatedPathView
 import com.example.customviewimple.views.path.ObjectFollow
 import kotlinx.android.synthetic.main.activity_demo.*
@@ -26,37 +29,10 @@ class DemoActivity : AppCompatActivity() {
         );
         setContentView(R.layout.activity_demo)
 
-
-//        val observer: ViewTreeObserver = view.getViewTreeObserver()
-//        if (observer != null && view is AnimatedPathView) {
-//            observer.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-//                override fun onGlobalLayout() {
-//
-//                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this)
-//
-//                    view.setPath(floatArrayOf(0f, 0f),
-//                        floatArrayOf(view.getWidth().toFloat(), 0f),
-//                        floatArrayOf(view.getWidth().toFloat(), view.getHeight().toFloat()),
-//                        floatArrayOf(0f, view.getHeight().toFloat()),
-//                        floatArrayOf(0f, 0f),
-//                        floatArrayOf(view.getWidth().toFloat(), view.getHeight().toFloat()),
-//                        floatArrayOf(view.getWidth().toFloat(), 0f),
-//                        floatArrayOf(0f, view.getHeight().toFloat()))
-//                }
-//            })
-//        }
-//
-//        view.setOnClickListener(View.OnClickListener { view ->
-//
-//        })
-
     }
 
     override fun onResume() {
         super.onResume()
-       // recycler.animateScale()
-       // recycler.startAnimation()
-
 
         val view: ObjectFollow = findViewById<View>(R.id.animated_path) as ObjectFollow
 
@@ -99,6 +75,20 @@ class DemoActivity : AppCompatActivity() {
         val anim = AnimatorSet()
         anim.play(hand1Anim).before(headAnim).before(eyeAnim).with(hand2Anim).after(bodyAnim)
         anim.start()
+        anim.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {
+            }
 
+            override fun onAnimationEnd(animation: Animator?) {
+               view.ioActive = true
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+        })
     }
 }

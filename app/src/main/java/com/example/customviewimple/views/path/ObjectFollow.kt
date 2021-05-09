@@ -72,6 +72,18 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
     var hand1Active = false
     var hand2Active = false
     var headActive = false
+    var ioActive = false
+
+    private val ioPath = Path()
+    private val ioPaint = Paint().apply {
+        color  = Color.BLUE
+        style = Paint.Style.FILL
+        strokeWidth = 10f
+    }
+
+   private var ioLength = 0f
+   private var ioProgress = 0f
+
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -104,6 +116,7 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         drawHandPath2()
         drawHeadPath()
         drawEyePath()
+        drawIOPath()
 
 
         val pathMeasure = PathMeasure(headPath, false)
@@ -111,12 +124,14 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         val pathMeasure2 = PathMeasure(handPath2, false)
         val pathMeasure3 = PathMeasure(handPath1, false)
         val pathMeasure4 = PathMeasure(eyePath, false)
+        val pathMeasure5 = PathMeasure(ioPath, false)
         pathLength = pathMeasure1.length
 
         hand1Length = pathMeasure3.length
         hand2Length = pathMeasure2.length
         headLength = pathMeasure.length
         eyeLength = pathMeasure4.length
+        ioLength = pathMeasure5.length
 
     }
 
@@ -124,7 +139,6 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         super.onDraw(canvas)
 
         if(canvas == null) return
-        //canvas.translate(width / 2f, height / 2f)
 
         canvas.drawPath(path, paint)
         if (hand1Active)
@@ -135,6 +149,8 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
             canvas.drawPath(headPath, headPaint)
             canvas.drawPath(eyePath, eyePaint)
         }
+      //  if (ioActive)
+        canvas.drawPath(ioPath, ioPaint)
 
     }
 
@@ -174,8 +190,14 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         invalidate()
     }
 
-    fun drawHandPath1() {
+    fun setParty (percentage: Float) {
+        this.ioProgress = percentage
+        val pathEffect = DashPathEffect(floatArrayOf(ioLength, ioLength), ioLength - ioLength * ioProgress)
+        ioPaint.pathEffect = pathEffect
+        invalidate()
+    }
 
+    fun drawHandPath1() {
         handPath1.moveTo(initialMoveX - 130f, initialMoveY - 30f)
         handPath1.lineTo(initialMoveX - 130f, initialMoveY + 350)
         handPath1.lineTo(initialMoveX - 230f, initialMoveY + 350)
@@ -185,7 +207,6 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
     }
 
     fun drawHandPath2() {
-
         handPath2.moveTo(initialMoveX + 490f, initialMoveY - 30f)
         handPath2.lineTo(initialMoveX + 490f, initialMoveY + 350)
         handPath2.lineTo(initialMoveX + 590f, initialMoveY + 350)
@@ -195,8 +216,6 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
     }
 
     fun drawHeadPath() {
-
-      //  headPath.moveTo(initialMoveX, initialMoveY - 100f)
         val rectF = RectF(initialMoveX - 90f, initialMoveY - 300f,
             initialMoveX + 450f,
              initialMoveY+ 250f)
@@ -207,14 +226,18 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         headPath.moveTo(initialMoveX + 350f, initialMoveY - 240f)
         headPath.lineTo(initialMoveX + 420f, initialMoveY - 370f)
 
-
     }
 
     fun drawEyePath() {
-
         eyePath.addCircle(initialMoveX + 50, initialMoveY - 150, 25f, Path.Direction.CW)
         eyePath.addCircle(initialMoveX + 300, initialMoveY - 150, 25f, Path.Direction.CW)
 
+    }
+
+    fun drawIOPath() {
+        val rectF = RectF(initialMoveX + 50f, 400f, initialMoveX + 100f, 600f)
+        ioPath.addRect(rectF, Path.Direction.CW)
+        ioPath.addCircle(initialMoveX + 200f, 500f, 100f, Path.Direction.CCW)
     }
 
 }
