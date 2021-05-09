@@ -62,7 +62,7 @@ class DemoActivity : AppCompatActivity() {
         anim.duration = 8000
         anim.interpolator = LinearInterpolator()
         anim.repeatCount = ValueAnimator.INFINITE
-       // anim.repeatMode = ValueAnimator.REVERSE
+        anim.repeatMode = ValueAnimator.REVERSE
         anim.start()
 
     }

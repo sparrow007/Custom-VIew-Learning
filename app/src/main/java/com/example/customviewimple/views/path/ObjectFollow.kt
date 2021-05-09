@@ -54,10 +54,6 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         path.lineTo(initialMoveX , initialMoveY)
 
 
-
-//        path.lineTo(initialMoveX, height/2f+400f)
-//        path.lineTo(initialMoveX, height/2f)
-
         //Hand Path 1 draw
         drawHandPath1()
         drawHandPath2()
@@ -125,7 +121,7 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
              initialMoveY+ 250f)
         headPath.arcTo(rectF, 0f, -180f)
         headPath.close()
-        headPath.moveTo(initialMoveX , initialMoveY - 220f)
+        headPath.moveTo(initialMoveX , initialMoveY - 230f)
         headPath.lineTo(initialMoveX - 100f, initialMoveY - 350f)
         headPath.moveTo(initialMoveX + 350f, initialMoveY - 240f)
         headPath.lineTo(initialMoveX + 420f, initialMoveY - 370f)
