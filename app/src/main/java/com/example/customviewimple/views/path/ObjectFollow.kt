@@ -24,6 +24,7 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
     private val handPath1 = Path()
     private val handPath2 = Path()
     private val headPath = Path()
+    private val eyePath = Path()
 
     private val cornerPathEffect = CornerPathEffect(50f)
 
@@ -77,9 +78,9 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         if(canvas == null) return
         //canvas.translate(width / 2f, height / 2f)
 
-//        canvas.drawPath(path, paint)
-//        canvas.drawPath(handPath1, paint)
-//        canvas.drawPath(handPath2, paint)
+        canvas.drawPath(path, paint)
+        canvas.drawPath(handPath1, paint)
+        canvas.drawPath(handPath2, paint)
         canvas.drawPath(headPath, paint)
 
     }
@@ -120,6 +121,11 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
              initialMoveY+ 250f)
         headPath.arcTo(rectF, 0f, -180f)
         headPath.close()
+        headPath.moveTo(initialMoveX , initialMoveY - 220f)
+        headPath.lineTo(initialMoveX - 100f, initialMoveY - 350f)
+        headPath.moveTo(initialMoveX + 350f, initialMoveY - 240f)
+        headPath.lineTo(initialMoveX + 420f, initialMoveY - 370f)
+
 
     }
 
