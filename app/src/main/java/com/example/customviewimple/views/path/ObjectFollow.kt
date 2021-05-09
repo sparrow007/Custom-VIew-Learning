@@ -149,7 +149,7 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
             canvas.drawPath(headPath, headPaint)
             canvas.drawPath(eyePath, eyePaint)
         }
-      //  if (ioActive)
+        if (ioActive)
         canvas.drawPath(ioPath, ioPaint)
 
     }
@@ -237,7 +237,7 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
     fun drawIOPath() {
         val rectF = RectF(initialMoveX + 50f, 400f, initialMoveX + 100f, 600f)
         ioPath.addRect(rectF, Path.Direction.CW)
-        ioPath.addCircle(initialMoveX + 200f, 500f, 100f, Path.Direction.CCW)
+        ioPath.addCircle(initialMoveX + 250f, 500f, 100f, Path.Direction.CCW)
     }
 
 }
