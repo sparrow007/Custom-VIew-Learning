@@ -69,6 +69,10 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
 
     private val cornerPathEffect = CornerPathEffect(50f)
 
+    var hand1Active = false
+    var hand2Active = false
+    var headActive = false
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
 
@@ -123,10 +127,14 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         //canvas.translate(width / 2f, height / 2f)
 
         canvas.drawPath(path, paint)
+        if (hand1Active)
         canvas.drawPath(handPath1, hand1Paint)
+        if (hand2Active)
         canvas.drawPath(handPath2, hand2Paint)
-        canvas.drawPath(headPath, headPaint)
-        canvas.drawPath(eyePath, eyePaint)
+        if (headActive) {
+            canvas.drawPath(headPath, headPaint)
+            canvas.drawPath(eyePath, eyePaint)
+        }
 
     }
 
@@ -178,11 +186,11 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
 
     fun drawHandPath2() {
 
-        handPath1.moveTo(initialMoveX + 490f, initialMoveY - 30f)
-        handPath1.lineTo(initialMoveX + 490f, initialMoveY + 350)
-        handPath1.lineTo(initialMoveX + 590f, initialMoveY + 350)
-        handPath1.lineTo(initialMoveX + 590f, initialMoveY -30f)
-        handPath1.close()
+        handPath2.moveTo(initialMoveX + 490f, initialMoveY - 30f)
+        handPath2.lineTo(initialMoveX + 490f, initialMoveY + 350)
+        handPath2.lineTo(initialMoveX + 590f, initialMoveY + 350)
+        handPath2.lineTo(initialMoveX + 590f, initialMoveY -30f)
+        handPath2.close()
 
     }
 

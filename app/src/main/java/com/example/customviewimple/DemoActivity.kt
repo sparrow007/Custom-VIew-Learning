@@ -1,5 +1,6 @@
 package com.example.customviewimple
 
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.ViewTreeObserver
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.Window
 import android.view.WindowManager
+import android.view.animation.AnimationSet
 import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import com.example.customviewimple.views.path.AnimatedPathView
@@ -58,11 +60,44 @@ class DemoActivity : AppCompatActivity() {
 
         val view: ObjectFollow = findViewById<View>(R.id.animated_path) as ObjectFollow
 
-        val anim = ObjectAnimator.ofFloat(view, "percentage", 0.0f, 1.0f)
-        anim.duration = 8000
-        anim.interpolator = LinearInterpolator()
-        anim.repeatCount = ValueAnimator.INFINITE
-        anim.repeatMode = ValueAnimator.REVERSE
+        val headAnim = ObjectAnimator.ofFloat(view, "headPercentage", 0.0f, 1.0f).apply {
+            duration = 3000
+            interpolator = LinearInterpolator()
+        }
+
+        val bodyAnim = ObjectAnimator.ofFloat(view, "percentage", 0.0f, 1.0f).apply {
+            duration = 5000
+            interpolator = LinearInterpolator()
+        }
+
+        val hand1Anim = ObjectAnimator.ofFloat(view, "hand1Percentage", 0.0f, 1.0f).apply {
+            duration = 3000
+            interpolator = LinearInterpolator()
+        }
+        hand1Anim.addUpdateListener {
+            val data = it.animatedValue as Float
+            view.hand1Active = true
+        }
+
+        val hand2Anim = ObjectAnimator.ofFloat(view, "hand2Percentage", 0.0f, 1.0f).apply {
+            duration = 3000
+            interpolator = LinearInterpolator()
+        }
+
+        hand2Anim.addUpdateListener {
+            view.hand2Active = true
+        }
+
+        val eyeAnim = ObjectAnimator.ofFloat(view, "eyePercentage", 0.0f, 1.0f).apply {
+            duration = 3000
+            interpolator = LinearInterpolator()
+        }
+        eyeAnim.addUpdateListener {
+            view.headActive = true
+        }
+
+        val anim = AnimatorSet()
+        anim.play(hand1Anim).before(headAnim).before(eyeAnim).with(hand2Anim).after(bodyAnim)
         anim.start()
 
     }
