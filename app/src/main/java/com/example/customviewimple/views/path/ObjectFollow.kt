@@ -28,11 +28,33 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         super.onSizeChanged(w, h, oldw, oldh)
 
         initialMoveY = height / 2f
+
+
         path.moveTo(initialMoveX, initialMoveY)
         path.lineTo(initialMoveX + 450f ,height/2f)
         path.lineTo(initialMoveX + 450f, height/2f+ 400f)
-        path.lineTo(initialMoveX, height/2f+400f)
-        path.lineTo(initialMoveX, height/2f)
+
+        path.lineTo(initialMoveX + 350f, initialMoveY + 400f)
+        path.lineTo(initialMoveX + 350f, initialMoveY + 700f)
+        path.lineTo(initialMoveX + 250f, initialMoveY + 700f)
+        path.lineTo(initialMoveX + 250f, initialMoveY + 400f)
+        path.lineTo(initialMoveX + 120f, initialMoveY + 400f)
+
+        path.lineTo(initialMoveX + 120f, initialMoveY + 700f)
+        path.lineTo(initialMoveX + 20f, initialMoveY + 700f)
+        path.lineTo(initialMoveX + 20f, initialMoveY + 400f)
+
+
+        path.lineTo(initialMoveX - 80f, initialMoveY + 400f)
+        path.lineTo(initialMoveX - 80f, initialMoveY)
+        path.close()
+
+
+
+//        path.lineTo(initialMoveX, height/2f+400f)
+//        path.lineTo(initialMoveX, height/2f)
+
+
 
         val pathMeasure = PathMeasure(path, false)
         pathLength = pathMeasure.length

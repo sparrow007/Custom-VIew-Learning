@@ -58,7 +58,7 @@ class DemoActivity : AppCompatActivity() {
         val view: ObjectFollow = findViewById<View>(R.id.animated_path) as ObjectFollow
 
         val anim = ObjectAnimator.ofFloat(view, "percentage", 0.0f, 1.0f)
-        anim.duration = 3000
+        anim.duration = 5000
         anim.interpolator = LinearInterpolator()
         anim.start()
 
