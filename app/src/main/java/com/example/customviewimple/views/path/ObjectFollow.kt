@@ -62,13 +62,16 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         drawHandPath1()
         drawHandPath2()
         drawHeadPath()
+        drawEyePath()
 
 
         val pathMeasure = PathMeasure(headPath, false)
         val pathMeasure1 = PathMeasure(path, false)
         val pathMeasure2 = PathMeasure(handPath2, false)
         val pathMeasure3 = PathMeasure(handPath1, false)
-        pathLength = pathMeasure.length + pathMeasure1.length + pathMeasure2.length + pathMeasure3.length
+        val pathMeasure4 = PathMeasure(eyePath, false)
+        pathLength = pathMeasure.length + pathMeasure1.length +
+                pathMeasure2.length + pathMeasure3.length  + pathMeasure4.length
 
     }
 
@@ -82,6 +85,7 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         canvas.drawPath(handPath1, paint)
         canvas.drawPath(handPath2, paint)
         canvas.drawPath(headPath, paint)
+        canvas.drawPath(eyePath, paint)
 
     }
 
@@ -126,6 +130,13 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         headPath.moveTo(initialMoveX + 350f, initialMoveY - 240f)
         headPath.lineTo(initialMoveX + 420f, initialMoveY - 370f)
 
+
+    }
+
+    fun drawEyePath() {
+
+        eyePath.addCircle(initialMoveX + 50, initialMoveY - 150, 25f, Path.Direction.CW)
+        eyePath.addCircle(initialMoveX + 300, initialMoveY - 150, 25f, Path.Direction.CW)
 
     }
 
