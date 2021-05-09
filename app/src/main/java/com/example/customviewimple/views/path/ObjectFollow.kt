@@ -18,8 +18,11 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
     private var pathLength = 0f
     private var pathProgress = 0f
 
-    private val initialMoveX = 300f
+    private val initialMoveX = 350f
     private var initialMoveY = 0f
+
+    private val handPath1 = Path()
+    private val handPath2 = Path()
 
     private val cornerPathEffect = CornerPathEffect(50f)
 
@@ -53,6 +56,9 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
 //        path.lineTo(initialMoveX, height/2f+400f)
 //        path.lineTo(initialMoveX, height/2f)
 
+        //Hand Path 1 draw
+        drawHandPath1()
+        drawHandPath2()
 
 
         val pathMeasure = PathMeasure(path, false)
@@ -67,6 +73,8 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         //canvas.translate(width / 2f, height / 2f)
 
         canvas.drawPath(path, paint)
+        canvas.drawPath(handPath1, paint)
+        canvas.drawPath(handPath2, paint)
 
     }
 
@@ -76,6 +84,26 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         val pathEffect = DashPathEffect(floatArrayOf(pathLength, pathLength), pathLength - pathLength * pathProgress)
         paint.pathEffect = ComposePathEffect(pathEffect, cornerPathEffect)
         invalidate()
+    }
+
+    fun drawHandPath1() {
+
+        handPath1.moveTo(initialMoveX - 130f, initialMoveY - 30f)
+        handPath1.lineTo(initialMoveX - 130f, initialMoveY + 350)
+        handPath1.lineTo(initialMoveX - 230f, initialMoveY + 350)
+        handPath1.lineTo(initialMoveX - 230f, initialMoveY -30f)
+        handPath1.close()
+
+    }
+
+    fun drawHandPath2() {
+
+        handPath1.moveTo(initialMoveX + 490f, initialMoveY - 30f)
+        handPath1.lineTo(initialMoveX + 490f, initialMoveY + 350)
+        handPath1.lineTo(initialMoveX + 590f, initialMoveY + 350)
+        handPath1.lineTo(initialMoveX + 590f, initialMoveY -30f)
+        handPath1.close()
+
     }
 
 }
