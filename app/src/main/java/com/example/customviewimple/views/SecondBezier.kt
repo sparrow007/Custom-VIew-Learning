@@ -22,14 +22,14 @@ class SecondBezier(context: Context, attributeSet: AttributeSet): View(context, 
         centerX = w / 2
         centerY = h / 2
 
-        start.x = centerX - 30f
+        start.x = centerX - 300f
         start.y = centerY.toFloat()
 
-        end.x = centerX + 30f
+        end.x = centerX + 300f
         end.y = centerY.toFloat()
 
-        control.x = centerX.toFloat()
-        control.y = centerY - 200f
+        control.x = centerX.toFloat() - 0f
+        control.y = centerY - 400f
 
         paint.color = Color.BLACK
         paint.strokeWidth =  10f
