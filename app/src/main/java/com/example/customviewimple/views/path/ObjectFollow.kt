@@ -15,8 +15,49 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         pathEffect = CornerPathEffect(50f)
     }
 
+    val hand1Paint = Paint().apply {
+        color = Color.GREEN
+        style = Paint.Style.STROKE
+        strokeWidth = 10f
+        pathEffect = CornerPathEffect(50f)
+    }
+
+
+    val hand2Paint = Paint().apply {
+        color = Color.GREEN
+        style = Paint.Style.STROKE
+        strokeWidth = 10f
+        pathEffect = CornerPathEffect(50f)
+    }
+
+
+    val headPaint = Paint().apply {
+        color = Color.GREEN
+        style = Paint.Style.STROKE
+        strokeWidth = 10f
+        pathEffect = CornerPathEffect(50f)
+    }
+
+
+    val eyePaint = Paint().apply {
+        color = Color.GREEN
+        style = Paint.Style.STROKE
+        strokeWidth = 10f
+        pathEffect = CornerPathEffect(50f)
+    }
+
     private var pathLength = 0f
+    private var hand1Length = 0f
+    private var hand2Length = 0f
+    private var headLength = 0f
+    private var eyeLength = 0f
+
+
     private var pathProgress = 0f
+    private var hand1Progress = 0f
+    private var hand2Progress = 0f
+    private var headProgress = 0f
+    private var eyeProgress = 0f
 
     private val initialMoveX = 350f
     private var initialMoveY = 0f
@@ -66,8 +107,12 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         val pathMeasure2 = PathMeasure(handPath2, false)
         val pathMeasure3 = PathMeasure(handPath1, false)
         val pathMeasure4 = PathMeasure(eyePath, false)
-        pathLength = pathMeasure.length + pathMeasure1.length +
-                pathMeasure2.length + pathMeasure3.length  + pathMeasure4.length
+        pathLength = pathMeasure1.length
+
+        hand1Length = pathMeasure3.length
+        hand2Length = pathMeasure2.length
+        headLength = pathMeasure.length
+        eyeLength = pathMeasure4.length
 
     }
 
@@ -78,10 +123,10 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         //canvas.translate(width / 2f, height / 2f)
 
         canvas.drawPath(path, paint)
-        canvas.drawPath(handPath1, paint)
-        canvas.drawPath(handPath2, paint)
-        canvas.drawPath(headPath, paint)
-        canvas.drawPath(eyePath, paint)
+        canvas.drawPath(handPath1, hand1Paint)
+        canvas.drawPath(handPath2, hand2Paint)
+        canvas.drawPath(headPath, headPaint)
+        canvas.drawPath(eyePath, eyePaint)
 
     }
 
@@ -90,6 +135,34 @@ class ObjectFollow(context: Context, attributeSet: AttributeSet): View(context, 
         this.pathProgress = percentage
         val pathEffect = DashPathEffect(floatArrayOf(pathLength, pathLength), pathLength - pathLength * pathProgress)
         paint.pathEffect = ComposePathEffect(pathEffect, cornerPathEffect)
+        invalidate()
+    }
+
+    fun setHand1Percentage (percentage: Float) {
+        this.hand1Progress = percentage
+        val pathEffect = DashPathEffect(floatArrayOf(hand1Length, hand1Length), hand1Length - hand1Length * hand1Progress)
+        hand1Paint.pathEffect = ComposePathEffect(pathEffect, cornerPathEffect)
+        invalidate()
+    }
+
+    fun setHand2Percentage (percentage: Float) {
+        this.hand2Progress = percentage
+        val pathEffect = DashPathEffect(floatArrayOf(hand2Length, hand2Length), hand2Length - hand2Length * hand2Progress)
+        hand2Paint.pathEffect = ComposePathEffect(pathEffect, cornerPathEffect)
+        invalidate()
+    }
+
+    fun setHeadPercentage (percentage: Float) {
+        this.headProgress = percentage
+        val pathEffect = DashPathEffect(floatArrayOf(headLength, headLength), headLength - headLength * headProgress)
+        headPaint.pathEffect = ComposePathEffect(pathEffect, cornerPathEffect)
+        invalidate()
+    }
+
+    fun setEyePercentage (percentage: Float) {
+        this.eyeProgress = percentage
+        val pathEffect = DashPathEffect(floatArrayOf(eyeLength, eyeLength), eyeLength - eyeLength * eyeProgress)
+        eyePaint.pathEffect = ComposePathEffect(pathEffect, cornerPathEffect)
         invalidate()
     }
 
