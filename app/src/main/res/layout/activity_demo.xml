@@ -8,7 +8,7 @@
     tools:context=".DemoActivity">
 
 
-    <com.example.customviewimple.views.path.AnimatedPathView
+    <com.example.customviewimple.views.path.ObjectFollow
         android:id="@+id/animated_path"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
