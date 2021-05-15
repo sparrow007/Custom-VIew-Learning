@@ -47,7 +47,7 @@ class BusView (context: Context, attributeSet: AttributeSet): View(context, attr
         val rectF = RectF(200f, 200f, 500f, 390f)
         path.addRoundRect(rectF, 15f, 15f, Path.Direction.CW)
 
-        val frontRectF = RectF(410f, 200f, 510f, 300f)
+        val frontRectF = RectF(510f, 200f, 650f, 390f)
         frontPath.addRoundRect(frontRectF, floatArrayOf(0f,0f,30f,30f, 30f, 30f, 0f,0f), Path.Direction.CW)
 
         val light1RectF =  RectF(500f, 205f, 510f, 230f)
