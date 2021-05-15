@@ -44,8 +44,8 @@ class BusView (context: Context, attributeSet: AttributeSet): View(context, attr
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        val rectF = RectF(200f, 200f, 400f, 500f)
-        path.addRoundRect(rectF, 40f, 0f, Path.Direction.CW)
+        val rectF = RectF(200f, 200f, 500f, 390f)
+        path.addRoundRect(rectF, 15f, 15f, Path.Direction.CW)
 
         val frontRectF = RectF(410f, 200f, 510f, 300f)
         frontPath.addRoundRect(frontRectF, floatArrayOf(0f,0f,30f,30f, 30f, 30f, 0f,0f), Path.Direction.CW)
