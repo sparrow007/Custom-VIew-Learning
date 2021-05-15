@@ -29,64 +29,64 @@ class DemoActivity : AppCompatActivity() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        val view: ObjectFollow = findViewById<View>(R.id.animated_path) as ObjectFollow
-
-        val headAnim = ObjectAnimator.ofFloat(view, "headPercentage", 0.0f, 1.0f).apply {
-            duration = 3000
-            interpolator = LinearInterpolator()
-        }
-
-        val bodyAnim = ObjectAnimator.ofFloat(view, "percentage", 0.0f, 1.0f).apply {
-            duration = 5000
-            interpolator = LinearInterpolator()
-        }
-
-        val hand1Anim = ObjectAnimator.ofFloat(view, "hand1Percentage", 0.0f, 1.0f).apply {
-            duration = 3000
-            interpolator = LinearInterpolator()
-        }
-        hand1Anim.addUpdateListener {
-            val data = it.animatedValue as Float
-            view.hand1Active = true
-        }
-
-        val hand2Anim = ObjectAnimator.ofFloat(view, "hand2Percentage", 0.0f, 1.0f).apply {
-            duration = 3000
-            interpolator = LinearInterpolator()
-        }
-
-        hand2Anim.addUpdateListener {
-            view.hand2Active = true
-        }
-
-        val eyeAnim = ObjectAnimator.ofFloat(view, "eyePercentage", 0.0f, 1.0f).apply {
-            duration = 3000
-            interpolator = LinearInterpolator()
-        }
-        eyeAnim.addUpdateListener {
-            view.headActive = true
-        }
-
-        val anim = AnimatorSet()
-        anim.play(hand1Anim).before(headAnim).before(eyeAnim).with(hand2Anim).after(bodyAnim)
-        anim.start()
-        anim.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
-               view.ioActive = true
-            }
-
-            override fun onAnimationCancel(animation: Animator?) {
-            }
-
-            override fun onAnimationRepeat(animation: Animator?) {
-            }
-
-        })
-    }
+//    override fun onResume() {
+//        super.onResume()
+//
+//        val view: ObjectFollow = findViewById<View>(R.id.animated_path) as ObjectFollow
+//
+//        val headAnim = ObjectAnimator.ofFloat(view, "headPercentage", 0.0f, 1.0f).apply {
+//            duration = 3000
+//            interpolator = LinearInterpolator()
+//        }
+//
+//        val bodyAnim = ObjectAnimator.ofFloat(view, "percentage", 0.0f, 1.0f).apply {
+//            duration = 5000
+//            interpolator = LinearInterpolator()
+//        }
+//
+//        val hand1Anim = ObjectAnimator.ofFloat(view, "hand1Percentage", 0.0f, 1.0f).apply {
+//            duration = 3000
+//            interpolator = LinearInterpolator()
+//        }
+//        hand1Anim.addUpdateListener {
+//            val data = it.animatedValue as Float
+//            view.hand1Active = true
+//        }
+//
+//        val hand2Anim = ObjectAnimator.ofFloat(view, "hand2Percentage", 0.0f, 1.0f).apply {
+//            duration = 3000
+//            interpolator = LinearInterpolator()
+//        }
+//
+//        hand2Anim.addUpdateListener {
+//            view.hand2Active = true
+//        }
+//
+//        val eyeAnim = ObjectAnimator.ofFloat(view, "eyePercentage", 0.0f, 1.0f).apply {
+//            duration = 3000
+//            interpolator = LinearInterpolator()
+//        }
+//        eyeAnim.addUpdateListener {
+//            view.headActive = true
+//        }
+//
+//        val anim = AnimatorSet()
+//        anim.play(hand1Anim).before(headAnim).before(eyeAnim).with(hand2Anim).after(bodyAnim)
+//        anim.start()
+//        anim.addListener(object : Animator.AnimatorListener {
+//            override fun onAnimationStart(animation: Animator?) {
+//            }
+//
+//            override fun onAnimationEnd(animation: Animator?) {
+//               view.ioActive = true
+//            }
+//
+//            override fun onAnimationCancel(animation: Animator?) {
+//            }
+//
+//            override fun onAnimationRepeat(animation: Animator?) {
+//            }
+//
+//        })
+//    }
 }
