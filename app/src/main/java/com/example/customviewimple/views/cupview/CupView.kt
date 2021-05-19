@@ -30,6 +30,8 @@ class CupView (context: Context, attributeSet: AttributeSet) : View(context, att
         //pathEffect = CornerPathEffect(30f)
     }
 
+    private var mainPath = Path()
+
     private val topBar2Path = Path()
     private val topBar1Path = Path()
     private val bottlePath = Path()
@@ -61,6 +63,11 @@ class CupView (context: Context, attributeSet: AttributeSet) : View(context, att
         bottlePath.lineTo(370f, 950f)
         bottlePath.lineTo(600f, 950f)
         bottlePath.lineTo(650f, 340f)
+
+        mainPath.addPath(strawPath)
+        mainPath.addPath(topBar1Path)
+        mainPath.addPath(topBar2Path)
+        mainPath.addPath(bottlePath)
 
     }
 

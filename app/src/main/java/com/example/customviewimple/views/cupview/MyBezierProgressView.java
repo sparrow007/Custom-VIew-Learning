@@ -45,13 +45,13 @@ public class MyBezierProgressView extends View {
         //Split out the wave area
         canvas.save();
         canvas.clipPath(getBezierPath());
-        canvas.clipPath(getCirclePath());
+        //canvas.clipPath(getCirclePath());
         canvas.drawColor(Color.BLUE);
         canvas.restore();
 
        // canvas.drawCircle(radius*2,radius*3,radius,paint);
         changeBezierPos();
-       // postInvalidateDelayed(5);
+        postInvalidateDelayed(5);
     }
 
     //Change the position of the Bezier curve
