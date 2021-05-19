@@ -33,7 +33,7 @@ class SecondBezier(context: Context, attributeSet: AttributeSet): View(context, 
 
         paint.color = Color.BLACK
         paint.strokeWidth =  10f
-        paint.style = Paint.Style.FILL
+        paint.style = Paint.Style.STROKE
 
 
     }
@@ -71,7 +71,7 @@ class SecondBezier(context: Context, attributeSet: AttributeSet): View(context, 
         path.reset()
         path.moveTo(start.x, start.y)
         path.quadTo(control.x, control.y, end.x, end.y)
-        path.close()
+        //path.close()
 
         canvas.drawPath(path, paint)
 
