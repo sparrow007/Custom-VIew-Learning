@@ -29,6 +29,11 @@ class DemoActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
+
 //    override fun onResume() {
 //        super.onResume()
 //

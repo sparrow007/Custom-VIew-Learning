@@ -19,6 +19,7 @@ public class WaveView extends View{
     private DrawFilter mDrawFilter;
     private float φ;
     private OnWaveAnimationListener mWaveAnimationListener;
+    private int progress = 0;
 
     public WaveView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -41,6 +42,12 @@ public class WaveView extends View{
 
         //画布抗锯齿
         mDrawFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        progress = getHeight() - 100;
     }
 
     @Override
@@ -69,7 +76,7 @@ public class WaveView extends View{
              *  φ—初相，反映在坐标系上则为图像的左右移动。这里通过不断改变φ,达到波浪移动效果
              *  k—偏距，反映在坐标系上则为图像的上移或下移。
              */
-            y = (float) (10 * Math.cos(ω * x + φ)+5);
+            y = (float) (10 * Math.cos(ω * x + φ)) + progress;
             y2 = (float) (10 * Math.sin(ω * x + φ));
             mAbovePath.lineTo(getLeft() + x, y);
             mBelowWavePath.lineTo(x, y2);
@@ -92,5 +99,10 @@ public class WaveView extends View{
 
     public interface OnWaveAnimationListener{
         void OnWaveAnimation(float y);
+    }
+
+    void setProgress(int progress) {
+        this.progress = progress;
+        invalidate();
     }
 }
