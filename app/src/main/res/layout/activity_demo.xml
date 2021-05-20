@@ -10,7 +10,7 @@
     <com.example.customviewimple.WaveView
         android:id="@+id/animated_path"
         android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_height="500dp"
         android:layout_centerInParent="true"
 
         />

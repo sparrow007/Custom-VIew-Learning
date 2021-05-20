@@ -56,7 +56,7 @@ public class WaveView extends View{
         float y,y2;
         double ω = 2*Math.PI / getWidth();
 
-        mAbovePath.moveTo(getLeft(),10);
+        mAbovePath.moveTo(getLeft(),getBottom());
         mBelowWavePath.moveTo(getLeft(),getBottom());
 
         for (float x = 0; x <= getWidth(); x
@@ -69,16 +69,15 @@ public class WaveView extends View{
              *  φ—初相，反映在坐标系上则为图像的左右移动。这里通过不断改变φ,达到波浪移动效果
              *  k—偏距，反映在坐标系上则为图像的上移或下移。
              */
-            y = (float) (10 * Math.cos(ω * x + φ)+10);
+            y = (float) (10 * Math.cos(ω * x + φ)+5);
             y2 = (float) (10 * Math.sin(ω * x + φ));
-            mAbovePath.lineTo(x, y);
+            mAbovePath.lineTo(getLeft() + x, y);
             mBelowWavePath.lineTo(x, y2);
             //回调 把y坐标的值传出去(在activity里面接收让小机器人随波浪一起摇摆)
 //            mWaveAnimationListener.OnWaveAnimation(y);
         }
 
-
-       // mAbovePath.lineTo(getRight(),50);
+        mAbovePath.lineTo(getRight(),getBottom());
         //mBelowWavePath.lineTo(getRight(),getBottom());
 
         canvas.drawPath(mAbovePath,mAboveWavePaint);
