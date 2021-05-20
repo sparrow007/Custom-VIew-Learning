@@ -1,5 +1,6 @@
 package com.example.customviewimple;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,8 +9,9 @@ import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
-
+import android.view.animation.AccelerateInterpolator;
 
 
 public class WaveView extends View{
@@ -20,6 +22,9 @@ public class WaveView extends View{
     private float φ;
     private OnWaveAnimationListener mWaveAnimationListener;
     private int progress = 0;
+    double ω;
+    private int height;
+
 
     public WaveView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -48,6 +53,8 @@ public class WaveView extends View{
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         progress = getHeight();
+        ω = 2*Math.PI / getWidth();
+        height = h;
     }
 
     @Override
@@ -61,14 +68,11 @@ public class WaveView extends View{
 
         φ-=0.2f;
         float y,y2;
-        double ω = 2*Math.PI / getWidth();
 
         mAbovePath.moveTo(getLeft(),getBottom());
-        mBelowWavePath.moveTo(getLeft(),getBottom());
+        //mBelowWavePath.moveTo(getLeft(),getBottom());
 
-        for (float x = 0; x <= getWidth(); x
-
-                += 20) {
+        for (float x = 0; x <= getWidth(); x += 20) {
             /**
              *  y=Asin(ωx+φ)+k
              *  A—振幅越大，波形在y轴上最大与最小值的差值越大
@@ -79,7 +83,7 @@ public class WaveView extends View{
             y = (float) (15 * Math.cos(ω * x + φ)) + progress;
             y2 = (float) (10 * Math.sin(ω * x + φ));
             mAbovePath.lineTo(getLeft() + x, y);
-            mBelowWavePath.lineTo(x, y2);
+           // mBelowWavePath.lineTo(x, y2);
             //回调 把y坐标的值传出去(在activity里面接收让小机器人随波浪一起摇摆)
 //            mWaveAnimationListener.OnWaveAnimation(y);
         }
@@ -103,7 +107,22 @@ public class WaveView extends View{
     }
 
     void setProgress(int progress) {
+        Log.e("MY TAG", "PROGRESS is " + progress);
         this.progress = getHeight() - progress;
+        Log.e("MY TAG", "NEXT PROGRESS is " + this.progress);
+
         invalidate();
+    }
+
+    int provideHeight() {
+        return getHeight();
+    }
+
+    void animation() {
+        Log.e("WAVEVIEW", "THIS IS Height " + height + " another = "+getHeight() + " right = " + getMeasuredHeight());
+        ObjectAnimator objectAnimate = ObjectAnimator.ofInt(this, "progress", 0, height);
+        objectAnimate.setDuration(7000);
+        objectAnimate.setInterpolator(new AccelerateInterpolator());
+        //objectAnimate.start();
     }
 }
