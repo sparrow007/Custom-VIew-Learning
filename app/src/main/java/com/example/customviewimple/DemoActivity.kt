@@ -10,6 +10,7 @@ import android.view.ViewTreeObserver
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.Window
 import android.view.WindowManager
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.LinearInterpolator
@@ -31,7 +32,10 @@ class DemoActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
+//        val objectAnimate = ObjectAnimator.ofInt(animated_path, "progress", 0, animated_path.height)
+//        objectAnimate.duration = 7000
+//        objectAnimate.interpolator = AccelerateInterpolator()
+//        objectAnimate.start()
     }
 
 //    override fun onResume() {

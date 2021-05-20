@@ -47,14 +47,14 @@ public class WaveView extends View{
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        progress = getHeight() - 100;
+        progress = getHeight() - 10;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.setDrawFilter(mDrawFilter);
+      //  canvas.setDrawFilter(mDrawFilter);
 
         mAbovePath.reset();
         mBelowWavePath.reset();
@@ -76,7 +76,7 @@ public class WaveView extends View{
              *  φ—初相，反映在坐标系上则为图像的左右移动。这里通过不断改变φ,达到波浪移动效果
              *  k—偏距，反映在坐标系上则为图像的上移或下移。
              */
-            y = (float) (10 * Math.cos(ω * x + φ)) + progress;
+            y = (float) (20 * Math.cos(ω * x + φ)) + progress;
             y2 = (float) (10 * Math.sin(ω * x + φ));
             mAbovePath.lineTo(getLeft() + x, y);
             mBelowWavePath.lineTo(x, y2);
@@ -90,7 +90,8 @@ public class WaveView extends View{
         canvas.drawPath(mAbovePath,mAboveWavePaint);
        // canvas.drawPath(mBelowWavePath,mBelowWavePaint);
 
-        postInvalidateDelayed(20);
+//        if (progress == 0)
+//        postInvalidateDelayed(20);
     }
 
     public void setOnWaveAnimationListener(OnWaveAnimationListener l){
@@ -102,7 +103,7 @@ public class WaveView extends View{
     }
 
     void setProgress(int progress) {
-        this.progress = progress;
+        this.progress = getHeight() - progress;
         invalidate();
     }
 }
