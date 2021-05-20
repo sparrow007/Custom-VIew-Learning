@@ -52,7 +52,7 @@ public class WaveView extends View{
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        progress = getHeight();
+        progress = h - 100;
         ω = 2*Math.PI / getWidth();
         height = h;
     }
@@ -69,10 +69,10 @@ public class WaveView extends View{
         φ-=0.2f;
         float y,y2;
 
-        mAbovePath.moveTo(getLeft(),getBottom());
+        mAbovePath.moveTo(getLeft() + 250,getBottom());
         //mBelowWavePath.moveTo(getLeft(),getBottom());
 
-        for (float x = 0; x <= getWidth(); x += 20) {
+        for (float x = 100; x <= getWidth()-100; x += 20) {
             /**
              *  y=Asin(ωx+φ)+k
              *  A—振幅越大，波形在y轴上最大与最小值的差值越大
@@ -82,13 +82,13 @@ public class WaveView extends View{
              */
             y = (float) (15 * Math.cos(ω * x + φ)) + progress;
             y2 = (float) (10 * Math.sin(ω * x + φ));
-            mAbovePath.lineTo(getLeft() + x, y);
+            mAbovePath.lineTo(getLeft()+50 + x, y);
            // mBelowWavePath.lineTo(x, y2);
             //回调 把y坐标的值传出去(在activity里面接收让小机器人随波浪一起摇摆)
 //            mWaveAnimationListener.OnWaveAnimation(y);
         }
 
-        mAbovePath.lineTo(getRight(),getBottom());
+        mAbovePath.lineTo(getRight() - 150,getBottom());
         //mBelowWavePath.lineTo(getRight(),getBottom());
 
         canvas.drawPath(mAbovePath,mAboveWavePaint);
@@ -120,9 +120,9 @@ public class WaveView extends View{
 
     void animation() {
         Log.e("WAVEVIEW", "THIS IS Height " + height + " another = "+getHeight() + " right = " + getMeasuredHeight());
-        ObjectAnimator objectAnimate = ObjectAnimator.ofInt(this, "progress", 0, height);
-        objectAnimate.setDuration(7000);
+        ObjectAnimator objectAnimate = ObjectAnimator.ofInt(this, "progress", 0, getHeight());
+        objectAnimate.setDuration(4000);
         objectAnimate.setInterpolator(new AccelerateInterpolator());
-        //objectAnimate.start();
+        objectAnimate.start();
     }
 }
