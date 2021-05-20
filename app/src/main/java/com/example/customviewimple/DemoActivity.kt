@@ -32,10 +32,11 @@ class DemoActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-//        val objectAnimate = ObjectAnimator.ofInt(animated_path, "progress", 0, animated_path.height)
-//        objectAnimate.duration = 7000
-//        objectAnimate.interpolator = AccelerateInterpolator()
-//        objectAnimate.start()
+
+        val objectAnimate = ObjectAnimator.ofInt(animated_path, "progress", 0, animated_path.height)
+        objectAnimate.duration = 7000
+        objectAnimate.interpolator = AccelerateInterpolator()
+        objectAnimate.start()
     }
 
 //    override fun onResume() {
