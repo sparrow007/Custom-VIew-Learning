@@ -31,12 +31,12 @@ public class WaveView extends View{
         mAboveWavePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mAboveWavePaint.setAntiAlias(true);
         mAboveWavePaint.setStyle(Paint.Style.FILL);
-        mAboveWavePaint.setColor(Color.WHITE);
+        mAboveWavePaint.setColor(Color.BLACK);
 
         mBelowWavePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBelowWavePaint.setAntiAlias(true);
-        mBelowWavePaint.setStyle(Paint.Style.FILL);
-        mBelowWavePaint.setColor(Color.WHITE);
+        mBelowWavePaint.setStyle(Paint.Style.STROKE);
+        mBelowWavePaint.setColor(Color.BLACK);
         mBelowWavePaint.setAlpha(80);
 
         //画布抗锯齿
@@ -47,19 +47,21 @@ public class WaveView extends View{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-       // canvas.setDrawFilter(mDrawFilter);
+        canvas.setDrawFilter(mDrawFilter);
 
         mAbovePath.reset();
         mBelowWavePath.reset();
 
-        φ-=0.1f;
+        φ-=0.2f;
         float y,y2;
         double ω = 2*Math.PI / getWidth();
 
-        mAbovePath.moveTo(getLeft(),getBottom());
+        mAbovePath.moveTo(getLeft(),10);
         mBelowWavePath.moveTo(getLeft(),getBottom());
 
-        for (float x = 0; x <= getWidth(); x += 20) {
+        for (float x = 0; x <= getWidth(); x
+
+                += 20) {
             /**
              *  y=Asin(ωx+φ)+k
              *  A—振幅越大，波形在y轴上最大与最小值的差值越大
@@ -67,7 +69,7 @@ public class WaveView extends View{
              *  φ—初相，反映在坐标系上则为图像的左右移动。这里通过不断改变φ,达到波浪移动效果
              *  k—偏距，反映在坐标系上则为图像的上移或下移。
              */
-            y = (float) (10 * Math.cos(ω * x + φ) +10);
+            y = (float) (10 * Math.cos(ω * x + φ)+10);
             y2 = (float) (10 * Math.sin(ω * x + φ));
             mAbovePath.lineTo(x, y);
             mBelowWavePath.lineTo(x, y2);
@@ -76,11 +78,11 @@ public class WaveView extends View{
         }
 
 
-        mAbovePath.lineTo(getRight(),getBottom());
-        mBelowWavePath.lineTo(getRight(),getBottom());
+       // mAbovePath.lineTo(getRight(),50);
+        //mBelowWavePath.lineTo(getRight(),getBottom());
 
         canvas.drawPath(mAbovePath,mAboveWavePaint);
-        canvas.drawPath(mBelowWavePath,mBelowWavePaint);
+       // canvas.drawPath(mBelowWavePath,mBelowWavePaint);
 
         postInvalidateDelayed(20);
     }
