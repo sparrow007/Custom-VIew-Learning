@@ -22,7 +22,7 @@ public class WaveView extends View{
     private float φ;
     private OnWaveAnimationListener mWaveAnimationListener;
     private int progress = 0;
-    double ω;
+    private double ω;
     private int height;
 
 
