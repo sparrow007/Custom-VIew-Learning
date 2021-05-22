@@ -90,6 +90,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         super.onDraw(canvas)
         if (canvas == null) return
 
+        canvas.translate(60f, height/5f)
+
         wavePath.reset()
         /***
          * Draw wave path for showing the waves
