@@ -115,10 +115,10 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          * Use this for perform the animation when all the required path
          * is drawn on the screen
          */
-        if (performAnimation) {
-            performAnimation = false
-            animation()
-        }
+//        if (performAnimation) {
+//            performAnimation = false
+//            animation()
+//        }
     }
 
     /**
