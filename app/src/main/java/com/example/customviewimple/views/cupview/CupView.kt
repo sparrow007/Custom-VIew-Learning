@@ -49,7 +49,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     private var φ = 0f
     private var w = 0f
     private var performAnimation: Boolean = true
-    private var progressWaveX = 0f
+    private var progressWaveX = 340f
+    private var progressWidth = 1
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -86,6 +87,10 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
 
         progress =  height / 2 - 170
 
+        var rectF = RectF()
+        bottlePath.computeBounds(rectF, true)
+
+        Log.e("WAVE", "BOUNDS ARE " + rectF)
 
     }
 
@@ -106,7 +111,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          * Loop for creating wave effect
          */
         var x = 20
-        while (x <= 340) {
+        while (x <= 270 + progressWidth) {
             y = (15 * cos((w * x + φ).toDouble())).toFloat() + progress
             wavePath.lineTo( x+progressWaveX, y)
             x += 30
@@ -135,11 +140,14 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
      */
     fun setProgress(progress: Int) {
         this.progress = (height / 2 - 170) - progress
-        this.progressWaveX += 10
-        Log.e("MY TAG", "pROGRESS X = " + progressWaveX)
+        Log.e("MY TAG", "pROGRESS X = " + progressWidth)
+        if (progress >= (height / 12) && progressWidth < 340) {
+            this.progressWidth += 1
+            Log.e("WAVE", "PROGRESS CALLED " + progressWidth)
+            this.progressWaveX
+        }
         invalidate()
     }
-
     /**
      * Added the animation of this view
      */
@@ -147,7 +155,14 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         val objectAnimate = ObjectAnimator.ofInt(this, "progress", 0,  height / 5)
         objectAnimate.duration = 5000
         objectAnimate.interpolator = AccelerateInterpolator()
+        objectAnimate.addUpdateListener {
+            val data = it.animatedValue as Int
+
+
+        }
         objectAnimate.start()
+
+
     }
 
 }
