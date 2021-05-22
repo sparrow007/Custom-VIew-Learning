@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import kotlin.math.cos
@@ -48,6 +49,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     private var φ = 0f
     private var w = 0f
     private var performAnimation: Boolean = true
+    private var progressWaveX = 0f
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -82,7 +84,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         mainPath.addPath(bottlePath)
         this.w = (2f * Math.PI / width).toFloat()
 
-        progress =  h/5 - 15
+        progress =  height / 2 - 170
+
 
     }
 
@@ -105,7 +108,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         var x = 20
         while (x <= 340) {
             y = (15 * cos((w * x + φ).toDouble())).toFloat() + progress
-            wavePath.lineTo( x+ 330f, y)
+            wavePath.lineTo( x+progressWaveX, y)
             x += 30
         }
 
@@ -123,7 +126,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          */
         if (performAnimation) {
             performAnimation = false
-           // animation()
+            animation()
         }
     }
 
@@ -131,7 +134,9 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
      * It uses for the animation of the wave effect another changes
      */
     fun setProgress(progress: Int) {
-        this.progress = height - progress
+        this.progress = (height / 2 - 170) - progress
+        this.progressWaveX += 10
+        Log.e("MY TAG", "pROGRESS X = " + progressWaveX)
         invalidate()
     }
 
@@ -139,7 +144,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
      * Added the animation of this view
      */
     fun animation() {
-        val objectAnimate = ObjectAnimator.ofInt(this, "progress", 0, height)
+        val objectAnimate = ObjectAnimator.ofInt(this, "progress", 0,  height / 5)
         objectAnimate.duration = 5000
         objectAnimate.interpolator = AccelerateInterpolator()
         objectAnimate.start()
