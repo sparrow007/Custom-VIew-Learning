@@ -89,9 +89,6 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
 
         var rectF = RectF()
         bottlePath.computeBounds(rectF, true)
-
-        Log.e("WAVE", "BOUNDS ARE " + rectF)
-
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -154,7 +151,6 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         objectAnimate.duration = 5000
         objectAnimate.interpolator = AccelerateInterpolator()
         objectAnimate.start()
-
 
     }
 
