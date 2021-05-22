@@ -43,7 +43,8 @@ class CupView (context: Context, attributeSet: AttributeSet) : View(context, att
 
     private val wavePath = Path()
     private var progress = 0
-
+    private var φ = 0f
+    private var w = 0f
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -89,6 +90,10 @@ class CupView (context: Context, attributeSet: AttributeSet) : View(context, att
         canvas.drawPath(topBar1Path, paint)
         canvas.drawPath(topBar2Path, paint)
         canvas.drawPath(bottlePath, bottlePaint)
+
+        /***
+         * Draw wave path for showing the waves
+         */
     }
 
 }
