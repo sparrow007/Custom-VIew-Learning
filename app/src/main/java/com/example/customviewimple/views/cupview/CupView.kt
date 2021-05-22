@@ -31,7 +31,6 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         style = Paint.Style.STROKE
         strokeWidth = 10f
         //pathEffect = CornerPathEffect(30f)
-        //Github test
     }
 
     private val wavePaint = Paint().apply {
