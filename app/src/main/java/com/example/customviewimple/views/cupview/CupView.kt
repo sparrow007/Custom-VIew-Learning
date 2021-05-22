@@ -106,6 +106,9 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
             wavePath.lineTo(left + 50f + x, y)
             x += 20
         }
+
+        wavePath.lineTo(right - 150f, bottom.toFloat())
+        canvas.drawPath(wavePath, wavePaint)
     }
 
 }
