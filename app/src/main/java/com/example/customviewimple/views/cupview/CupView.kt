@@ -94,7 +94,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          * Draw wave path for showing the waves
          */
         φ -= 0.2f
-        wavePath.moveTo(left + 250f, bottom.toFloat())
+        wavePath.moveTo(left + 250f, 900f)
 
         /**
          * Loop for creating wave effect
@@ -106,7 +106,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
             x += 20
         }
 
-        wavePath.lineTo(right - 150f, bottom.toFloat())
+        wavePath.lineTo(right - 150f, 900f)
         canvas.drawPath(wavePath, wavePaint)
 
 //        canvas.drawPath(strawPath, strawPaint)
@@ -128,7 +128,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
      * It uses for the animation of the wave effect
      */
     fun setProgress(progress: Int) {
-        this.progress = height - progress
+        this.progress = 900 - progress
         invalidate()
     }
 
