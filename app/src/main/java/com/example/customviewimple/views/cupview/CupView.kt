@@ -108,12 +108,12 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         }
 
         wavePath.lineTo(right - 150f, bottom.toFloat() - 100)
-        canvas.drawPath(wavePath, wavePaint)
+       // canvas.drawPath(wavePath, wavePaint)
 
-//        canvas.drawPath(strawPath, strawPaint)
-//        canvas.drawPath(topBar1Path, paint)
-//        canvas.drawPath(topBar2Path, paint)
- //       canvas.drawPath(bottlePath, bottlePaint)
+        canvas.drawPath(strawPath, strawPaint)
+        canvas.drawPath(topBar1Path, paint)
+        canvas.drawPath(topBar2Path, paint)
+        canvas.drawPath(bottlePath, bottlePaint)
 
         /**
          * Use this for perform the animation when all the required path
