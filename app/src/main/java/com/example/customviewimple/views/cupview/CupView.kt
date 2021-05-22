@@ -88,6 +88,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         super.onDraw(canvas)
         if (canvas == null) return
 
+        wavePath.reset()
         /***
          * Draw wave path for showing the waves
          */
@@ -115,10 +116,10 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          * Use this for perform the animation when all the required path
          * is drawn on the screen
          */
-//        if (performAnimation) {
-//            performAnimation = false
-//            animation()
-//        }
+        if (performAnimation) {
+            performAnimation = false
+            animation()
+        }
     }
 
     /**
