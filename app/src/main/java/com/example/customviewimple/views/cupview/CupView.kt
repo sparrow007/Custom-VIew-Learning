@@ -18,7 +18,6 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
 
     }
 
-
     private val bottlePaint = Paint().apply {
         color = Color.BLACK
         style = Paint.Style.STROKE
