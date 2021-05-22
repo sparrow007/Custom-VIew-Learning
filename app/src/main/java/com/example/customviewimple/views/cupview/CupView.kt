@@ -4,8 +4,9 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import kotlin.math.cos
 
-class CupView (context: Context, attributeSet: AttributeSet) : View(context, attributeSet){
+class CupView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet){
 
     private val paint = Paint().apply {
         color = Color.BLACK
@@ -101,8 +102,8 @@ class CupView (context: Context, attributeSet: AttributeSet) : View(context, att
          */
         var x = 100
         while (x < width - 100) {
-
-
+            y = (15 * cos((w * x + φ).toDouble())).toFloat() + progress
+            wavePath.lineTo(left + 50f + x, y)
             x += 20
         }
     }
