@@ -30,12 +30,18 @@ class CupView (context: Context, attributeSet: AttributeSet) : View(context, att
         //pathEffect = CornerPathEffect(30f)
     }
 
+    private val wavePaint = Paint().apply {
+        color = Color.BLUE
+        style = Paint.Style.FILL
+    }
     private var mainPath = Path()
 
     private val topBar2Path = Path()
     private val topBar1Path = Path()
     private val bottlePath = Path()
     private val strawPath = Path()
+
+    private val wavePath = Path()
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
