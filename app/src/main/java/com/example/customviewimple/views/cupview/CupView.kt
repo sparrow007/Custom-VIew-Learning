@@ -1,9 +1,11 @@
 package com.example.customviewimple.views.cupview
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.AccelerateInterpolator
 import kotlin.math.cos
 
 class CupView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet){
@@ -114,9 +116,20 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     /**
      * It uses for the animation of the wave effect
      */
-    fun progress(progress : Int) {
+    fun setProgress(progress: Int) {
         this.progress = height - progress
         invalidate()
+    }
+
+    /**
+     * Added the animation of this view
+     */
+
+    fun animation() {
+        val objectAnimate = ObjectAnimator.ofInt(this, "progress", 0, height)
+        objectAnimate.duration = 4000
+        objectAnimate.interpolator = AccelerateInterpolator()
+        objectAnimate.start()
     }
 
 }
