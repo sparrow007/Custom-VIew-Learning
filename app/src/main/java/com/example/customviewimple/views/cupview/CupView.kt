@@ -94,6 +94,11 @@ class CupView (context: Context, attributeSet: AttributeSet) : View(context, att
         /***
          * Draw wave path for showing the waves
          */
+        wavePath.moveTo(left + 250f, bottom.toFloat())
+
+        /**
+         * Loop for creating wave effect
+         */
     }
 
 }
