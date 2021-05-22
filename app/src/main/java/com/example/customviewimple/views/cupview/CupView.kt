@@ -94,8 +94,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          * Draw wave path for showing the waves
          */
         φ -= 0.2f
-        wavePath.moveTo(left + 250f, bottom.toFloat()-200)
-
+        wavePath.moveTo(left + 250f, bottom.toFloat())
         /**
          * Loop for creating wave effect
          */
@@ -106,7 +105,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
             x += 20
         }
 
-        wavePath.lineTo(right - 150f, bottom.toFloat()-200)
+        wavePath.lineTo(right - 150f, bottom.toFloat())
         canvas.drawPath(wavePath, wavePaint)
 
 //        canvas.drawPath(strawPath, strawPaint)
