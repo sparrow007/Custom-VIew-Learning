@@ -115,7 +115,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
      * It uses for the animation of the wave effect
      */
     fun progress(progress : Int) {
-
+        this.progress = height - progress
+        invalidate()
     }
 
 }
