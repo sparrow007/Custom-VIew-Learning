@@ -49,6 +49,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     private var φ = 0f
     private var w = 0f
 
+    private var performAnimation: Boolean = true
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
 
