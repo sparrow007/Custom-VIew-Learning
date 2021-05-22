@@ -86,9 +86,6 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         this.w = (2f * Math.PI / width).toFloat()
 
         progress =  height / 2 - 170
-
-        var rectF = RectF()
-        bottlePath.computeBounds(rectF, true)
     }
 
     override fun onDraw(canvas: Canvas?) {
