@@ -111,4 +111,11 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         canvas.drawPath(wavePath, wavePaint)
     }
 
+    /**
+     * It uses for the animation of the wave effect
+     */
+    fun progress(progress : Int) {
+
+    }
+
 }
