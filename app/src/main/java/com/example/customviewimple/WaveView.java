@@ -23,7 +23,6 @@ public class WaveView extends View{
     private OnWaveAnimationListener mWaveAnimationListener;
     private int progress = 0;
     private double ω;
-    private int height;
 
 
     public WaveView(Context context, AttributeSet attrs) {
@@ -54,7 +53,6 @@ public class WaveView extends View{
         super.onSizeChanged(w, h, oldw, oldh);
         progress = h - 100;
         ω = 2*Math.PI / getWidth();
-        height = h;
     }
 
     @Override
@@ -113,7 +111,6 @@ public class WaveView extends View{
 
 
     void animation() {
-        Log.e("WAVEVIEW", "THIS IS Height " + height + " another = "+getHeight() + " right = " + getMeasuredHeight());
         ObjectAnimator objectAnimate = ObjectAnimator.ofInt(this, "progress", 0, getHeight());
         objectAnimate.setDuration(4000);
         objectAnimate.setInterpolator(new AccelerateInterpolator());

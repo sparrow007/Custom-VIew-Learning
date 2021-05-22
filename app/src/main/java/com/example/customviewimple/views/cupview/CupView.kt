@@ -42,6 +42,8 @@ class CupView (context: Context, attributeSet: AttributeSet) : View(context, att
     private val strawPath = Path()
 
     private val wavePath = Path()
+    private var progress = 0
+
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
