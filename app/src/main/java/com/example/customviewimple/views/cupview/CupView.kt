@@ -82,7 +82,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         mainPath.addPath(bottlePath)
         this.w = (2f * Math.PI / width).toFloat()
 
-        progress =  h - 200
+        progress =  h/5 - 15
 
     }
 
@@ -90,7 +90,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         super.onDraw(canvas)
         if (canvas == null) return
 
-        canvas.translate(60f, height/5f)
+        canvas.translate(0f, height/5f)
 
         wavePath.reset()
         /***
@@ -98,19 +98,19 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          */
         φ -= 0.2f
         var y = 0f
-        wavePath.moveTo(left + 150f, bottom.toFloat() - 100)
+        wavePath.moveTo(370f, height / 2f - 160f)
         /**
          * Loop for creating wave effect
          */
-        var x = 100
-        while (x <= width - 100) {
+        var x = 20
+        while (x <= 340) {
             y = (15 * cos((w * x + φ).toDouble())).toFloat() + progress
-            wavePath.lineTo(left + 50f + x, y)
-            x += 20
+            wavePath.lineTo( x+ 330f, y)
+            x += 30
         }
 
-        wavePath.lineTo(right - 150f, bottom.toFloat() - 100)
-       // canvas.drawPath(wavePath, wavePaint)
+        wavePath.lineTo(605f, height / 2f-160)
+        canvas.drawPath(wavePath, wavePaint)
 
         canvas.drawPath(strawPath, strawPaint)
         canvas.drawPath(topBar1Path, paint)
