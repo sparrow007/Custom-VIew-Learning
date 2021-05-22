@@ -107,16 +107,10 @@ public class WaveView extends View{
     }
 
     void setProgress(int progress) {
-        Log.e("MY TAG", "PROGRESS is " + progress);
         this.progress = getHeight() - progress;
-        Log.e("MY TAG", "NEXT PROGRESS is " + this.progress);
-
         invalidate();
     }
 
-    int provideHeight() {
-        return getHeight();
-    }
 
     void animation() {
         Log.e("WAVEVIEW", "THIS IS Height " + height + " another = "+getHeight() + " right = " + getMeasuredHeight());
