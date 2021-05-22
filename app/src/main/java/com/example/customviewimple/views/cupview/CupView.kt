@@ -29,7 +29,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         color = Color.BLACK
         style = Paint.Style.STROKE
         strokeWidth = 10f
-        //pathEffect = CornerPathEffect(30f)
+        //pathEffect = CornerPathEffect(30f) . yes
     }
 
     private val wavePaint = Paint().apply {
@@ -128,7 +128,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     }
 
     /**
-     * It uses for the animation of the wave effect
+     * It uses for the animation of the wave effect another changes
      */
     fun setProgress(progress: Int) {
         this.progress = height - progress
