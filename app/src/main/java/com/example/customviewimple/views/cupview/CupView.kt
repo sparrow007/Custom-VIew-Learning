@@ -108,7 +108,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
 
         wavePath.lineTo(right - 150f, bottom.toFloat())
         canvas.drawPath(wavePath, wavePaint)
-//
+
 //        canvas.drawPath(strawPath, strawPaint)
 //        canvas.drawPath(topBar1Path, paint)
 //        canvas.drawPath(topBar2Path, paint)
