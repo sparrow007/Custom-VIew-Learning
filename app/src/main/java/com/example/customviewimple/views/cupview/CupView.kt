@@ -82,6 +82,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         mainPath.addPath(bottlePath)
         this.w = (2f * Math.PI / width).toFloat()
 
+        progress =  h - 200
+
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -93,18 +95,19 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          * Draw wave path for showing the waves
          */
         φ -= 0.2f
-        wavePath.moveTo(left + 250f, bottom.toFloat())
+        var y = 0f
+        wavePath.moveTo(left + 150f, bottom.toFloat() - 100)
         /**
          * Loop for creating wave effect
          */
         var x = 100
-        while (x < width - 100) {
+        while (x <= width - 100) {
             y = (15 * cos((w * x + φ).toDouble())).toFloat() + progress
             wavePath.lineTo(left + 50f + x, y)
             x += 20
         }
 
-        wavePath.lineTo(right - 150f, bottom.toFloat())
+        wavePath.lineTo(right - 150f, bottom.toFloat() - 100)
         canvas.drawPath(wavePath, wavePaint)
 
 //        canvas.drawPath(strawPath, strawPaint)
@@ -118,7 +121,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          */
         if (performAnimation) {
             performAnimation = false
-            animation()
+           // animation()
         }
     }
 
