@@ -48,7 +48,6 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     private var progress = 0
     private var φ = 0f
     private var w = 0f
-
     private var performAnimation: Boolean = true
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -113,6 +112,15 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
 
         wavePath.lineTo(right - 150f, bottom.toFloat())
         canvas.drawPath(wavePath, wavePaint)
+
+        /**
+         * Use this for perform the animation when all the required path
+         * is drawn on the screen
+         */
+        if (performAnimation) {
+            performAnimation = false
+            animation()
+        }
     }
 
     /**
