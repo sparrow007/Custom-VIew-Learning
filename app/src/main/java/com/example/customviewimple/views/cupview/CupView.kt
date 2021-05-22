@@ -140,10 +140,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
      */
     fun setProgress(progress: Int) {
         this.progress = (height / 2 - 170) - progress
-        Log.e("MY TAG", "pROGRESS X = " + progressWidth)
         if (progress >= (height / 12) && progressWidth < 340) {
             this.progressWidth += 1
-            Log.e("WAVE", "PROGRESS CALLED " + progressWidth)
             this.progressWaveX
         }
         invalidate()
@@ -155,11 +153,6 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         val objectAnimate = ObjectAnimator.ofInt(this, "progress", 0,  height / 5)
         objectAnimate.duration = 5000
         objectAnimate.interpolator = AccelerateInterpolator()
-        objectAnimate.addUpdateListener {
-            val data = it.animatedValue as Int
-
-
-        }
         objectAnimate.start()
 
 
