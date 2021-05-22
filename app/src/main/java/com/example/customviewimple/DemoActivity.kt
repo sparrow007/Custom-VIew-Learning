@@ -32,7 +32,7 @@ class DemoActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        animated_path.animation()
+        //animated_path.animation()
     }
 
 //    override fun onResume() {

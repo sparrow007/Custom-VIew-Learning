@@ -138,7 +138,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
 
     fun animation() {
         val objectAnimate = ObjectAnimator.ofInt(this, "progress", 0, height)
-        objectAnimate.duration = 4000
+        objectAnimate.duration = 5000
         objectAnimate.interpolator = AccelerateInterpolator()
         objectAnimate.start()
     }
