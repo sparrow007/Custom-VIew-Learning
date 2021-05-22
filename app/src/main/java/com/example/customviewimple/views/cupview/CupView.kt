@@ -99,6 +99,12 @@ class CupView (context: Context, attributeSet: AttributeSet) : View(context, att
         /**
          * Loop for creating wave effect
          */
+        var x = 100
+        while (x < width - 100) {
+
+
+            x += 20
+        }
     }
 
 }
