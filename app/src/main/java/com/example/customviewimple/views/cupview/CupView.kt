@@ -81,6 +81,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         mainPath.addPath(topBar1Path)
         mainPath.addPath(topBar2Path)
         mainPath.addPath(bottlePath)
+        this.w = (2f * Math.PI / width).toFloat()
 
     }
 
@@ -92,6 +93,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         /***
          * Draw wave path for showing the waves
          */
+        φ -= 0.2f
         wavePath.moveTo(left + 250f, bottom.toFloat())
 
         /**
