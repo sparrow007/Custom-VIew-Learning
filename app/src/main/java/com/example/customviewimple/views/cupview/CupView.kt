@@ -131,7 +131,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         wavePath.lineTo(605f, height / 2f-160)
        // canvas.drawPath(wavePath, wavePaint)
 
-//        canvas.drawPath(strawPath, strawPaint)
+        canvas.drawPath(strawPath, strawPaint)
         canvas.drawPath(topBar1Path, topBar1Paint)
         canvas.drawPath(topBar2Path, topBar2Paint)
         canvas.drawPath(bottlePath, bottlePaint)
@@ -164,6 +164,14 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         val pathEffect = DashPathEffect(floatArrayOf(bottlePathLength, bottlePathLength), bottlePathLength - bottlePathLength * bottlePathProress)
         val cornerPathEffect = CornerPathEffect(30f)
         bottlePaint.pathEffect = ComposePathEffect(pathEffect, cornerPathEffect)
+        invalidate()
+    }
+
+    fun setStrawProgress(progress: Float) {
+        this.strawPathProgress = progress
+        val pathEffect = DashPathEffect(floatArrayOf(strawPathLength, strawPathLength), strawPathLength - strawPathLength * strawPathProgress)
+        val cornerPathEffect = CornerPathEffect(15f)
+        strawPaint.pathEffect = ComposePathEffect(pathEffect, cornerPathEffect)
         invalidate()
     }
 
