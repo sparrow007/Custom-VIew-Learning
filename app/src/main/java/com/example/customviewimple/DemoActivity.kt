@@ -36,7 +36,7 @@ class DemoActivity : AppCompatActivity() {
         }
 
         val strawAnim = ObjectAnimator.ofFloat(view, "strawProgress", 0.0f, 1.0f).apply {
-            duration = 5000
+            duration = 2000
             interpolator = LinearInterpolator()
         }
         strawAnim.addUpdateListener {
@@ -53,7 +53,7 @@ class DemoActivity : AppCompatActivity() {
         }
 
         val top1Progress = ObjectAnimator.ofFloat(view, "top1Progress", 0.0f, 1.0f).apply {
-            duration = 3000
+            duration = 2000
             interpolator = LinearInterpolator()
         }
 
@@ -61,8 +61,11 @@ class DemoActivity : AppCompatActivity() {
             view.top1BarActive = true
         }
 
+        val topAnimSet = AnimatorSet()
+        topAnimSet.play(top1Progress).before(strawAnim)
+
         val anim = AnimatorSet()
-        anim.play(top2Progress).before(top1Progress).after(bottleAnim).before(strawAnim)
+        anim.play(top2Progress).after(bottleAnim).before(topAnimSet)
         anim.start()
         anim.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator?) {
