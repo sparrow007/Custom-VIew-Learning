@@ -33,8 +33,10 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     }
 
     private val topBar2Paint = Paint().apply {
-        color = Color.BLUE
-        style = Paint.Style.FILL
+        color = Color.BLACK
+        style = Paint.Style.STROKE
+        strokeWidth = 15f
+        pathEffect = CornerPathEffect(20f)
     }
     private var mainPath = Path()
 
@@ -66,6 +68,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     var top1BarActive = false
     var top2BarActive = false
     var bodyActive = false
+    var waveAnimation = false
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -136,14 +139,14 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         wavePath.lineTo(605f, height / 2f-160)
        // canvas.drawPath(wavePath, wavePaint)
 
+        if (bodyActive)
+        canvas.drawPath(bottlePath, bottlePaint)
         if (strawActive)
         canvas.drawPath(strawPath, strawPaint)
         if (top1BarActive)
         canvas.drawPath(topBar1Path, topBar1Paint)
         if (top2BarActive)
         canvas.drawPath(topBar2Path, topBar2Paint)
-        if (bodyActive)
-        canvas.drawPath(bottlePath, bottlePaint)
 
         /**
          * Use this for perform the animation when all the required path

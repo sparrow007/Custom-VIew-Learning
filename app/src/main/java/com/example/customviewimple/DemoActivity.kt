@@ -3,22 +3,12 @@ package com.example.customviewimple
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.os.Bundle
-import android.view.View
-import android.view.ViewTreeObserver
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.Window
 import android.view.WindowManager
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.Animation
-import android.view.animation.AnimationSet
 import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.animation.addListener
 import com.example.customviewimple.views.cupview.CupView
-import com.example.customviewimple.views.path.AnimatedPathView
-import com.example.customviewimple.views.path.ObjectFollow
 import kotlinx.android.synthetic.main.activity_demo.*
 
 class DemoActivity : AppCompatActivity() {
@@ -36,51 +26,50 @@ class DemoActivity : AppCompatActivity() {
 
         val view = findViewById<CupView>(R.id.animated_path)
 
-        val headAnim = ObjectAnimator.ofFloat(view, "headPercentage", 0.0f, 1.0f).apply {
+        val bottleAnim = ObjectAnimator.ofFloat(view, "bottleProgress", 0.0f, 1.0f).apply {
             duration = 3000
             interpolator = LinearInterpolator()
         }
 
-        val bodyAnim = ObjectAnimator.ofFloat(view, "percentage", 0.0f, 1.0f).apply {
+        bottleAnim.addUpdateListener {
+            view.bodyActive = true
+        }
+
+        val strawAnim = ObjectAnimator.ofFloat(view, "strawProgress", 0.0f, 1.0f).apply {
             duration = 5000
             interpolator = LinearInterpolator()
         }
+        strawAnim.addUpdateListener {
+            view.strawActive = true
+        }
 
-        val hand1Anim = ObjectAnimator.ofFloat(view, "hand1Percentage", 0.0f, 1.0f).apply {
+        val top2Progress = ObjectAnimator.ofFloat(view, "top2Progress", 0.0f, 1.0f).apply {
             duration = 3000
             interpolator = LinearInterpolator()
         }
-        hand1Anim.addUpdateListener {
+        top2Progress.addUpdateListener {
             val data = it.animatedValue as Float
-            view.hand1Active = true
+            view.top2BarActive = true
         }
 
-        val hand2Anim = ObjectAnimator.ofFloat(view, "hand2Percentage", 0.0f, 1.0f).apply {
+        val top1Progress = ObjectAnimator.ofFloat(view, "top1Progress", 0.0f, 1.0f).apply {
             duration = 3000
             interpolator = LinearInterpolator()
         }
 
-        hand2Anim.addUpdateListener {
-            view.hand2Active = true
-        }
-
-        val eyeAnim = ObjectAnimator.ofFloat(view, "eyePercentage", 0.0f, 1.0f).apply {
-            duration = 3000
-            interpolator = LinearInterpolator()
-        }
-        eyeAnim.addUpdateListener {
-            view.headActive = true
+        top1Progress.addUpdateListener {
+            view.top1BarActive = true
         }
 
         val anim = AnimatorSet()
-        anim.play(hand1Anim).before(headAnim).before(eyeAnim).with(hand2Anim).after(bodyAnim)
+        anim.play(top1Progress).before(top2Progress).after(bottleAnim).before(strawAnim)
         anim.start()
         anim.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator?) {
             }
 
             override fun onAnimationEnd(animation: Animator?) {
-               view.ioActive = true
+              // view.ioActive = true
             }
 
             override fun onAnimationCancel(animation: Animator?) {
