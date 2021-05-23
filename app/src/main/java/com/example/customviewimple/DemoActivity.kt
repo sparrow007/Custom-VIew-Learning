@@ -62,14 +62,14 @@ class DemoActivity : AppCompatActivity() {
         }
 
         val anim = AnimatorSet()
-        anim.play(top1Progress).before(top2Progress).after(bottleAnim).before(strawAnim)
+        anim.play(top2Progress).before(top1Progress).after(bottleAnim).before(strawAnim)
         anim.start()
         anim.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator?) {
             }
 
             override fun onAnimationEnd(animation: Animator?) {
-              // view.ioActive = true
+               view.waveAnimation = true
             }
 
             override fun onAnimationCancel(animation: Animator?) {
