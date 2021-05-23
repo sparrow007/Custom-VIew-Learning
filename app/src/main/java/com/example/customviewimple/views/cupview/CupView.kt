@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import kotlin.math.cos
@@ -105,7 +104,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          * Loop for creating wave effect
          */
         var x = 20
-        while (x <= 270 + progressWidth) {
+        while (x <= 340 ) {
             y = (15 * cos((w * x + φ).toDouble())).toFloat() + progress
             wavePath.lineTo( x+progressWaveX, y)
             x += 30
@@ -125,7 +124,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          */
         if (performAnimation) {
             performAnimation = false
-            animation()
+            //
         }
     }
 
@@ -144,8 +143,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
      * Added the animation of this view
      */
     fun animation() {
-        val objectAnimate = ObjectAnimator.ofInt(this, "progress", 0,  height / 5)
-        objectAnimate.duration = 5000
+        val objectAnimate = ObjectAnimator.ofInt(this, "progress", 0,  120)
+        objectAnimate.duration = 4000
         objectAnimate.interpolator = AccelerateInterpolator()
         objectAnimate.start()
 
