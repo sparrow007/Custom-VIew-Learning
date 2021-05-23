@@ -40,7 +40,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     }
 
     private val wavePaint = Paint().apply {
-        color = Color.BLUE
+        color = Color.parseColor("#006bdc")
         style = Paint.Style.FILL
     }
     private var mainPath = Path()
