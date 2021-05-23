@@ -60,7 +60,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     private var topBar2PathLength = 0f
     private var topBar2PathProgress = 0f
     private var bottlePathLength = 0f
-    private var bottlePathProress = 0f
+    private var bottlePathProgress = 0f
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -160,8 +160,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     }
 
     fun setBottleProgress(progress: Float) {
-        this.bottlePathProress = progress
-        val pathEffect = DashPathEffect(floatArrayOf(bottlePathLength, bottlePathLength), bottlePathLength - bottlePathLength * bottlePathProress)
+        this.bottlePathProgress = progress
+        val pathEffect = DashPathEffect(floatArrayOf(bottlePathLength, bottlePathLength), bottlePathLength - bottlePathLength * bottlePathProgress)
         val cornerPathEffect = CornerPathEffect(30f)
         bottlePaint.pathEffect = ComposePathEffect(pathEffect, cornerPathEffect)
         invalidate()
