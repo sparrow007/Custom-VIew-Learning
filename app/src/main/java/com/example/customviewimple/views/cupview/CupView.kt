@@ -38,6 +38,11 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         strokeWidth = 15f
         pathEffect = CornerPathEffect(20f)
     }
+
+    private val wavePaint = Paint().apply {
+        color = Color.BLUE
+        style = Paint.Style.FILL
+    }
     private var mainPath = Path()
 
     private val topBar2Path = Path()
@@ -63,6 +68,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     private var topBar2PathProgress = 0f
     private var bottlePathLength = 0f
     private var bottlePathProgress = 0f
+    private var wavePathProgress = 0f
+    private var wavePathLength = 0f
 
     var strawActive = false
     var top1BarActive = false
@@ -111,6 +118,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         strawPathLength = PathMeasure(strawPath, false).length
         bottlePathLength = PathMeasure(bottlePath, false).length
 
+        wavePathLength = PathMeasure(topBar1Path, false).length
+
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -137,7 +146,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         }
 
         wavePath.lineTo(605f, height / 2f-160)
-       // canvas.drawPath(wavePath, wavePaint)
+        if (waveAnimation)
+        canvas.drawPath(wavePath, wavePaint)
 
         if (bodyActive)
         canvas.drawPath(bottlePath, bottlePaint)
@@ -152,7 +162,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          * Use this for perform the animation when all the required path
          * is drawn on the screen
          */
-        //postInvalidateDelayed(20)
+        if (waveAnimation)
+        postInvalidateDelayed(30)
     }
 
     fun setTop1Progress(progress: Float) {
