@@ -48,8 +48,8 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     private var φ = 0f
     private var w = 0f
     private var performAnimation: Boolean = true
-    private var progressWaveX = 340f
-    private var progressWidth = 1
+    private var progressWaveX = 320f
+    private var progressWidth = 0
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -84,7 +84,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         mainPath.addPath(bottlePath)
         this.w = (2f * Math.PI / width).toFloat()
 
-        progress =  height / 2 - 170
+        progress =  height / 5 - 15
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -122,10 +122,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          * Use this for perform the animation when all the required path
          * is drawn on the screen
          */
-        if (performAnimation) {
-            performAnimation = false
-            //
-        }
+        postInvalidateDelayed(20)
     }
 
     /**
