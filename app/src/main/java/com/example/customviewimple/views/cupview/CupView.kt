@@ -51,6 +51,17 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
     private var progressWaveX = 320f
     private var progressWidth = 0
 
+
+    private var strawPathLength = 0f
+    private var strawPathProgress = 0f
+
+    private var topBar1PathLength = 0f
+    private var topBar1PathProgress = 0f
+    private var topBar2PathLength = 0f
+    private var topBar2PathProgress = 0f
+    private var bottlePathLength = 0f
+    private var bottlePathProress = 0f
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
 
@@ -85,6 +96,13 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         this.w = (2f * Math.PI / width).toFloat()
 
         progress =  height / 5 - 15
+
+
+        topBar1PathLength = PathMeasure(topBar1Path, false).length
+        topBar2PathLength = PathMeasure(topBar2Path, false).length
+        strawPathLength = PathMeasure(strawPath, false).length
+        bottlePathLength = PathMeasure(bottlePath, false).length
+
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -111,7 +129,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         }
 
         wavePath.lineTo(605f, height / 2f-160)
-        canvas.drawPath(wavePath, wavePaint)
+       // canvas.drawPath(wavePath, wavePaint)
 
         canvas.drawPath(strawPath, strawPaint)
         canvas.drawPath(topBar1Path, paint)
@@ -122,7 +140,11 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
          * Use this for perform the animation when all the required path
          * is drawn on the screen
          */
-        postInvalidateDelayed(20)
+        //postInvalidateDelayed(20)
+    }
+
+    fun setBottleProgress(progress: Int) {
+
     }
 
     /**
