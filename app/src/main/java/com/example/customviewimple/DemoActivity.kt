@@ -16,6 +16,7 @@ import android.view.animation.AnimationSet
 import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.addListener
+import com.example.customviewimple.views.cupview.CupView
 import com.example.customviewimple.views.path.AnimatedPathView
 import com.example.customviewimple.views.path.ObjectFollow
 import kotlinx.android.synthetic.main.activity_demo.*
@@ -32,7 +33,12 @@ class DemoActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        //animated_path.animation()
+        val view : CupView = findViewById<CupView>(R.id.animated_path)
+        val headAnim = ObjectAnimator.ofFloat(animated_path, "bottleProgress", 0.0f, 1.0f).apply {
+            duration = 3000
+            interpolator = LinearInterpolator()
+        }
+        headAnim.start()
     }
 
 //    override fun onResume() {

@@ -10,7 +10,7 @@ import kotlin.math.cos
 
 class CupView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet){
 
-    private val paint = Paint().apply {
+    private val topBar1Paint = Paint().apply {
         color = Color.BLACK
         style = Paint.Style.STROKE
         strokeWidth = 15f
@@ -32,7 +32,7 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         //pathEffect = CornerPathEffect(30f) . yes
     }
 
-    private val wavePaint = Paint().apply {
+    private val topBar2Paint = Paint().apply {
         color = Color.BLUE
         style = Paint.Style.FILL
     }
@@ -131,9 +131,9 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         wavePath.lineTo(605f, height / 2f-160)
        // canvas.drawPath(wavePath, wavePaint)
 
-        canvas.drawPath(strawPath, strawPaint)
-        canvas.drawPath(topBar1Path, paint)
-        canvas.drawPath(topBar2Path, paint)
+//        canvas.drawPath(strawPath, strawPaint)
+        canvas.drawPath(topBar1Path, topBar1Paint)
+        canvas.drawPath(topBar2Path, topBar2Paint)
         canvas.drawPath(bottlePath, bottlePaint)
 
         /**
@@ -143,8 +143,28 @@ class CupView(context: Context, attributeSet: AttributeSet) : View(context, attr
         //postInvalidateDelayed(20)
     }
 
-    fun setBottleProgress(progress: Int) {
+    fun setTop1Progress(progress: Float) {
+        this.topBar1PathProgress = progress
+        val pathEffect = DashPathEffect(floatArrayOf(topBar1PathLength, topBar1PathLength), topBar1PathLength - topBar1PathLength * topBar1PathProgress)
+        val cornerPathEffect = CornerPathEffect(20f)
+        topBar1Paint.pathEffect = ComposePathEffect(pathEffect, cornerPathEffect)
+        invalidate()
+    }
 
+    fun setTop2Progress(progress: Float) {
+        this.topBar2PathProgress = progress
+        val pathEffect = DashPathEffect(floatArrayOf(topBar2PathLength, topBar2PathLength), topBar2PathLength - topBar2PathLength * topBar2PathProgress)
+        val cornerPathEffect = CornerPathEffect(30f)
+        topBar2Paint.pathEffect = ComposePathEffect(pathEffect, cornerPathEffect)
+        invalidate()
+    }
+
+    fun setBottleProgress(progress: Float) {
+        this.bottlePathProress = progress
+        val pathEffect = DashPathEffect(floatArrayOf(bottlePathLength, bottlePathLength), bottlePathLength - bottlePathLength * bottlePathProress)
+        val cornerPathEffect = CornerPathEffect(30f)
+        bottlePaint.pathEffect = ComposePathEffect(pathEffect, cornerPathEffect)
+        invalidate()
     }
 
     /**
