@@ -2,10 +2,9 @@ package com.example.customviewimple
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.customviewimple.adapter.DataAdapter
-import com.example.customviewimple.layoutManager.source.CarouselLayoutManager
 import com.example.customviewimple.model.DataModel
+import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import kotlinx.android.synthetic.main.test_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = DataAdapter(list)
         val popAdapter = DataAdapter(popList)
 
-        recycler.adapter = adapter
+        //recycler.adapter = adapter
         recycler.setInfinite(true)
         recycler.setFlat(true)
         //Get the instance of layout manager from recyclerview
@@ -55,24 +54,24 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        pop_recycler.adapter = popAdapter
-        pop_recycler.setInfinite(true)
-        pop_recycler.setAlpha(true)
-
-
-        recycler.setItemSelectListener(object : CarouselLayoutManager.OnSelected {
-            override fun onItemSelected(position: Int) {
-               // Toast.makeText(this@MainActivity, "Position $position", Toast.LENGTH_SHORT).show()
-            }
-
-        })
-
-        val popCustomLayout = pop_recycler.getCarouselLayoutManager()
-        popAdapter.setOnItemSelectListener(object : DataAdapter.OnItemListener {
-            override fun onItemSelect(pos: Int) {
-                popCustomLayout.scrollToPosition(pos)
-            }
-        })
+//        pop_recycler.adapter = popAdapter
+//        pop_recycler.setInfinite(true)
+//        pop_recycler.setAlpha(true)
+//
+//
+//        recycler.setItemSelectListener(object : CarouselLayoutManager.OnSelected {
+//            override fun onItemSelected(position: Int) {
+//               // Toast.makeText(this@MainActivity, "Position $position", Toast.LENGTH_SHORT).show()
+//            }
+//
+//        })
+//
+//        val popCustomLayout = pop_recycler.getCarouselLayoutManager()
+//        popAdapter.setOnItemSelectListener(object : DataAdapter.OnItemListener {
+//            override fun onItemSelect(pos: Int) {
+//                popCustomLayout.scrollToPosition(pos)
+//            }
+//        })
 
 
     }
