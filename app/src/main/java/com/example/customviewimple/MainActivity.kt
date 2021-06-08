@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.customviewimple.adapter.DataAdapter
 import com.example.customviewimple.model.DataModel
-import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import kotlinx.android.synthetic.main.test_main.*
 
 class MainActivity : AppCompatActivity() {
