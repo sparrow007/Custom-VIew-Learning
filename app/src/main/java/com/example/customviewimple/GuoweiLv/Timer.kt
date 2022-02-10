@@ -26,7 +26,6 @@ class Timer (context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
 
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
@@ -35,6 +34,5 @@ class Timer (context: Context, attrs: AttributeSet) : View(context, attrs) {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
     }
-
 
 }

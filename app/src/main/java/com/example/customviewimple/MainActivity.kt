@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.customviewimple.adapter.DataAdapter
 import com.example.customviewimple.model.DataModel
+import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
+import com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
 import kotlinx.android.synthetic.main.test_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         popList.add(DataModel(R.drawable.replicas, "Thi is cool"))
         popList.add(DataModel(R.drawable.theowner, "Thi is cool"))
         popList.add(DataModel(R.drawable.wolverine, "Thi is cool"))
+
+        val rec = CarouselLayoutManager(false, false, false, false, false)
 
         val adapter = DataAdapter(list)
         val popAdapter = DataAdapter(popList)
